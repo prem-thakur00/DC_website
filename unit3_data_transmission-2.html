@@ -1,0 +1,1655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Unit 3 – Data Transmission | Prof. Shweta S. Devdas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #F4F7FB;
+  --surface: #FFFFFF;
+  --surface2: #EDF2FA;
+  --navy: #0F2C6B;
+  --navy2: #1B3A6B;
+  --teal: #0284C7;
+  --teal2: #0EA5E9;
+  --orange: #EA580C;
+  --green: #059669;
+  --red: #DC2626;
+  --purple: #7C3AED;
+  --text: #111827;
+  --text2: #4B5563;
+  --text3: #9CA3AF;
+  --border: #E2E8F0;
+  --shadow: 0 4px 20px rgba(15,44,107,0.09);
+  --radius: 14px;
+  --radius2: 8px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
+
+/* ─── HERO ─────────────────────────────── */
+.hero{
+  background:linear-gradient(135deg,#0F2C6B 0%,#1B4F9E 45%,#0F6CBD 100%);
+  min-height:320px;padding:60px 40px 0;
+  position:relative;overflow:hidden;
+}
+.hero-badge{
+  display:inline-block;background:rgba(255,255,255,0.15);
+  color:rgba(255,255,255,0.9);font-size:12px;font-weight:600;
+  letter-spacing:1.5px;text-transform:uppercase;padding:6px 16px;
+  border-radius:20px;border:1px solid rgba(255,255,255,0.25);
+  margin-bottom:18px;
+}
+.hero h1{
+  font-family:'Playfair Display',serif;font-size:56px;font-weight:900;
+  color:#fff;line-height:1.1;margin-bottom:10px;
+}
+.hero-subtitle{color:rgba(255,255,255,0.75);font-size:16px;font-weight:400;margin-bottom:28px;}
+.prof-card{
+  display:inline-flex;align-items:center;gap:14px;
+  background:rgba(255,255,255,0.12);backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.2);border-radius:12px;
+  padding:12px 22px;
+}
+.prof-icon{font-size:28px;}
+.prof-name{color:#fff;font-weight:600;font-size:15px;}
+.prof-dept{color:rgba(255,255,255,0.65);font-size:12px;}
+.hero-canvas-wrap{position:relative;height:90px;margin-top:30px;overflow:hidden;}
+#heroCanvas{width:100%;height:90px;display:block;}
+
+/* ─── NAV ─────────────────────────────── */
+.main-nav{
+  position:sticky;top:0;z-index:100;
+  background:var(--surface);
+  border-bottom:2px solid var(--border);
+  box-shadow:0 2px 12px rgba(0,0,0,0.07);
+}
+.nav-inner{
+  display:flex;gap:4px;overflow-x:auto;padding:8px 16px;
+  max-width:1300px;margin:0 auto;
+  scrollbar-width:none;
+}
+.nav-inner::-webkit-scrollbar{display:none;}
+.nav-btn{
+  flex-shrink:0;padding:8px 18px;border:none;
+  background:transparent;cursor:pointer;font-family:'DM Sans',sans-serif;
+  font-size:13px;font-weight:500;color:var(--text2);
+  border-radius:8px;transition:all .2s;white-space:nowrap;
+}
+.nav-btn:hover{background:var(--surface2);color:var(--navy);}
+.nav-btn.active{background:var(--navy);color:#fff;}
+
+/* ─── SECTIONS ────────────────────────── */
+.section{
+  max-width:1300px;margin:0 auto;padding:60px 28px;
+  animation:fadeUp .5s ease both;
+}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+.section-header{margin-bottom:36px;}
+.section-tag{
+  display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.8px;
+  text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:12px;
+}
+.tag-blue{background:#EFF6FF;color:#1D4ED8;}
+.tag-orange{background:#FFF7ED;color:#C2410C;}
+.tag-green{background:#F0FDF4;color:#166534;}
+.tag-purple{background:#F5F3FF;color:#6D28D9;}
+.tag-teal{background:#F0F9FF;color:#0369A1;}
+
+.section-title{
+  font-family:'Playfair Display',serif;font-size:38px;
+  font-weight:700;color:var(--navy);line-height:1.2;
+}
+.section-desc{font-size:16px;color:var(--text2);margin-top:10px;max-width:700px;line-height:1.7;}
+
+/* ─── DEFINITION CARD ─────────────────── */
+.def-card{
+  background:var(--surface);border-radius:var(--radius);padding:28px 32px;
+  border-left:4px solid var(--teal);box-shadow:var(--shadow);margin-bottom:28px;
+}
+.def-card h3{font-size:13px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:var(--teal);margin-bottom:10px;}
+.def-card p{font-size:15px;color:var(--text);line-height:1.8;}
+.def-card .formula{
+  display:inline-block;margin-top:14px;padding:10px 20px;
+  background:var(--surface2);border-radius:8px;
+  font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--navy);
+}
+
+/* ─── SIMULATOR CARD ──────────────────── */
+.sim-card{
+  background:var(--surface);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;margin-bottom:28px;
+}
+.sim-card-header{
+  padding:18px 28px;background:linear-gradient(90deg,var(--navy) 0%,var(--navy2) 100%);
+  display:flex;align-items:center;gap:12px;
+}
+.sim-card-header h3{color:#fff;font-size:17px;font-weight:600;}
+.sim-badge{
+  background:rgba(255,255,255,0.15);color:#fff;font-size:11px;
+  font-weight:600;letter-spacing:1px;text-transform:uppercase;
+  padding:4px 10px;border-radius:20px;
+}
+.sim-body{display:flex;gap:0;flex-wrap:wrap;}
+
+/* ─── CONTROLS ────────────────────────── */
+.controls-panel{
+  width:280px;flex-shrink:0;padding:24px;
+  background:var(--surface2);border-right:1px solid var(--border);
+}
+@media(max-width:900px){.controls-panel{width:100%;border-right:none;border-bottom:1px solid var(--border);}}
+.control-group{margin-bottom:20px;}
+.control-label{
+  font-size:12px;font-weight:600;color:var(--text2);
+  letter-spacing:.5px;text-transform:uppercase;margin-bottom:8px;display:flex;
+  justify-content:space-between;align-items:center;
+}
+.control-val{
+  background:var(--navy);color:#fff;font-family:'JetBrains Mono',monospace;
+  font-size:11px;padding:2px 8px;border-radius:4px;
+}
+.control-val.green{background:var(--green);}
+.control-val.orange{background:var(--orange);}
+.control-val.purple{background:var(--purple);}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:6px;
+  background:var(--border);border-radius:3px;outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;
+  border-radius:50%;background:var(--navy);cursor:pointer;
+  box-shadow:0 2px 6px rgba(15,44,107,0.3);transition:transform .2s;
+}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
+.computed-row{
+  background:var(--surface);border:1px solid var(--border);
+  border-radius:8px;padding:10px 14px;font-size:13px;
+  display:flex;justify-content:space-between;align-items:center;
+  margin-top:8px;
+}
+.computed-row span:first-child{color:var(--text2);}
+.computed-row span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--navy);}
+
+.anim-btn{
+  width:100%;margin-top:12px;padding:10px;border:none;
+  background:var(--navy);color:#fff;border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;
+  cursor:pointer;transition:all .2s;
+}
+.anim-btn:hover{background:var(--teal);}
+.anim-btn.running{background:var(--orange);}
+
+/* ─── CANVAS PANEL ────────────────────── */
+.canvas-panel{flex:1;min-width:0;padding:20px 24px;}
+.canvas-row{margin-bottom:16px;}
+.canvas-row h4{
+  font-size:12px;font-weight:600;letter-spacing:.8px;
+  text-transform:uppercase;margin-bottom:6px;
+  display:flex;align-items:center;gap:8px;
+}
+.canvas-row canvas{
+  width:100%;height:110px;border-radius:8px;
+  border:1px solid var(--border);display:block;
+}
+.canvas-row canvas.main-out{height:130px;}
+.dot{width:10px;height:10px;border-radius:50%;display:inline-block;}
+
+/* ─── COMPARISON TABLE ─────────────────── */
+.comp-table-wrap{overflow-x:auto;border-radius:var(--radius);box-shadow:var(--shadow);}
+table{width:100%;border-collapse:collapse;background:var(--surface);}
+thead tr{background:var(--navy);color:#fff;}
+th{padding:16px 20px;font-size:13px;font-weight:600;letter-spacing:.5px;text-align:left;}
+td{padding:14px 20px;font-size:14px;border-bottom:1px solid var(--border);color:var(--text);}
+tbody tr:hover{background:var(--surface2);}
+tbody tr:last-child td{border-bottom:none;}
+.chip{
+  display:inline-block;padding:3px 10px;border-radius:20px;
+  font-size:11px;font-weight:600;
+}
+.chip-blue{background:#EFF6FF;color:#1D4ED8;}
+.chip-orange{background:#FFF7ED;color:#C2410C;}
+.chip-green{background:#F0FDF4;color:#166534;}
+.chip-red{background:#FEF2F2;color:#DC2626;}
+
+/* ─── LINE CODING ─────────────────────── */
+.scheme-grid{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:20px;}
+.scheme-btn{
+  padding:8px 16px;border:2px solid var(--border);background:var(--surface);
+  border-radius:8px;cursor:pointer;font-family:'JetBrains Mono',monospace;
+  font-size:12px;font-weight:600;color:var(--text2);transition:all .2s;
+}
+.scheme-btn:hover{border-color:var(--teal);color:var(--teal);}
+.scheme-btn.active{border-color:var(--navy);background:var(--navy);color:#fff;}
+
+.bit-input-wrap{display:flex;gap:10px;align-items:center;margin-bottom:20px;flex-wrap:wrap;}
+.bit-input{
+  flex:1;min-width:200px;padding:10px 16px;border:2px solid var(--border);
+  border-radius:8px;font-family:'JetBrains Mono',monospace;font-size:16px;
+  font-weight:600;color:var(--navy);background:var(--surface);outline:none;
+  letter-spacing:4px;transition:border-color .2s;
+}
+.bit-input:focus{border-color:var(--teal);}
+.bit-preset{
+  padding:8px 14px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:8px;cursor:pointer;font-family:'JetBrains Mono',monospace;
+  font-size:12px;color:var(--text2);transition:all .2s;
+  white-space:nowrap;
+}
+.bit-preset:hover{background:var(--teal);color:#fff;border-color:var(--teal);}
+
+.lc-canvas-wrap{padding:20px 24px;flex:1;min-width:0;}
+.lc-canvas-wrap canvas{width:100%;height:180px;border-radius:10px;border:1px solid var(--border);}
+.lc-scheme-desc{
+  margin-top:14px;padding:14px 18px;background:var(--surface2);
+  border-radius:8px;font-size:14px;color:var(--text2);line-height:1.7;
+}
+
+/* ─── BLOCK CODING ─────────────────────── */
+.bc-controls{padding:24px;display:flex;flex-direction:column;gap:16px;}
+.bc-input-group{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.bc-input{
+  padding:10px 16px;border:2px solid var(--border);border-radius:8px;
+  font-family:'JetBrains Mono',monospace;font-size:18px;font-weight:600;
+  letter-spacing:4px;color:var(--navy);width:160px;
+}
+.bc-input:focus{outline:none;border-color:var(--teal);}
+.bc-output-display{
+  padding:24px;flex:1;display:flex;flex-direction:column;gap:16px;
+}
+.bc-flow{display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+.bc-block{
+  padding:16px 24px;border-radius:10px;text-align:center;min-width:100px;
+}
+.bc-block .label{font-size:11px;font-weight:600;letter-spacing:1px;text-transform:uppercase;margin-bottom:6px;}
+.bc-block .bits{font-family:'JetBrains Mono',monospace;font-size:22px;font-weight:700;letter-spacing:4px;}
+.bc-in{background:#EFF6FF;border:2px solid #BFDBFE;}
+.bc-in .label{color:#1D4ED8;}
+.bc-in .bits{color:#1D4ED8;}
+.bc-out{background:#F0FDF4;border:2px solid #BBF7D0;}
+.bc-out .label{color:#166534;}
+.bc-out .bits{color:#166534;}
+.bc-arrow{font-size:24px;color:var(--text3);}
+.bc-table-wrap{overflow-x:auto;max-height:280px;overflow-y:auto;}
+.bc-mini-table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:13px;}
+.bc-mini-table th{background:var(--surface2);padding:8px 16px;text-align:left;color:var(--text2);font-size:11px;border-bottom:2px solid var(--border);}
+.bc-mini-table td{padding:7px 16px;border-bottom:1px solid var(--border);}
+.bc-mini-table tr.highlight td{background:#FFF9C4;font-weight:700;}
+
+/* ─── SCRAMBLING ──────────────────────── */
+.scram-canvas{width:100%;height:120px;border-radius:8px;border:1px solid var(--border);display:block;}
+.scram-label{font-size:12px;font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin:10px 0 5px;color:var(--text2);}
+
+/* ─── TRANSMISSION MODES ──────────────── */
+.trans-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;}
+@media(max-width:700px){.trans-grid{grid-template-columns:1fr;}}
+.trans-card{
+  background:var(--surface);border-radius:var(--radius);
+  box-shadow:var(--shadow);overflow:hidden;
+}
+.trans-card-header{padding:14px 20px;font-weight:600;color:#fff;font-size:14px;}
+.trans-canvas-wrap{padding:16px 20px;}
+.trans-canvas-wrap canvas{width:100%;height:180px;display:block;border-radius:8px;border:1px solid var(--border);}
+
+/* ─── FORMULA CARDS ───────────────────── */
+.formula-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px;margin-top:20px;}
+.formula-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:10px;
+  padding:18px 20px;text-align:center;
+}
+.formula-card .f-name{font-size:12px;font-weight:600;letter-spacing:.5px;text-transform:uppercase;color:var(--text3);margin-bottom:8px;}
+.formula-card .f-eq{font-family:'JetBrains Mono',monospace;font-size:14px;color:var(--navy);font-weight:600;background:var(--surface2);padding:8px 16px;border-radius:6px;}
+
+/* ─── INFO GRID ───────────────────────── */
+.info-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-top:20px;}
+.info-card{
+  background:var(--surface);border-radius:10px;padding:20px;
+  border-top:3px solid var(--teal);box-shadow:var(--shadow);
+}
+.info-card h4{font-size:14px;font-weight:600;color:var(--navy);margin-bottom:8px;}
+.info-card p{font-size:13px;color:var(--text2);line-height:1.7;}
+
+/* ─── SEPARATOR ─────────────────────────*/
+.section-divider{height:2px;background:linear-gradient(90deg,transparent,var(--border),transparent);margin:0 40px;}
+
+/* ─── FOOTER ─────────────────────────── */
+footer{
+  background:var(--navy);color:rgba(255,255,255,0.7);
+  text-align:center;padding:30px 20px;font-size:13px;
+}
+footer strong{color:#fff;}
+
+/* ─── SCROLLBAR ──────────────────────── */
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--surface2);}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px;}
+
+/* ─── UTILS ──────────────────────────── */
+.mt16{margin-top:16px;}
+.mt24{margin-top:24px;}
+.flex-center{display:flex;align-items:center;gap:10px;}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<header class="hero">
+  <div class="hero-badge">Data Communication &nbsp;·&nbsp; Unit III</div>
+  <h1>Data Transmission</h1>
+  <p class="hero-subtitle">Modulation Techniques &nbsp;·&nbsp; Digital Encoding &nbsp;·&nbsp; Line Coding &nbsp;·&nbsp; Block Coding &nbsp;·&nbsp; Scrambling</p>
+  <div class="prof-card">
+    <div class="prof-icon">👩‍🏫</div>
+    <div>
+      <div class="prof-name">Prof. Shweta S. Devdas</div>
+      <div class="prof-dept">Department of Information Technology</div>
+    </div>
+  </div>
+  <div class="hero-canvas-wrap">
+    <canvas id="heroCanvas"></canvas>
+  </div>
+</header>
+
+<!-- ═══════════════ NAV ════════════════ -->
+<nav class="main-nav" id="mainNav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navTo('modulation',this)">📡 Modulation</button>
+    <button class="nav-btn" onclick="navTo('am',this)">AM</button>
+    <button class="nav-btn" onclick="navTo('fm',this)">FM</button>
+    <button class="nav-btn" onclick="navTo('pm',this)">PM</button>
+    <button class="nav-btn" onclick="navTo('comparison',this)">⚖️ Compare</button>
+    <button class="nav-btn" onclick="navTo('linecoding',this)">📊 Line Coding</button>
+    <button class="nav-btn" onclick="navTo('blockcoding',this)">🔲 Block Coding</button>
+    <button class="nav-btn" onclick="navTo('scrambling',this)">🔀 Scrambling</button>
+    <button class="nav-btn" onclick="navTo('transmission',this)">📶 Trans. Modes</button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ═══════════════ MODULATION OVERVIEW ═ -->
+<section id="modulation" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-blue">Unit 3 · Module A</div>
+    <h2 class="section-title">Modulation Techniques</h2>
+    <p class="section-desc">Modulation is the process of varying one or more properties of a periodic carrier signal with respect to a modulating message signal.</p>
+  </div>
+
+  <div class="def-card">
+    <h3>📖 Definition</h3>
+    <p><strong>Modulation</strong> is a technique that changes signal characteristics by altering the <strong>amplitude</strong>, <strong>frequency</strong>, or <strong>phase</strong> of a high-frequency <em>carrier signal</em> in accordance with a low-frequency <em>message signal</em>. This allows information to be transmitted efficiently over long distances through various media.</p>
+  </div>
+
+  <div class="info-grid">
+    <div class="info-card">
+      <h4>🎯 Why Modulate?</h4>
+      <p>Without modulation, audio/data signals (low frequency) cannot travel long distances. Carrier signal acts as a "vehicle" for the message.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--orange);">
+      <h4>📡 Carrier Signal</h4>
+      <p>A high-frequency sinusoidal wave: <strong>c(t) = Ac·sin(2πfct + φ)</strong>. Three properties — Amplitude (Ac), Frequency (fc), Phase (φ) — can be modified.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--green);">
+      <h4>🔁 Analog Modulation</h4>
+      <p>Message is a continuous analog signal. Includes AM, FM, PM. Carrier properties vary continuously with the message signal.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--purple);">
+      <h4>🔢 Digital Modulation</h4>
+      <p>Message is binary (0s and 1s). Includes ASK, FSK, PSK. Each bit or bit group changes amplitude, frequency, or phase of carrier.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ AM ══════════════════ -->
+<section id="am" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-blue">Analog Modulation</div>
+    <h2 class="section-title">Amplitude Modulation (AM)</h2>
+    <p class="section-desc">The amplitude of the carrier signal is varied in proportion to the instantaneous amplitude of the message signal.</p>
+  </div>
+
+  <div class="def-card">
+    <h3>📖 Definition</h3>
+    <p><strong>Amplitude Modulation (AM)</strong> is a type of modulation in which the amplitude of a high-frequency carrier signal is varied according to the instantaneous value of the message signal. The frequency and phase of the carrier remain constant. The envelope of the modulated signal exactly follows the message waveform.</p>
+    <div class="formula">AM(t) = Ac · [1 + μ · cos(2π·fm·t)] · cos(2π·fc·t)</div>
+    <div class="formula" style="margin-left:10px">μ (modulation index) = Am / Ac</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header">
+      <h3>🎛️ AM Modulation Simulator</h3>
+      <span class="sim-badge">Interactive</span>
+    </div>
+    <div class="sim-body">
+      <div class="controls-panel" id="amControls">
+        <div class="control-group">
+          <div class="control-label">Carrier Amplitude (Ac) <span class="control-val" id="amAcVal">1.00</span></div>
+          <input type="range" id="amAc" min="0.5" max="2" step="0.05" value="1.0" oninput="updateAM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Carrier Frequency (fc) <span class="control-val" id="amFcVal">10 Hz</span></div>
+          <input type="range" id="amFc" min="5" max="25" step="1" value="10" oninput="updateAM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Amplitude (Am) <span class="control-val green" id="amAmVal">0.50</span></div>
+          <input type="range" id="amAm" min="0.1" max="2" step="0.05" value="0.5" oninput="updateAM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Frequency (fm) <span class="control-val green" id="amFmVal">2 Hz</span></div>
+          <input type="range" id="amFm" min="1" max="8" step="0.5" value="2" oninput="updateAM()">
+        </div>
+        <div class="computed-row"><span>Mod. Index (μ = Am/Ac)</span><span id="amMu">0.50</span></div>
+        <div class="computed-row"><span>Status</span><span id="amStatus">Under</span></div>
+        <button class="anim-btn" id="amAnimBtn" onclick="toggleAnimAM()">▶ Animate</button>
+      </div>
+      <div class="canvas-panel">
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--green)"></span> Message Signal m(t)</h4>
+          <canvas id="amMsgCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--teal)"></span> Carrier Signal c(t)</h4>
+          <canvas id="amCarCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--orange)"></span> AM Modulated Signal [Envelope shown in dashed]</h4>
+          <canvas id="amOutCanvas" class="main-out"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula-grid">
+    <div class="formula-card"><div class="f-name">Bandwidth</div><div class="f-eq">BW = 2 × fm</div></div>
+    <div class="formula-card"><div class="f-name">USB Frequency</div><div class="f-eq">fc + fm</div></div>
+    <div class="formula-card"><div class="f-name">LSB Frequency</div><div class="f-eq">fc − fm</div></div>
+    <div class="formula-card"><div class="f-name">μ &lt; 1</div><div class="f-eq">Under-modulation</div></div>
+    <div class="formula-card"><div class="f-name">μ = 1</div><div class="f-eq">Critical Modulation</div></div>
+    <div class="formula-card"><div class="f-name">μ &gt; 1</div><div class="f-eq">Over-modulation ⚠️</div></div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ FM ══════════════════ -->
+<section id="fm" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-orange">Analog Modulation</div>
+    <h2 class="section-title">Frequency Modulation (FM)</h2>
+    <p class="section-desc">The instantaneous frequency of the carrier signal is varied in proportion to the message signal amplitude.</p>
+  </div>
+
+  <div class="def-card" style="border-left-color:var(--orange);">
+    <h3>📖 Definition</h3>
+    <p><strong>Frequency Modulation (FM)</strong> is a type of analog modulation in which the frequency of the carrier signal is varied according to the amplitude of the message signal. The amplitude and initial phase of the carrier remain constant. FM is more resistant to noise than AM and is widely used in high-fidelity broadcasting (88–108 MHz band).</p>
+    <div class="formula">FM(t) = Ac · sin[2π·fc·t + β·sin(2π·fm·t)]</div>
+    <div class="formula" style="margin-left:10px">β (modulation index) = Δf / fm</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header" style="background:linear-gradient(90deg,#7C2D12,#C2410C);">
+      <h3>🎛️ FM Modulation Simulator</h3>
+      <span class="sim-badge">Interactive</span>
+    </div>
+    <div class="sim-body">
+      <div class="controls-panel">
+        <div class="control-group">
+          <div class="control-label">Carrier Amplitude (Ac) <span class="control-val" id="fmAcVal">1.00</span></div>
+          <input type="range" id="fmAc" min="0.5" max="2" step="0.05" value="1.0" oninput="updateFM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Carrier Frequency (fc) <span class="control-val" id="fmFcVal">12 Hz</span></div>
+          <input type="range" id="fmFc" min="5" max="25" step="1" value="12" oninput="updateFM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Amplitude (Am) <span class="control-val green" id="fmAmVal">0.80</span></div>
+          <input type="range" id="fmAm" min="0.1" max="2" step="0.05" value="0.8" oninput="updateFM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Frequency (fm) <span class="control-val green" id="fmFmVal">2 Hz</span></div>
+          <input type="range" id="fmFm" min="0.5" max="8" step="0.5" value="2" oninput="updateFM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Frequency Deviation (Δf) <span class="control-val orange" id="fmDfVal">4 Hz</span></div>
+          <input type="range" id="fmDf" min="1" max="15" step="0.5" value="4" oninput="updateFM()">
+        </div>
+        <div class="computed-row"><span>Mod. Index (β = Δf/fm)</span><span id="fmBeta">2.00</span></div>
+        <div class="computed-row"><span>Carson BW ≈ 2(Δf+fm)</span><span id="fmBW">12 Hz</span></div>
+        <button class="anim-btn" style="background:#C2410C" id="fmAnimBtn" onclick="toggleAnimFM()">▶ Animate</button>
+      </div>
+      <div class="canvas-panel">
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--green)"></span> Message Signal m(t)</h4>
+          <canvas id="fmMsgCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--teal)"></span> Carrier Signal c(t)</h4>
+          <canvas id="fmCarCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--orange)"></span> FM Modulated Signal [frequency changes with message]</h4>
+          <canvas id="fmOutCanvas" class="main-out"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ PM ══════════════════ -->
+<section id="pm" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-purple">Analog Modulation</div>
+    <h2 class="section-title">Phase Modulation (PM)</h2>
+    <p class="section-desc">The instantaneous phase of the carrier signal is varied in proportion to the message signal.</p>
+  </div>
+
+  <div class="def-card" style="border-left-color:var(--purple);">
+    <h3>📖 Definition</h3>
+    <p><strong>Phase Modulation (PM)</strong> is a type of analog modulation in which the phase angle of the carrier signal varies proportionally to the message signal. The amplitude and frequency of the carrier remain constant. During positive half-cycles of the message, the carrier phase shifts in one direction; during negative half-cycles, it shifts in the opposite direction. PM is closely related to FM.</p>
+    <div class="formula">PM(t) = Ac · sin[2π·fc·t + kp·m(t)]</div>
+    <div class="formula" style="margin-left:10px">kp = phase sensitivity constant (rad/V)</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header" style="background:linear-gradient(90deg,#4C1D95,#7C3AED);">
+      <h3>🎛️ PM Modulation Simulator</h3>
+      <span class="sim-badge">Interactive</span>
+    </div>
+    <div class="sim-body">
+      <div class="controls-panel">
+        <div class="control-group">
+          <div class="control-label">Carrier Amplitude (Ac) <span class="control-val" id="pmAcVal">1.00</span></div>
+          <input type="range" id="pmAc" min="0.5" max="2" step="0.05" value="1.0" oninput="updatePM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Carrier Frequency (fc) <span class="control-val" id="pmFcVal">12 Hz</span></div>
+          <input type="range" id="pmFc" min="5" max="25" step="1" value="12" oninput="updatePM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Amplitude (Am) <span class="control-val green" id="pmAmVal">1.00</span></div>
+          <input type="range" id="pmAm" min="0.1" max="2" step="0.05" value="1.0" oninput="updatePM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Message Frequency (fm) <span class="control-val green" id="pmFmVal">2 Hz</span></div>
+          <input type="range" id="pmFm" min="0.5" max="8" step="0.5" value="2" oninput="updatePM()">
+        </div>
+        <div class="control-group">
+          <div class="control-label">Phase Sensitivity (kp) <span class="control-val purple" id="pmKpVal">π/2</span></div>
+          <input type="range" id="pmKp" min="0.3" max="3.14" step="0.1" value="1.57" oninput="updatePM()">
+        </div>
+        <div class="computed-row"><span>Max Phase Deviation</span><span id="pmMaxPhi">π/2 rad</span></div>
+        <button class="anim-btn" style="background:#7C3AED" id="pmAnimBtn" onclick="toggleAnimPM()">▶ Animate</button>
+      </div>
+      <div class="canvas-panel">
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--green)"></span> Message Signal m(t)</h4>
+          <canvas id="pmMsgCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--teal)"></span> Carrier Signal c(t)</h4>
+          <canvas id="pmCarCanvas"></canvas>
+        </div>
+        <div class="canvas-row">
+          <h4><span class="dot" style="background:var(--purple)"></span> PM Modulated Signal [phase changes with message]</h4>
+          <canvas id="pmOutCanvas" class="main-out"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ COMPARISON ══════════ -->
+<section id="comparison" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-teal">Analysis</div>
+    <h2 class="section-title">AM vs FM vs PM — Full Comparison</h2>
+    <p class="section-desc">A comprehensive comparison of all three analog modulation techniques.</p>
+  </div>
+  <div class="comp-table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Parameter</th>
+          <th>AM (Amplitude Mod.)</th>
+          <th>FM (Frequency Mod.)</th>
+          <th>PM (Phase Mod.)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>What changes?</strong></td><td>Amplitude (Ac)</td><td>Frequency (fc)</td><td>Phase (φ)</td></tr>
+        <tr><td><strong>What stays constant?</strong></td><td>Frequency, Phase</td><td>Amplitude, Phase</td><td>Amplitude, Frequency</td></tr>
+        <tr><td><strong>Modulation Index</strong></td><td>μ = Am/Ac (0 to 1)</td><td>β = Δf/fm</td><td>kp × Am (rad)</td></tr>
+        <tr><td><strong>Bandwidth</strong></td><td><span class="chip chip-green">2fm (narrow)</span></td><td><span class="chip chip-orange">2(Δf + fm) (wide)</span></td><td><span class="chip chip-orange">Similar to FM</span></td></tr>
+        <tr><td><strong>Noise Immunity</strong></td><td><span class="chip chip-red">Low ❌</span></td><td><span class="chip chip-green">High ✅</span></td><td><span class="chip chip-green">High ✅</span></td></tr>
+        <tr><td><strong>Power Efficiency</strong></td><td><span class="chip chip-red">Poor (sideband waste)</span></td><td><span class="chip chip-green">Better</span></td><td><span class="chip chip-green">Better</span></td></tr>
+        <tr><td><strong>Circuit Complexity</strong></td><td><span class="chip chip-green">Simple</span></td><td><span class="chip chip-orange">Complex</span></td><td><span class="chip chip-orange">Complex</span></td></tr>
+        <tr><td><strong>Applications</strong></td><td>AM radio (530–1600 kHz), aviation</td><td>FM radio (88–108 MHz), TV audio</td><td>Digital: PSK, QAM; Mobile comm.</td></tr>
+        <tr><td><strong>Effect of noise</strong></td><td>Changes amplitude → distortion</td><td>Amplitude noise rejected by limiter</td><td>Similar noise immunity to FM</td></tr>
+        <tr><td><strong>Relationship</strong></td><td>Independent</td><td>FM is derivative of PM</td><td>PM is integral of FM</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ LINE CODING ══════════ -->
+<section id="linecoding" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-green">Digital-to-Digital · D2D</div>
+    <h2 class="section-title">Line Coding Simulator</h2>
+    <p class="section-desc">Line coding converts a sequence of bits into a digital signal. Enter any binary sequence and see how different schemes encode it visually.</p>
+  </div>
+
+  <div class="def-card" style="border-left-color:var(--green);">
+    <h3>📖 Definition</h3>
+    <p><strong>Line Coding</strong> is the process of converting digital data (bits) into a digital signal for transmission over a physical medium. At the sender, digital data are encoded into signal elements. At the receiver, the digital data are recreated by decoding the received signal. Key characteristics: signal rate vs data rate, bandwidth, DC components, self-synchronization, and error detection.</p>
+    <div class="formula">Signal Rate S = N/r baud &nbsp;|&nbsp; Bandwidth B_min = c × N × (1/r)</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header" style="background:linear-gradient(90deg,#064E3B,#059669);">
+      <h3>📊 Line Coding Waveform Simulator</h3>
+      <span class="sim-badge">8 Schemes</span>
+    </div>
+    <div class="sim-body">
+      <div class="controls-panel">
+        <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;">Select Scheme</p>
+        <div id="schemeButtons" style="display:flex;flex-direction:column;gap:6px;">
+          <button class="scheme-btn active" data-scheme="unipolar" onclick="selectScheme(this,'unipolar')">Unipolar NRZ</button>
+          <button class="scheme-btn" data-scheme="nrzl" onclick="selectScheme(this,'nrzl')">Polar NRZ-L</button>
+          <button class="scheme-btn" data-scheme="nrzi" onclick="selectScheme(this,'nrzi')">Polar NRZ-I</button>
+          <button class="scheme-btn" data-scheme="rz" onclick="selectScheme(this,'rz')">Polar RZ</button>
+          <button class="scheme-btn" data-scheme="manchester" onclick="selectScheme(this,'manchester')">Manchester</button>
+          <button class="scheme-btn" data-scheme="diff_manchester" onclick="selectScheme(this,'diff_manchester')">Diff. Manchester</button>
+          <button class="scheme-btn" data-scheme="ami" onclick="selectScheme(this,'ami')">Bipolar AMI</button>
+          <button class="scheme-btn" data-scheme="pseudoternary" onclick="selectScheme(this,'pseudoternary')">Pseudoternary</button>
+        </div>
+      </div>
+      <div class="lc-canvas-wrap">
+        <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Enter Bit Pattern (0s and 1s only, max 16 bits)</p>
+        <div class="bit-input-wrap">
+          <input type="text" id="bitInput" class="bit-input" value="10110010" maxlength="16" oninput="updateLC()" placeholder="e.g. 10110010">
+          <button class="bit-preset" onclick="document.getElementById('bitInput').value='10110010';updateLC()">10110010</button>
+          <button class="bit-preset" onclick="document.getElementById('bitInput').value='11110000';updateLC()">11110000</button>
+          <button class="bit-preset" onclick="document.getElementById('bitInput').value='10101010';updateLC()">10101010</button>
+          <button class="bit-preset" onclick="document.getElementById('bitInput').value='00001111';updateLC()">00001111</button>
+        </div>
+        <canvas id="lcCanvas"></canvas>
+        <div id="lcSchemeDesc" class="lc-scheme-desc"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-grid mt24">
+    <div class="info-card">
+      <h4>📌 Signal vs Data Element</h4>
+      <p>One signal element can carry multiple data elements. If r = data elements per signal element, then <strong>S = N/r baud</strong>.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--orange);">
+      <h4>📉 Baseline Wandering</h4>
+      <p>A long string of 0s or 1s causes receiver's running average to drift — called baseline wandering. Good schemes avoid this.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--purple);">
+      <h4>⚡ DC Component</h4>
+      <p>Constant voltage levels create DC component (near-zero frequency). This causes baseline wandering and cannot pass through AC-coupled links.</p>
+    </div>
+    <div class="info-card" style="border-top-color:var(--red);">
+      <h4>🔄 Self-Synchronization</h4>
+      <p>The receiver must know when each bit begins and ends. Manchester encoding provides built-in clock via mid-bit transitions.</p>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ BLOCK CODING ═════════ -->
+<section id="blockcoding" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-teal">Digital-to-Digital · D2D</div>
+    <h2 class="section-title">Block Coding (4B/5B)</h2>
+    <p class="section-desc">Block coding changes a block of m bits into n bits (n > m), adding redundancy for error detection and DC component control.</p>
+  </div>
+
+  <div class="def-card" style="border-left-color:var(--teal);">
+    <h3>📖 Definition</h3>
+    <p><strong>Block Coding</strong> (mB/nB coding) replaces m-bit groups with n-bit codewords where n &gt; m. In <strong>4B/5B</strong> encoding, each 4-bit data group is replaced with a 5-bit code. This gives 2⁵ = 32 possible codes for 2⁴ = 16 data patterns, leaving 16 extra codes for control and synchronization. No code has more than two consecutive zeros, preventing DC components when combined with NRZ-I.</p>
+    <div class="formula">4B/5B: 16 data patterns → mapped to 16 of 32 available 5-bit codes</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header" style="background:linear-gradient(90deg,#0C4A6E,#0284C7);">
+      <h3>🔲 4B/5B Block Encoder</h3>
+      <span class="sim-badge">Interactive</span>
+    </div>
+    <div class="sim-body">
+      <div class="bc-controls" style="width:300px;flex-shrink:0;border-right:1px solid var(--border);background:var(--surface2);">
+        <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;">Input 4-bit Data</p>
+        <div class="bc-input-group">
+          <input type="text" id="bcInput" class="bc-input" value="1010" maxlength="4" oninput="updateBC()" placeholder="e.g. 1010">
+        </div>
+        <p style="font-size:12px;color:var(--text3);margin-top:4px;">Type exactly 4 bits (0s and 1s)</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;">
+          <button class="bit-preset" onclick="document.getElementById('bcInput').value='0000';updateBC()">0000</button>
+          <button class="bit-preset" onclick="document.getElementById('bcInput').value='0101';updateBC()">0101</button>
+          <button class="bit-preset" onclick="document.getElementById('bcInput').value='1010';updateBC()">1010</button>
+          <button class="bit-preset" onclick="document.getElementById('bcInput').value='1111';updateBC()">1111</button>
+          <button class="bit-preset" onclick="document.getElementById('bcInput').value='1001';updateBC()">1001</button>
+        </div>
+        <div style="margin-top:16px;">
+          <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px;">Benefits of 4B/5B</p>
+          <ul style="font-size:13px;color:var(--text2);line-height:2;padding-left:20px;">
+            <li>No more than 3 consecutive 0s</li>
+            <li>No more than 5 consecutive 1s</li>
+            <li>Prevents DC component buildup</li>
+            <li>Enables self-synchronization</li>
+            <li>Only 25% overhead (vs 100% in Manchester)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="bc-output-display">
+        <div class="bc-flow">
+          <div class="bc-block bc-in">
+            <div class="label">4-bit Input</div>
+            <div class="bits" id="bcInDisplay">1010</div>
+          </div>
+          <div class="bc-arrow">→</div>
+          <div style="font-size:24px;text-align:center;color:var(--text3)">4B/5B<br><small style="font-size:12px">Lookup</small></div>
+          <div class="bc-arrow">→</div>
+          <div class="bc-block bc-out">
+            <div class="label">5-bit Output</div>
+            <div class="bits" id="bcOutDisplay">10110</div>
+          </div>
+        </div>
+        <div id="bcNote" style="padding:12px 16px;background:#FFFBEB;border:1px solid #FDE68A;border-radius:8px;font-size:13px;color:#92400E;"></div>
+        <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-top:8px;">Complete 4B/5B Mapping Table</p>
+        <div class="bc-table-wrap">
+          <table class="bc-mini-table" id="bcTable">
+            <thead><tr><th>4-bit Data</th><th>5-bit Code</th><th>Decimal</th></tr></thead>
+            <tbody id="bcTbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ SCRAMBLING ══════════ -->
+<section id="scrambling" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-purple">Digital-to-Digital · D2D</div>
+    <h2 class="section-title">Scrambling (B8ZS)</h2>
+    <p class="section-desc">Scrambling replaces long strings of zeros in a bipolar signal with special patterns that maintain synchronization without adding extra bits.</p>
+  </div>
+
+  <div class="def-card" style="border-left-color:var(--purple);">
+    <h3>📖 Definition</h3>
+    <p><strong>Scrambling</strong> is a technique used to overcome the DC component and synchronization problems caused by long sequences of 0s in bipolar encoding. Unlike block coding, scrambling does not increase the number of bits. <strong>B8ZS (Bipolar 8-Zero Substitution)</strong> replaces any sequence of 8 consecutive zeros with the pattern <strong>000VB0VB</strong>, where V = Violation pulse (same polarity as last 1) and B = Bipolar pulse (follows AMI rule). <strong>HDB3</strong> replaces every 4 consecutive zeros.</p>
+    <div class="formula">B8ZS: 00000000 → 000VB0VB (where V = violation, B = bipolar)</div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header" style="background:linear-gradient(90deg,#4C1D95,#7C3AED);">
+      <h3>🔀 B8ZS Scrambling Simulator</h3>
+      <span class="sim-badge">Interactive</span>
+    </div>
+    <div class="sim-body">
+      <div class="controls-panel">
+        <p style="font-size:12px;font-weight:600;color:var(--text2);text-transform:uppercase;letter-spacing:.5px;margin-bottom:12px;">Input Bit Sequence</p>
+        <input type="text" id="scramInput" class="bit-input" style="width:100%;margin-bottom:10px" value="101100000000110" maxlength="20" oninput="updateScrambling()">
+        <p style="font-size:12px;color:var(--text3);margin-bottom:12px;">Include 8+ consecutive zeros</p>
+        <div style="display:flex;flex-direction:column;gap:6px;">
+          <button class="bit-preset" style="text-align:left" onclick="document.getElementById('scramInput').value='101100000000110';updateScrambling()">101100000000110</button>
+          <button class="bit-preset" style="text-align:left" onclick="document.getElementById('scramInput').value='1100000000001';updateScrambling()">1100000000001</button>
+          <button class="bit-preset" style="text-align:left" onclick="document.getElementById('scramInput').value='00000000';updateScrambling()">00000000 (pure)</button>
+        </div>
+        <div style="margin-top:16px;padding:14px;background:var(--surface);border-radius:8px;border:1px solid var(--border);">
+          <p style="font-size:12px;font-weight:600;color:var(--navy);margin-bottom:8px;">B8ZS Legend</p>
+          <div style="font-size:12px;line-height:1.9;font-family:'JetBrains Mono',monospace;">
+            <div><span style="color:var(--teal)">+</span> = Positive pulse</div>
+            <div><span style="color:var(--orange)">−</span> = Negative pulse</div>
+            <div><span style="color:var(--text3)">0</span> = Zero voltage</div>
+            <div><span style="color:var(--red)">V</span> = Violation pulse</div>
+            <div><span style="color:var(--purple)">B</span> = Bipolar pulse</div>
+          </div>
+        </div>
+      </div>
+      <div style="flex:1;min-width:0;padding:20px 24px;">
+        <div class="scram-label">Original Bit Pattern</div>
+        <div id="scramBitDisplay" style="font-family:'JetBrains Mono',monospace;font-size:18px;letter-spacing:4px;color:var(--navy);font-weight:600;margin-bottom:8px;padding:10px 14px;background:var(--surface2);border-radius:8px;"></div>
+        <div class="scram-label">AMI Encoded (before scrambling)</div>
+        <canvas id="scramAMICanvas" class="scram-canvas"></canvas>
+        <div class="scram-label">B8ZS Scrambled Output</div>
+        <canvas id="scramB8ZSCanvas" class="scram-canvas"></canvas>
+        <div id="scramExplain" style="margin-top:12px;padding:14px;background:#F5F3FF;border:1px solid #DDD6FE;border-radius:8px;font-size:13px;color:#5B21B6;line-height:1.7;"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="section-divider"></div>
+
+<!-- ═══════════════ TRANSMISSION MODES ═══ -->
+<section id="transmission" class="section">
+  <div class="section-header">
+    <div class="section-tag tag-blue">Data Transmission</div>
+    <h2 class="section-title">Modes of Data Transmission</h2>
+    <p class="section-desc">Data can be transmitted in different ways — parallel or serial. Serial transmission can be synchronous or asynchronous.</p>
+  </div>
+
+  <div class="trans-grid">
+    <div class="trans-card">
+      <div class="trans-card-header" style="background:var(--navy);">⚡ Parallel Transmission</div>
+      <div class="trans-canvas-wrap">
+        <canvas id="parallelCanvas"></canvas>
+      </div>
+      <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>Multiple bits</strong> sent simultaneously over multiple wires. Fast but expensive for long distances. Used in printers, internal buses (e.g., 8-bit, 16-bit data bus). <em>Costly over long distances due to synchronization issues.</em>
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-card-header" style="background:#059669;">🔗 Serial Transmission</div>
+      <div class="trans-canvas-wrap">
+        <canvas id="serialCanvas"></canvas>
+      </div>
+      <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>One bit at a time</strong> over a single wire. Slower but cheaper for long distances. Used in USB, UART, I²C. Serial transmission is further divided into <em>Asynchronous</em> and <em>Synchronous</em> modes.
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-card-header" style="background:#C2410C;">📨 Asynchronous Transmission</div>
+      <div class="trans-canvas-wrap">
+        <canvas id="asyncCanvas"></canvas>
+      </div>
+      <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>No shared clock.</strong> Each byte (character) is framed with a <em>start bit (0)</em> and <em>stop bit(s) (1)</em>. The gap between characters can be any length. Simple, low cost. Used in: UART, RS-232, keyboards. Overhead: 2–3 extra bits per byte.
+      </div>
+    </div>
+    <div class="trans-card">
+      <div class="trans-card-header" style="background:#7C3AED;">🕐 Synchronous Transmission</div>
+      <div class="trans-canvas-wrap">
+        <canvas id="syncCanvas"></canvas>
+      </div>
+      <div style="padding:0 20px 16px;font-size:13px;color:var(--text2);line-height:1.7;">
+        <strong>Shared clock signal.</strong> Data is sent in continuous blocks/frames without start/stop bits. Faster and more efficient than async. Used in: HDLC, Ethernet, T1/T3 lines, fiber optic systems. Requires precise timing synchronization.
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <strong>Unit 3 – Data Transmission</strong> &nbsp;·&nbsp; Data Communication (BIT22PC01) &nbsp;·&nbsp; <strong>Prof. Shweta S. Devdas</strong><br>
+  <span style="font-size:11px;margin-top:6px;display:block;">Department of Information Technology &nbsp;·&nbsp; PCCOE, Akurdi, Pune</span>
+</footer>
+
+<script>
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  UTILITIES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const π = Math.PI;
+
+function navTo(id, btn) {
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(id).scrollIntoView({behavior:'smooth'});
+}
+
+function setupCanvas(canvas) {
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || canvas.clientWidth || 600;
+  const H = canvas.offsetHeight || canvas.clientHeight || 110;
+  canvas.width = W * dpr;
+  canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  return {ctx, W, H};
+}
+
+function drawWaveform(canvas, data, color, opts={}) {
+  if(!canvas) return;
+  const {ctx, W, H} = setupCanvas(canvas);
+  const mt=28, mb=22, ml=52, mr=16;
+  const pw=W-ml-mr, ph=H-mt-mb;
+  const cy=mt+ph/2;
+
+  // BG
+  ctx.fillStyle='#F8FAFF';
+  ctx.fillRect(0,0,W,H);
+
+  // Grid
+  ctx.strokeStyle='#E2E8F0'; ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){
+    const y=mt+ph*i/4;
+    ctx.beginPath();ctx.moveTo(ml,y);ctx.lineTo(W-mr,y);ctx.stroke();
+  }
+  for(let i=0;i<=8;i++){
+    const x=ml+pw*i/8;
+    ctx.beginPath();ctx.moveTo(x,mt);ctx.lineTo(x,H-mb);ctx.stroke();
+  }
+
+  // Zero line
+  ctx.strokeStyle='#94A3B8'; ctx.lineWidth=1.5;
+  ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(ml,cy);ctx.lineTo(W-mr,cy);ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Axes
+  ctx.strokeStyle='#475569'; ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(ml,mt);ctx.lineTo(ml,H-mb);ctx.lineTo(W-mr+4,H-mb);ctx.stroke();
+  // Arrow
+  ctx.beginPath();ctx.moveTo(W-mr+4,H-mb-4);ctx.lineTo(W-mr+8,H-mb);ctx.lineTo(W-mr+4,H-mb+4);ctx.stroke();
+
+  const yMax = opts.yMax || Math.max(...data.map(Math.abs), 0.01);
+  const yScale = (ph/2*0.82)/yMax;
+
+  // Y labels
+  ctx.fillStyle='#64748B';
+  ctx.font=`600 10px DM Sans`;
+  ctx.textAlign='right';
+  ctx.fillText('+'+yMax.toFixed(1),ml-5,mt+5);
+  ctx.fillText('0',ml-5,cy+4);
+  ctx.fillText('-'+yMax.toFixed(1),ml-5,H-mb+4);
+  ctx.textAlign='center';
+  ctx.fillText('t →',W-mr,H-mb+14);
+
+  // Title
+  if(opts.title){
+    ctx.fillStyle=color||'#0F2C6B';
+    ctx.font=`600 11px DM Sans`;
+    ctx.textAlign='left';
+    ctx.fillText(opts.title,ml+4,mt-10);
+  }
+
+  // Envelope (AM)
+  if(opts.envelope){
+    ctx.strokeStyle='rgba(234,88,12,0.5)';
+    ctx.lineWidth=1.5;
+    ctx.setLineDash([6,3]);
+    const xScale=pw/(opts.envelope.length-1);
+    ctx.beginPath();
+    opts.envelope.forEach((v,i)=>{
+      const x=ml+i*xScale, y=cy-v*yScale;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    ctx.beginPath();
+    opts.envelope.forEach((v,i)=>{
+      const x=ml+i*xScale, y=cy+v*yScale;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Signal
+  const n=data.length, xScale=pw/(n-1);
+  ctx.beginPath();
+  ctx.strokeStyle=color||'#0284C7';
+  ctx.lineWidth=2;
+  for(let i=0;i<n;i++){
+    const x=ml+i*xScale, y=cy-data[i]*yScale;
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.stroke();
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  HERO ANIMATION
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let heroT=0;
+function animHero(){
+  const canvas=document.getElementById('heroCanvas');
+  const dpr=window.devicePixelRatio||1;
+  const W=canvas.offsetWidth||window.innerWidth;
+  const H=90;
+  canvas.width=W*dpr;canvas.height=H*dpr;
+  const ctx=canvas.getContext('2d');
+  ctx.scale(dpr,dpr);
+  ctx.clearRect(0,0,W,H);
+  const waves=[
+    {A:18,f:0.015,phase:0,col:'rgba(255,255,255,0.15)',lw:2},
+    {A:12,f:0.025,phase:1.2,col:'rgba(255,255,255,0.1)',lw:1.5},
+    {A:22,f:0.008,phase:2.5,col:'rgba(255,255,255,0.08)',lw:1},
+  ];
+  waves.forEach(w=>{
+    ctx.beginPath();
+    ctx.strokeStyle=w.col;ctx.lineWidth=w.lw;
+    for(let x=0;x<W;x++){
+      const y=H/2+w.A*Math.sin(w.f*x+w.phase+heroT);
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.stroke();
+  });
+  heroT+=0.02;
+  requestAnimationFrame(animHero);
+}
+animHero();
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  AM SIMULATOR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let amOffset=0, amAnim=null;
+
+function genAM(Ac,fc,Am,fm,offset){
+  const N=500, T=2/fm, dt=T/N;
+  const msg=[],car=[],am=[],env=[];
+  for(let i=0;i<N;i++){
+    const t=i*dt+offset;
+    const m=Am*Math.sin(2*π*fm*t);
+    msg.push(m);
+    car.push(Ac*Math.sin(2*π*fc*t));
+    am.push((Ac+Am*Math.sin(2*π*fm*t))*Math.sin(2*π*fc*t));
+    env.push(Ac+Am*Math.abs(Math.sin(2*π*fm*(i*dt))));
+  }
+  return{msg,car,am,env};
+}
+
+function updateAM(){
+  const Ac=+document.getElementById('amAc').value;
+  const fc=+document.getElementById('amFc').value;
+  const Am=+document.getElementById('amAm').value;
+  const fm=+document.getElementById('amFm').value;
+  const mu=(Am/Ac).toFixed(3);
+  document.getElementById('amAcVal').textContent=Ac.toFixed(2);
+  document.getElementById('amFcVal').textContent=fc+' Hz';
+  document.getElementById('amAmVal').textContent=Am.toFixed(2);
+  document.getElementById('amFmVal').textContent=fm+' Hz';
+  document.getElementById('amMu').textContent=mu;
+  const s=+mu<0.99?'Under-mod ✅':+mu===1?'Critical':('Over-mod ⚠️');
+  document.getElementById('amStatus').textContent=s;
+  const d=genAM(Ac,fc,Am,fm,amOffset);
+  drawWaveform(document.getElementById('amMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
+  drawWaveform(document.getElementById('amCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t) = Ac·sin(2πfc·t)  [fc=${fc}Hz]`});
+  drawWaveform(document.getElementById('amOutCanvas'),d.am,'#EA580C',{yMax:(Ac+Am)*1.1,title:`AM(t) = (Ac+Am·sin(2πfm·t))·sin(2πfc·t)  μ=${mu}`,envelope:d.env});
+}
+
+function toggleAnimAM(){
+  const btn=document.getElementById('amAnimBtn');
+  if(amAnim){cancelAnimationFrame(amAnim);amAnim=null;btn.textContent='▶ Animate';btn.classList.remove('running');}
+  else{btn.textContent='⏸ Pause';btn.classList.add('running');
+    function loop(){amOffset+=0.01;updateAM();amAnim=requestAnimationFrame(loop);}
+    loop();
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  FM SIMULATOR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let fmOffset=0, fmAnim=null;
+
+function genFM(Ac,fc,Am,fm,deltaF,offset){
+  const N=500, T=2/fm, dt=T/N;
+  const beta=deltaF/fm;
+  const msg=[],car=[],fmS=[];
+  for(let i=0;i<N;i++){
+    const t=i*dt+offset;
+    msg.push(Am*Math.sin(2*π*fm*t));
+    car.push(Ac*Math.sin(2*π*fc*t));
+    fmS.push(Ac*Math.sin(2*π*fc*t+beta*Math.sin(2*π*fm*t)));
+  }
+  return{msg,car,fmS,beta};
+}
+
+function updateFM(){
+  const Ac=+document.getElementById('fmAc').value;
+  const fc=+document.getElementById('fmFc').value;
+  const Am=+document.getElementById('fmAm').value;
+  const fm=+document.getElementById('fmFm').value;
+  const df=+document.getElementById('fmDf').value;
+  const beta=(df/fm).toFixed(2);
+  const bw=2*(df+fm);
+  document.getElementById('fmAcVal').textContent=Ac.toFixed(2);
+  document.getElementById('fmFcVal').textContent=fc+' Hz';
+  document.getElementById('fmAmVal').textContent=Am.toFixed(2);
+  document.getElementById('fmFmVal').textContent=fm+' Hz';
+  document.getElementById('fmDfVal').textContent=df+' Hz';
+  document.getElementById('fmBeta').textContent=beta;
+  document.getElementById('fmBW').textContent=bw.toFixed(1)+' Hz';
+  const d=genFM(Ac,fc,Am,fm,df,fmOffset);
+  drawWaveform(document.getElementById('fmMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
+  drawWaveform(document.getElementById('fmCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t)  [fc=${fc}Hz]`});
+  drawWaveform(document.getElementById('fmOutCanvas'),d.fmS,'#EA580C',{yMax:Ac*1.2,title:`FM(t) = Ac·sin[2πfc·t + β·sin(2πfm·t)]  β=${beta}`});
+}
+
+function toggleAnimFM(){
+  const btn=document.getElementById('fmAnimBtn');
+  if(fmAnim){cancelAnimationFrame(fmAnim);fmAnim=null;btn.textContent='▶ Animate';btn.classList.remove('running');}
+  else{btn.textContent='⏸ Pause';btn.classList.add('running');
+    function loop(){fmOffset+=0.01;updateFM();fmAnim=requestAnimationFrame(loop);}
+    loop();
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  PM SIMULATOR
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let pmOffset=0, pmAnim=null;
+
+function genPM(Ac,fc,Am,fm,kp,offset){
+  const N=500, T=2/fm, dt=T/N;
+  const msg=[],car=[],pmS=[];
+  for(let i=0;i<N;i++){
+    const t=i*dt+offset;
+    const m=Am*Math.sin(2*π*fm*t);
+    msg.push(m);
+    car.push(Ac*Math.sin(2*π*fc*t));
+    pmS.push(Ac*Math.sin(2*π*fc*t+kp*m));
+  }
+  return{msg,car,pmS};
+}
+
+function updatePM(){
+  const Ac=+document.getElementById('pmAc').value;
+  const fc=+document.getElementById('pmFc').value;
+  const Am=+document.getElementById('pmAm').value;
+  const fm=+document.getElementById('pmFm').value;
+  const kp=+document.getElementById('pmKp').value;
+  const maxPhi=(kp*Am).toFixed(2);
+  document.getElementById('pmAcVal').textContent=Ac.toFixed(2);
+  document.getElementById('pmFcVal').textContent=fc+' Hz';
+  document.getElementById('pmAmVal').textContent=Am.toFixed(2);
+  document.getElementById('pmFmVal').textContent=fm+' Hz';
+  document.getElementById('pmKpVal').textContent=kp.toFixed(2)+' rad/V';
+  document.getElementById('pmMaxPhi').textContent=maxPhi+' rad';
+  const d=genPM(Ac,fc,Am,fm,kp,pmOffset);
+  drawWaveform(document.getElementById('pmMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
+  drawWaveform(document.getElementById('pmCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t)  [fc=${fc}Hz]`});
+  drawWaveform(document.getElementById('pmOutCanvas'),d.pmS,'#7C3AED',{yMax:Ac*1.2,title:`PM(t) = Ac·sin[2πfc·t + kp·m(t)]  kp=${kp.toFixed(2)}`});
+}
+
+function toggleAnimPM(){
+  const btn=document.getElementById('pmAnimBtn');
+  if(pmAnim){cancelAnimationFrame(pmAnim);pmAnim=null;btn.textContent='▶ Animate';btn.classList.remove('running');}
+  else{btn.textContent='⏸ Pause';btn.classList.add('running');
+    function loop(){pmOffset+=0.01;updatePM();pmAnim=requestAnimationFrame(loop);}
+    loop();
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  LINE CODING
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const schemeDescriptions = {
+  unipolar: '⚡ Unipolar NRZ: Uses only one voltage level. Bit 1 = +V, Bit 0 = 0V. Simple but suffers from DC components and baseline wandering. Not recommended for modern systems.',
+  nrzl: '⚡ NRZ-L (Level): Two voltage levels. Bit 1 = +V, Bit 0 = −V. The voltage level directly represents the bit value. DC component present when bits are unequal.',
+  nrzi: '🔁 NRZ-I (Inverted): A transition occurs at the beginning of the bit period for bit 1, no transition for bit 0. Better synchronization than NRZ-L for long sequences of 1s. Used in USB.',
+  rz: '📉 Return-to-Zero (RZ): Signal returns to zero voltage in the middle of each bit period. Bit 1 = +V then 0, Bit 0 = −V then 0. Better sync but needs more bandwidth. Now replaced by Manchester.',
+  manchester: '🔀 Manchester Encoding (Biphase): A mid-bit transition always occurs. Bit 1 = Low→High (negative to positive), Bit 0 = High→Low. Self-synchronizing. Used in Ethernet (IEEE 802.3). BW = 2× NRZ.',
+  diff_manchester: '🔀 Differential Manchester: Mid-bit transition ALWAYS present (for sync). Transition at START of bit for 0 (bit 0 = change); NO transition at start for bit 1. Used in Token Ring (IEEE 802.5).',
+  ami: '🔀 Bipolar AMI: Bit 0 = 0V. Bit 1 alternates between +V and −V (Alternate Mark Inversion). No DC component. Built-in error detection (two consecutive same-polarity pulses = error). Used in T1 lines.',
+  pseudoternary: '🔀 Pseudoternary: Inverse of AMI. Bit 1 = 0V. Bit 0 alternates between +V and −V. Used as an alternative to AMI in some applications.'
+};
+
+let currentScheme='unipolar';
+
+function selectScheme(btn, scheme){
+  document.querySelectorAll('.scheme-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  currentScheme=scheme;
+  updateLC();
+}
+
+function getSignalSegments(bits, scheme){
+  const segs=[];
+  let lastAMI=1, lastNRZI=1, lastDM=1;
+  bits.forEach((bit,i)=>{
+    switch(scheme){
+      case 'unipolar':
+        segs.push({s:i,e:i+1,lv:bit?1:0}); break;
+      case 'nrzl':
+        segs.push({s:i,e:i+1,lv:bit?1:-1}); break;
+      case 'nrzi':
+        if(bit===1) lastNRZI=-lastNRZI;
+        segs.push({s:i,e:i+1,lv:lastNRZI}); break;
+      case 'rz':
+        segs.push({s:i,e:i+0.5,lv:bit?1:-1});
+        segs.push({s:i+0.5,e:i+1,lv:0}); break;
+      case 'manchester':
+        segs.push({s:i,e:i+0.5,lv:bit?-1:1});
+        segs.push({s:i+0.5,e:i+1,lv:bit?1:-1}); break;
+      case 'diff_manchester':{
+        if(bit===0) lastDM=-lastDM;
+        segs.push({s:i,e:i+0.5,lv:lastDM});
+        segs.push({s:i+0.5,e:i+1,lv:-lastDM}); break;
+      }
+      case 'ami':
+        if(bit===1){segs.push({s:i,e:i+1,lv:lastAMI});lastAMI=-lastAMI;}
+        else segs.push({s:i,e:i+1,lv:0}); break;
+      case 'pseudoternary':
+        if(bit===0){segs.push({s:i,e:i+1,lv:lastAMI});lastAMI=-lastAMI;}
+        else segs.push({s:i,e:i+1,lv:0}); break;
+    }
+  });
+  return segs;
+}
+
+function drawLineCoding(canvas, bits, scheme){
+  if(!canvas||bits.length===0) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  const mt=36,mb=24,ml=52,mr=16;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const cy=mt+ph/2;
+  const bW=pw/bits.length;
+  const ly=lv=>cy-lv*ph*0.37;
+
+  // BG
+  ctx.fillStyle='#F8FAFF';
+  ctx.fillRect(0,0,W,H);
+
+  // Horizontal reference lines
+  [1,0,-1].forEach(lv=>{
+    const y=ly(lv);
+    ctx.strokeStyle=lv===0?'#94A3B8':'#E2E8F0';
+    ctx.lineWidth=lv===0?1.5:1;
+    if(lv===0) ctx.setLineDash([5,4]);
+    ctx.beginPath();ctx.moveTo(ml,y);ctx.lineTo(W-mr,y);ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Vertical grid for bits
+  bits.forEach((_,i)=>{
+    const x=ml+i*bW;
+    ctx.strokeStyle='#D1D5DB';ctx.lineWidth=1;
+    ctx.setLineDash([3,3]);
+    ctx.beginPath();ctx.moveTo(x,mt);ctx.lineTo(x,H-mb);ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Y-axis labels
+  ctx.fillStyle='#64748B';
+  ctx.font='600 11px JetBrains Mono';
+  ctx.textAlign='right';
+  ctx.fillText('+V',ml-5,ly(1)+4);
+  ctx.fillText(' 0',ml-5,ly(0)+4);
+  ctx.fillText('-V',ml-5,ly(-1)+4);
+
+  // Axis lines
+  ctx.strokeStyle='#475569';ctx.lineWidth=2;
+  ctx.beginPath();ctx.moveTo(ml,mt-8);ctx.lineTo(ml,H-mb);ctx.lineTo(W-mr+5,H-mb);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W-mr+5,H-mb-5);ctx.lineTo(W-mr+9,H-mb);ctx.lineTo(W-mr+5,H-mb+5);ctx.stroke();
+
+  // Bit labels
+  bits.forEach((bit,i)=>{
+    ctx.fillStyle=bit?'#1D4ED8':'#DC2626';
+    ctx.font='bold 14px JetBrains Mono';
+    ctx.textAlign='center';
+    ctx.fillText(bit.toString(),ml+bW*(i+0.5),mt-18);
+    // Small tick
+    ctx.strokeStyle='#D1D5DB';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(ml+bW*(i+0.5),mt-10);ctx.lineTo(ml+bW*(i+0.5),mt-4);ctx.stroke();
+  });
+
+  // Signal waveform
+  const segs=getSignalSegments(bits,scheme);
+  ctx.strokeStyle='#0F2C6B';ctx.lineWidth=2.5;
+  ctx.lineJoin='miter';
+  ctx.beginPath();
+  let prevY=null;
+  segs.forEach((seg,idx)=>{
+    const x1=ml+seg.s*bW,x2=ml+seg.e*bW;
+    const y=ly(seg.lv);
+    if(idx===0){ctx.moveTo(x1,y);}
+    else if(prevY!==null&&prevY!==y){ctx.lineTo(x1,prevY);ctx.lineTo(x1,y);}
+    ctx.lineTo(x2,y);
+    prevY=y;
+  });
+  ctx.stroke();
+}
+
+function updateLC(){
+  const raw=document.getElementById('bitInput').value.replace(/[^01]/g,'');
+  document.getElementById('bitInput').value=raw;
+  const bits=raw.split('').map(Number);
+  if(bits.length===0) return;
+  drawLineCoding(document.getElementById('lcCanvas'),bits,currentScheme);
+  document.getElementById('lcSchemeDesc').textContent=schemeDescriptions[currentScheme]||'';
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  BLOCK CODING 4B/5B
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+const fourB5B={
+  '0000':'11110','0001':'01001','0010':'10100','0011':'10101',
+  '0100':'01010','0101':'01011','0110':'01110','0111':'01111',
+  '1000':'10010','1001':'10011','1010':'10110','1011':'10111',
+  '1100':'11010','1101':'11011','1110':'11100','1111':'11101'
+};
+
+function buildBCTable(){
+  const tbody=document.getElementById('bcTbody');
+  Object.entries(fourB5B).forEach(([k,v])=>{
+    const tr=document.createElement('tr');
+    tr.id='bc_'+k;
+    tr.innerHTML=`<td>${k}</td><td style="color:#059669;font-weight:600">${v}</td><td>${parseInt(k,2)}</td>`;
+    tbody.appendChild(tr);
+  });
+}
+
+function updateBC(){
+  const raw=document.getElementById('bcInput').value.replace(/[^01]/g,'').slice(0,4);
+  document.getElementById('bcInput').value=raw;
+  document.getElementById('bcInDisplay').textContent=raw||'????';
+  const out=fourB5B[raw];
+  document.getElementById('bcOutDisplay').textContent=out||'????';
+
+  // Note
+  const noteEl=document.getElementById('bcNote');
+  if(out){
+    const ones=out.split('').filter(b=>b==='1').length;
+    const zeros=out.split('').filter(b=>b==='0').length;
+    noteEl.textContent=`✅ "${raw}" (decimal ${parseInt(raw,2)}) → "${out}" | Ones: ${ones}, Zeros: ${zeros} | Max consecutive zeros: ${longestRun(out,'0')} → Safe for NRZ-I!`;
+  } else if(raw.length<4){
+    noteEl.textContent='⚠️ Enter exactly 4 bits to see the encoded output.';
+  } else {
+    noteEl.textContent='❌ Invalid 4-bit input.';
+  }
+
+  // Highlight table row
+  document.querySelectorAll('.bc-mini-table tr').forEach(r=>r.classList.remove('highlight'));
+  if(raw.length===4){
+    const row=document.getElementById('bc_'+raw);
+    if(row){row.classList.add('highlight');row.scrollIntoView({behavior:'smooth',block:'nearest'});}
+  }
+}
+
+function longestRun(s,c){let max=0,cur=0;for(const ch of s){if(ch===c)cur++;else cur=0;max=Math.max(max,cur);}return max;}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  SCRAMBLING B8ZS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function applyB8ZS(bits){
+  // First get AMI encoding
+  const ami=[],types=[];
+  let lastPolarity=1;
+  bits.forEach(bit=>{
+    if(bit===1){ami.push(lastPolarity);types.push('N');lastPolarity=-lastPolarity;}
+    else{ami.push(0);types.push('0');}
+  });
+
+  // Now apply B8ZS substitution
+  const out=[...ami], outTypes=[...types];
+  for(let i=0;i<=bits.length-8;i++){
+    const sub=bits.slice(i,i+8);
+    if(sub.every(b=>b===0)){
+      // Determine polarity of last 1 before this sequence
+      let lp=1;
+      for(let j=i-1;j>=0;j--){if(out[j]!==0){lp=out[j];break;}}
+      // pattern: 000VB0VB
+      // V = same polarity as lp, B = opposite
+      out[i]=0;outTypes[i]='0';
+      out[i+1]=0;outTypes[i+1]='0';
+      out[i+2]=0;outTypes[i+2]='0';
+      out[i+3]=lp;outTypes[i+3]='V';
+      out[i+4]=-lp;outTypes[i+4]='B';
+      out[i+5]=0;outTypes[i+5]='0';
+      out[i+6]=lp;outTypes[i+6]='V';
+      out[i+7]=-lp;outTypes[i+7]='B';
+      i+=7;
+    }
+  }
+  return{ami,amiTypes:types,b8zs:out,b8zsTypes:outTypes};
+}
+
+function drawScramSignal(canvas,signal,types,label){
+  if(!canvas) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  const mt=20,mb=18,ml=52,mr=16;
+  const pw=W-ml-mr,ph=H-mt-mb;
+  const cy=mt+ph/2;
+  const n=signal.length,bW=pw/n;
+  const ly=lv=>cy-lv*ph*0.38;
+
+  ctx.fillStyle='#FAFBFF';ctx.fillRect(0,0,W,H);
+
+  // Grid
+  [1,0,-1].forEach(lv=>{
+    ctx.strokeStyle=lv===0?'#94A3B8':'#E8ECF4';ctx.lineWidth=lv===0?1.5:1;
+    if(lv===0) ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(ml,ly(lv));ctx.lineTo(W-mr,ly(lv));ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // Y labels
+  ctx.fillStyle='#64748B';ctx.font='10px JetBrains Mono';ctx.textAlign='right';
+  ctx.fillText('+V',ml-5,ly(1)+4);ctx.fillText('0',ml-5,ly(0)+4);ctx.fillText('-V',ml-5,ly(-1)+4);
+
+  // Axis
+  ctx.strokeStyle='#475569';ctx.lineWidth=1.5;
+  ctx.beginPath();ctx.moveTo(ml,mt);ctx.lineTo(ml,H-mb);ctx.lineTo(W-mr,H-mb);ctx.stroke();
+
+  // Draw signal
+  let prevY=null;
+  ctx.lineWidth=2.5;
+  for(let i=0;i<n;i++){
+    const x1=ml+i*bW,x2=ml+(i+1)*bW;
+    const y=ly(signal[i]);
+    const t=types[i];
+    // Color by type
+    if(t==='V') ctx.strokeStyle='#DC2626';
+    else if(t==='B') ctx.strokeStyle='#7C3AED';
+    else if(signal[i]===0) ctx.strokeStyle='#9CA3AF';
+    else ctx.strokeStyle='#0F2C6B';
+
+    ctx.beginPath();
+    if(prevY!==null&&prevY!==y){
+      ctx.moveTo(x1,prevY);ctx.lineTo(x1,y);
+      ctx.moveTo(x1,y);
+    } else ctx.moveTo(x1,y);
+    ctx.lineTo(x2,y);
+    ctx.stroke();
+    prevY=y;
+
+    // Type label
+    if(t!=='N'&&t!=='0'){
+      ctx.fillStyle=t==='V'?'#DC2626':'#7C3AED';
+      ctx.font='bold 10px JetBrains Mono';ctx.textAlign='center';
+      ctx.fillText(t,x1+bW/2,y>cy?y-8:y+14);
+    }
+  }
+}
+
+function updateScrambling(){
+  const raw=document.getElementById('scramInput').value.replace(/[^01]/g,'');
+  document.getElementById('scramInput').value=raw;
+  const bits=raw.split('').map(Number);
+  if(bits.length===0) return;
+
+  document.getElementById('scramBitDisplay').textContent=raw;
+  const {ami,amiTypes,b8zs,b8zsTypes}=applyB8ZS(bits);
+
+  drawScramSignal(document.getElementById('scramAMICanvas'),ami,amiTypes,'AMI');
+  drawScramSignal(document.getElementById('scramB8ZSCanvas'),b8zs,b8zsTypes,'B8ZS');
+
+  // Find substitutions
+  let found=false;
+  for(let i=0;i<=bits.length-8;i++){
+    if(bits.slice(i,i+8).every(b=>b===0)){
+      found=true;
+      document.getElementById('scramExplain').innerHTML=
+        `🔁 <strong>B8ZS Substitution detected at position ${i+1}–${i+8}!</strong><br>
+        Original: <code>00000000</code> (8 consecutive zeros)<br>
+        Replaced: <code><span style="color:#DC2626">V</span></code> = Violation pulse (same polarity as last 1), <code><span style="color:#7C3AED">B</span></code> = Bipolar pulse<br>
+        Pattern: <code>000<span style="color:#DC2626">V</span><span style="color:#7C3AED">B</span>0<span style="color:#DC2626">V</span><span style="color:#7C3AED">B</span></code> → Maintains synchronization without adding extra bits!`;
+      break;
+    }
+  }
+  if(!found){
+    document.getElementById('scramExplain').textContent='ℹ️ No 8 consecutive zeros found. B8ZS substitution not triggered. Try a pattern with 8+ zeros like "101100000000110".';
+  }
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  TRANSMISSION MODES
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+let transT=0;
+
+function drawParallel(canvas){
+  if(!canvas) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  ctx.fillStyle='#F8FAFF';ctx.fillRect(0,0,W,H);
+  const bits=[1,0,1,1,0,0,1,0];
+  const colors=['#0284C7','#059669','#EA580C','#7C3AED','#DC2626','#0F6CBD','#D97706','#BE185D'];
+  const n=bits.length;
+  const wireH=H/n;
+  const speed=80;
+  const offset=(transT*speed)%W;
+
+  bits.forEach((bit,i)=>{
+    const y=i*wireH+wireH/2;
+    // Wire line
+    ctx.strokeStyle=colors[i];ctx.lineWidth=3;
+    ctx.setLineDash([]);
+    ctx.beginPath();ctx.moveTo(20,y);ctx.lineTo(W-20,y);ctx.stroke();
+
+    // Moving packet
+    const px=(offset+i*15)%W;
+    ctx.fillStyle=colors[i];
+    ctx.beginPath();
+    ctx.roundRect(px-20,y-10,40,20,5);
+    ctx.fill();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 11px JetBrains Mono';ctx.textAlign='center';
+    ctx.fillText(bit,px,y+4);
+  });
+
+  // Labels
+  ctx.fillStyle='#475569';ctx.font='11px DM Sans';ctx.textAlign='left';
+  ctx.fillText('Sender →',20,14);
+  ctx.textAlign='right';ctx.fillText('→ Receiver',W-20,14);
+}
+
+function drawSerial(canvas){
+  if(!canvas) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  ctx.fillStyle='#F8FAFF';ctx.fillRect(0,0,W,H);
+  const bits=[1,0,1,1,0,0,1,0,1,1];
+  const speed=50,bW=W/bits.length;
+  const y=H/2;
+
+  // Wire
+  ctx.strokeStyle='#CBD5E1';ctx.lineWidth=4;
+  ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();
+
+  // Bits
+  bits.forEach((bit,i)=>{
+    const px=((i*bW-(transT*speed))%W+W)%W;
+    ctx.fillStyle=bit?'#0284C7':'#DC2626';
+    ctx.beginPath();ctx.roundRect(px-bW/2+5,y-18,bW-10,36,6);ctx.fill();
+    ctx.fillStyle='#fff';
+    ctx.font='bold 14px JetBrains Mono';ctx.textAlign='center';
+    ctx.fillText(bit,px,y+5);
+  });
+
+  ctx.fillStyle='#475569';ctx.font='11px DM Sans';ctx.textAlign='left';
+  ctx.fillText('Bits transmitted one at a time →',20,14);
+}
+
+function drawAsync(canvas){
+  if(!canvas) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  ctx.fillStyle='#F8FAFF';ctx.fillRect(0,0,W,H);
+  const mt=28,mb=20,ml=20,mr=20;
+  const ph=H-mt-mb, cy=mt+ph/2;
+  const frame=['S','1','0','1','1','0','1','0','P'];
+  const fW=(W-ml-mr)/frame.length;
+
+  const colors={S:'#DC2626',P:'#7C3AED',default:'#0F2C6B'};
+  const levels={S:0,P:1};
+
+  frame.forEach((b,i)=>{
+    const x=ml+i*fW;
+    const isData=b!=='S'&&b!=='P';
+    const lv=b==='S'?0:b==='P'?1:(+b?1:-1);
+    const top=cy-(lv>0?ph*0.35:0);
+    const ht=lv===0?ph*0.7:(lv>0?ph*0.35:ph*0.35);
+
+    const col=b==='S'?'#FEE2E2':b==='P'?'#EDE9FE':lv>0?'#DBEAFE':'#FEF2F2';
+    ctx.fillStyle=col;
+    ctx.fillRect(x+1,cy-ph*0.35,fW-2,ph*0.7);
+
+    const sc=b==='S'?'#DC2626':b==='P'?'#7C3AED':lv>0?'#1D4ED8':'#DC2626';
+    ctx.strokeStyle=sc;ctx.lineWidth=2;
+    ctx.strokeRect(x+1,cy-ph*0.35,fW-2,ph*0.7);
+
+    ctx.fillStyle=sc;
+    ctx.font=`bold ${fW>30?13:10}px JetBrains Mono`;
+    ctx.textAlign='center';
+    ctx.fillText(b,x+fW/2,cy+5);
+  });
+
+  ctx.fillStyle='#475569';ctx.font='11px DM Sans';ctx.textAlign='center';
+  ctx.fillText('S = Start bit (0)   |   Data bits   |   P = Stop bit (1)',W/2,mt-10);
+}
+
+function drawSync(canvas){
+  if(!canvas) return;
+  const {ctx,W,H}=setupCanvas(canvas);
+  ctx.fillStyle='#F8FAFF';ctx.fillRect(0,0,W,H);
+  const mt=28,mb=20,ml=20,mr=20;
+  const ph=H-mt-mb,cy=mt+ph/2;
+  const frame=['SYN','SYN','HDR','D0','D1','D2','D3','D4','CHK'];
+  const fW=(W-ml-mr)/frame.length;
+
+  const bgColors={SYN:'#FEF3C7',HDR:'#DBEAFE',CHK:'#D1FAE5',default:'#F0F9FF'};
+
+  frame.forEach((b,i)=>{
+    const x=ml+i*fW;
+    const bg=bgColors[b]||bgColors.default;
+    ctx.fillStyle=bg;
+    ctx.fillRect(x+1,cy-ph*0.38,fW-2,ph*0.76);
+    const border=b==='SYN'?'#D97706':b==='HDR'?'#1D4ED8':b==='CHK'?'#059669':'#0EA5E9';
+    ctx.strokeStyle=border;ctx.lineWidth=2;
+    ctx.strokeRect(x+1,cy-ph*0.38,fW-2,ph*0.76);
+    ctx.fillStyle=border;
+    ctx.font=`bold ${fW>40?11:9}px DM Sans`;
+    ctx.textAlign='center';
+    ctx.fillText(b,x+fW/2,cy+5);
+  });
+
+  ctx.fillStyle='#475569';ctx.font='11px DM Sans';ctx.textAlign='center';
+  ctx.fillText('Continuous block with SYN characters — no start/stop bits needed',W/2,mt-10);
+}
+
+function animTrans(){
+  transT+=0.05;
+  drawParallel(document.getElementById('parallelCanvas'));
+  drawSerial(document.getElementById('serialCanvas'));
+  requestAnimationFrame(animTrans);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  INIT
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+window.addEventListener('load',()=>{
+  updateAM();
+  updateFM();
+  updatePM();
+  updateLC();
+  buildBCTable();
+  updateBC();
+  updateScrambling();
+  drawAsync(document.getElementById('asyncCanvas'));
+  drawSync(document.getElementById('syncCanvas'));
+  animTrans();
+});
+
+window.addEventListener('resize',()=>{
+  updateAM();updateFM();updatePM();updateLC();updateScrambling();
+  drawAsync(document.getElementById('asyncCanvas'));
+  drawSync(document.getElementById('syncCanvas'));
+});
+</script>
+</body>
+</html>
