@@ -76,6 +76,58 @@
             }
         }
 
+        @keyframes paramChange {
+            0% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+            50% {
+                transform: scale(1.05) rotate(2deg);
+                box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+            }
+            100% {
+                transform: scale(1) rotate(0deg);
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            }
+        }
+
+        @keyframes canvasFlash {
+            0% {
+                border-color: #667eea;
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0.4);
+            }
+            50% {
+                box-shadow: 0 0 20px 5px rgba(102, 126, 234, 0.2);
+            }
+            100% {
+                border-color: #667eea;
+                box-shadow: 0 0 0 0 rgba(102, 126, 234, 0);
+            }
+        }
+
+        @keyframes valueUpdate {
+            0% {
+                background: #ffeb3b;
+                transform: scale(1.1);
+            }
+            100% {
+                background: #667eea;
+                transform: scale(1);
+            }
+        }
+
+        .control-group.active {
+            animation: paramChange 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        canvas.updating {
+            animation: canvasFlash 0.5s ease-out;
+        }
+
+        .value-display.pulse-value {
+            animation: valueUpdate 0.4s ease-out;
+        }
+
         .section-title {
             font-size: 2em;
             color: #667eea;
@@ -349,8 +401,6 @@
     <header>
         <div class="header-content">
             <h1>📡 Unit 2: Data and Signals</h1>
-            <p>Interactive Learning Simulator for Data Communication</p>
-            <div class="professor-info">👨‍🏫 Prepared by Prof. Shweta S. Devdas</div>
         </div>
     </header>
 
@@ -1198,12 +1248,26 @@
     </div>
 
     <footer>
-        <p>📡 Unit 2: Data and Signals - Interactive Learning Simulator</p>
-        <p>Prof. Shweta S. Devdas | Designed for Data Communication Course</p>
-        <p>All simulations are interactive - adjust parameters to see real-time changes!</p>
+        <p>📡 Unit 2: Data and Signals</p>
     </footer>
 
     <script>
+        // ============== ANIMATION HELPER FUNCTION ==============
+        function animateParameterChange(element) {
+            element.classList.add('active');
+            setTimeout(() => element.classList.remove('active'), 600);
+        }
+
+        function animateCanvasUpdate(canvas) {
+            canvas.classList.add('updating');
+            setTimeout(() => canvas.classList.remove('updating'), 500);
+        }
+
+        function animateValueDisplay(element) {
+            element.classList.add('pulse-value');
+            setTimeout(() => element.classList.remove('pulse-value'), 400);
+        }
+
         // ============== ANALOG SIGNAL SIMULATOR ==============
         const analogCanvas = document.getElementById('analogCanvas');
         const analogCtx = analogCanvas.getContext('2d');
@@ -1217,9 +1281,21 @@
             const phase = parseFloat(analogPhase.value) * Math.PI / 180;
 
             // Update displays
-            document.getElementById('ampDisplay').textContent = amp.toFixed(1) + 'V';
-            document.getElementById('freqDisplay').textContent = freq.toFixed(1) + ' Hz';
-            document.getElementById('phaseDisplay').textContent = (phase * 180 / Math.PI).toFixed(0) + '°';
+            const ampDisplay = document.getElementById('ampDisplay');
+            const freqDisplay = document.getElementById('freqDisplay');
+            const phaseDisplay = document.getElementById('phaseDisplay');
+
+            ampDisplay.textContent = amp.toFixed(1) + 'V';
+            freqDisplay.textContent = freq.toFixed(1) + ' Hz';
+            phaseDisplay.textContent = (phase * 180 / Math.PI).toFixed(0) + '°';
+
+            // Animate value displays
+            animateValueDisplay(ampDisplay);
+            animateValueDisplay(freqDisplay);
+            animateValueDisplay(phaseDisplay);
+
+            // Animate canvas
+            animateCanvasUpdate(analogCanvas);
 
             // Clear canvas
             analogCtx.fillStyle = 'white';
@@ -1272,9 +1348,18 @@
             analogCtx.fillText('Period: ' + (1/freq).toFixed(3) + 's', 10, 50);
         }
 
-        analogAmplitude.addEventListener('input', drawAnalogSignal);
-        analogFrequency.addEventListener('input', drawAnalogSignal);
-        analogPhase.addEventListener('input', drawAnalogSignal);
+        analogAmplitude.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawAnalogSignal();
+        });
+        analogFrequency.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawAnalogSignal();
+        });
+        analogPhase.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawAnalogSignal();
+        });
         drawAnalogSignal();
 
         // ============== DIGITAL SIGNAL SIMULATOR ==============
@@ -1289,9 +1374,19 @@
             const bitRate = parseInt(digitalBitRate.value);
             const noise = parseFloat(digitalNoise.value);
 
-            document.getElementById('levelsDisplay').textContent = levels + ' levels';
-            document.getElementById('bitRateDisplay').textContent = bitRate + ' bps';
-            document.getElementById('noiseDisplay').textContent = (noise * 100).toFixed(0) + '%';
+            const levelsDisplay = document.getElementById('levelsDisplay');
+            const bitRateDisplay = document.getElementById('bitRateDisplay');
+            const noiseDisplay = document.getElementById('noiseDisplay');
+
+            levelsDisplay.textContent = levels + ' levels';
+            bitRateDisplay.textContent = bitRate + ' bps';
+            noiseDisplay.textContent = (noise * 100).toFixed(0) + '%';
+
+            // Animate displays and canvas
+            animateValueDisplay(levelsDisplay);
+            animateValueDisplay(bitRateDisplay);
+            animateValueDisplay(noiseDisplay);
+            animateCanvasUpdate(digitalCanvas);
 
             digitalCtx.fillStyle = 'white';
             digitalCtx.fillRect(0, 0, digitalCanvas.width, digitalCanvas.height);
@@ -1354,9 +1449,18 @@
             digitalCtx.fillText('Bit Rate: ' + bitRate + ' bps', 10, 50);
         }
 
-        digitalLevels.addEventListener('input', drawDigitalSignal);
-        digitalBitRate.addEventListener('input', drawDigitalSignal);
-        digitalNoise.addEventListener('input', drawDigitalSignal);
+        digitalLevels.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawDigitalSignal();
+        });
+        digitalBitRate.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawDigitalSignal();
+        });
+        digitalNoise.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawDigitalSignal();
+        });
         drawDigitalSignal();
 
         // ============== PERIODIC SIGNAL SIMULATOR ==============
@@ -1369,7 +1473,12 @@
             const period = parseFloat(periodValue.value);
             const type = signalType.value;
 
-            document.getElementById('periodDisplay').textContent = period.toFixed(2) + ' sec';
+            const periodDisplay = document.getElementById('periodDisplay');
+            periodDisplay.textContent = period.toFixed(2) + ' sec';
+
+            // Animate displays and canvas
+            animateValueDisplay(periodDisplay);
+            animateCanvasUpdate(periodicCanvas);
 
             periodicCtx.fillStyle = 'white';
             periodicCtx.fillRect(0, 0, periodicCanvas.width, periodicCanvas.height);
@@ -1445,8 +1554,14 @@
             periodicCtx.fillText('Frequency: ' + (1/period).toFixed(2) + ' Hz', 10, 50);
         }
 
-        periodValue.addEventListener('input', drawPeriodicSignal);
-        signalType.addEventListener('change', drawPeriodicSignal);
+        periodValue.addEventListener('input', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawPeriodicSignal();
+        });
+        signalType.addEventListener('change', function() {
+            animateParameterChange(this.closest('.control-group'));
+            drawPeriodicSignal();
+        });
         drawPeriodicSignal();
 
         // ============== WAVELENGTH SIMULATOR ==============

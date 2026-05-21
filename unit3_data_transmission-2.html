@@ -89,6 +89,35 @@ body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);ove
 }
 @keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
 
+@keyframes controlPulse {
+  0% { transform: scale(1); box-shadow: 0 4px 20px rgba(15,44,107,0.09); }
+  50% { transform: scale(1.02); box-shadow: 0 8px 30px rgba(13, 148, 200, 0.3); }
+  100% { transform: scale(1); box-shadow: 0 4px 20px rgba(15,44,107,0.09); }
+}
+
+@keyframes canvasHighlight {
+  0% { filter: brightness(1) drop-shadow(0 0 0 rgba(13, 148, 200, 0)); }
+  50% { filter: brightness(1.05) drop-shadow(0 0 15px rgba(13, 148, 200, 0.5)); }
+  100% { filter: brightness(1) drop-shadow(0 0 0 rgba(13, 148, 200, 0)); }
+}
+
+@keyframes valueFlash {
+  0% { background: #FFC107; color: #000; transform: scale(1.1); }
+  100% { background: var(--navy); color: #fff; transform: scale(1); }
+}
+
+.computed-row.updating {
+  animation: controlPulse 0.5s ease-out;
+}
+
+canvas.updating {
+  animation: canvasHighlight 0.6s ease-out;
+}
+
+.computed-row span:last-child.flash {
+  animation: valueFlash 0.4s ease-out;
+}
+
 .section-header{margin-bottom:36px;}
 .section-tag{
   display:inline-block;font-size:11px;font-weight:600;letter-spacing:1.8px;
@@ -337,16 +366,8 @@ footer strong{color:#fff;}
 
 <!-- ═══════════════ HERO ═══════════════ -->
 <header class="hero">
-  <div class="hero-badge">Data Communication &nbsp;·&nbsp; Unit III</div>
+  <div class="hero-badge">Unit III</div>
   <h1>Data Transmission</h1>
-  <p class="hero-subtitle">Modulation Techniques &nbsp;·&nbsp; Digital Encoding &nbsp;·&nbsp; Line Coding &nbsp;·&nbsp; Block Coding &nbsp;·&nbsp; Scrambling</p>
-  <div class="prof-card">
-    <div class="prof-icon">👩‍🏫</div>
-    <div>
-      <div class="prof-name">Prof. Shweta S. Devdas</div>
-      <div class="prof-dept">Department of Information Technology</div>
-    </div>
-  </div>
   <div class="hero-canvas-wrap">
     <canvas id="heroCanvas"></canvas>
   </div>
@@ -890,8 +911,7 @@ footer strong{color:#fff;}
 </main>
 
 <footer>
-  <strong>Unit 3 – Data Transmission</strong> &nbsp;·&nbsp; Data Communication (BIT22PC01) &nbsp;·&nbsp; <strong>Prof. Shweta S. Devdas</strong><br>
-  <span style="font-size:11px;margin-top:6px;display:block;">Department of Information Technology &nbsp;·&nbsp; PCCOE, Akurdi, Pune</span>
+  <strong>Unit 3 – Data Transmission</strong>
 </footer>
 
 <script>
@@ -1038,6 +1058,24 @@ function animHero(){
 animHero();
 
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+//  ANIMATION HELPERS
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+function animateComputedRow(element) {
+  element.classList.add('updating');
+  setTimeout(() => element.classList.remove('updating'), 500);
+}
+
+function animateCanvasUpdate(canvas) {
+  canvas.classList.add('updating');
+  setTimeout(() => canvas.classList.remove('updating'), 600);
+}
+
+function animateValue(element) {
+  element.classList.add('flash');
+  setTimeout(() => element.classList.remove('flash'), 400);
+}
+
+// ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 //  AM SIMULATOR
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 let amOffset=0, amAnim=null;
@@ -1061,15 +1099,41 @@ function updateAM(){
   const fc=+document.getElementById('amFc').value;
   const Am=+document.getElementById('amAm').value;
   const fm=+document.getElementById('amFm').value;
+  
+  // Get all value elements
+  const acVal = document.getElementById('amAcVal');
+  const fcVal = document.getElementById('amFcVal');
+  const amVal = document.getElementById('amAmVal');
+  const fmVal = document.getElementById('amFmVal');
+  const muVal = document.getElementById('amMu');
+  const statusVal = document.getElementById('amStatus');
+  
+  // Update values with animation
+  acVal.textContent=Ac.toFixed(2);
+  fcVal.textContent=fc+' Hz';
+  amVal.textContent=Am.toFixed(2);
+  fmVal.textContent=fm+' Hz';
+  
+  animateValue(acVal);
+  animateValue(fcVal);
+  animateValue(amVal);
+  animateValue(fmVal);
+  
   const mu=(Am/Ac).toFixed(3);
-  document.getElementById('amAcVal').textContent=Ac.toFixed(2);
-  document.getElementById('amFcVal').textContent=fc+' Hz';
-  document.getElementById('amAmVal').textContent=Am.toFixed(2);
-  document.getElementById('amFmVal').textContent=fm+' Hz';
-  document.getElementById('amMu').textContent=mu;
+  muVal.textContent=mu;
+  animateValue(muVal);
+  
   const s=+mu<0.99?'Under-mod ✅':+mu===1?'Critical':('Over-mod ⚠️');
-  document.getElementById('amStatus').textContent=s;
+  statusVal.textContent=s;
+  animateValue(statusVal);
+  
   const d=genAM(Ac,fc,Am,fm,amOffset);
+  
+  // Animate canvas updates
+  animateCanvasUpdate(document.getElementById('amMsgCanvas'));
+  animateCanvasUpdate(document.getElementById('amCarCanvas'));
+  animateCanvasUpdate(document.getElementById('amOutCanvas'));
+  
   drawWaveform(document.getElementById('amMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
   drawWaveform(document.getElementById('amCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t) = Ac·sin(2πfc·t)  [fc=${fc}Hz]`});
   drawWaveform(document.getElementById('amOutCanvas'),d.am,'#EA580C',{yMax:(Ac+Am)*1.1,title:`AM(t) = (Ac+Am·sin(2πfm·t))·sin(2πfc·t)  μ=${mu}`,envelope:d.env});
@@ -1108,16 +1172,43 @@ function updateFM(){
   const Am=+document.getElementById('fmAm').value;
   const fm=+document.getElementById('fmFm').value;
   const df=+document.getElementById('fmDf').value;
+  
+  // Get all value elements
+  const acVal = document.getElementById('fmAcVal');
+  const fcVal = document.getElementById('fmFcVal');
+  const amVal = document.getElementById('fmAmVal');
+  const fmVal = document.getElementById('fmFmVal');
+  const dfVal = document.getElementById('fmDfVal');
+  const betaVal = document.getElementById('fmBeta');
+  const bwVal = document.getElementById('fmBW');
+  
   const beta=(df/fm).toFixed(2);
   const bw=2*(df+fm);
-  document.getElementById('fmAcVal').textContent=Ac.toFixed(2);
-  document.getElementById('fmFcVal').textContent=fc+' Hz';
-  document.getElementById('fmAmVal').textContent=Am.toFixed(2);
-  document.getElementById('fmFmVal').textContent=fm+' Hz';
-  document.getElementById('fmDfVal').textContent=df+' Hz';
-  document.getElementById('fmBeta').textContent=beta;
-  document.getElementById('fmBW').textContent=bw.toFixed(1)+' Hz';
+  
+  // Update values with animation
+  acVal.textContent=Ac.toFixed(2);
+  fcVal.textContent=fc+' Hz';
+  amVal.textContent=Am.toFixed(2);
+  fmVal.textContent=fm+' Hz';
+  dfVal.textContent=df+' Hz';
+  betaVal.textContent=beta;
+  bwVal.textContent=bw.toFixed(1)+' Hz';
+  
+  animateValue(acVal);
+  animateValue(fcVal);
+  animateValue(amVal);
+  animateValue(fmVal);
+  animateValue(dfVal);
+  animateValue(betaVal);
+  animateValue(bwVal);
+  
   const d=genFM(Ac,fc,Am,fm,df,fmOffset);
+  
+  // Animate canvas updates
+  animateCanvasUpdate(document.getElementById('fmMsgCanvas'));
+  animateCanvasUpdate(document.getElementById('fmCarCanvas'));
+  animateCanvasUpdate(document.getElementById('fmOutCanvas'));
+  
   drawWaveform(document.getElementById('fmMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
   drawWaveform(document.getElementById('fmCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t)  [fc=${fc}Hz]`});
   drawWaveform(document.getElementById('fmOutCanvas'),d.fmS,'#EA580C',{yMax:Ac*1.2,title:`FM(t) = Ac·sin[2πfc·t + β·sin(2πfm·t)]  β=${beta}`});
@@ -1156,14 +1247,39 @@ function updatePM(){
   const Am=+document.getElementById('pmAm').value;
   const fm=+document.getElementById('pmFm').value;
   const kp=+document.getElementById('pmKp').value;
+  
+  // Get all value elements
+  const acVal = document.getElementById('pmAcVal');
+  const fcVal = document.getElementById('pmFcVal');
+  const amVal = document.getElementById('pmAmVal');
+  const fmVal = document.getElementById('pmFmVal');
+  const kpVal = document.getElementById('pmKpVal');
+  const maxPhiVal = document.getElementById('pmMaxPhi');
+  
   const maxPhi=(kp*Am).toFixed(2);
-  document.getElementById('pmAcVal').textContent=Ac.toFixed(2);
-  document.getElementById('pmFcVal').textContent=fc+' Hz';
-  document.getElementById('pmAmVal').textContent=Am.toFixed(2);
-  document.getElementById('pmFmVal').textContent=fm+' Hz';
-  document.getElementById('pmKpVal').textContent=kp.toFixed(2)+' rad/V';
-  document.getElementById('pmMaxPhi').textContent=maxPhi+' rad';
+  
+  // Update values with animation
+  acVal.textContent=Ac.toFixed(2);
+  fcVal.textContent=fc+' Hz';
+  amVal.textContent=Am.toFixed(2);
+  fmVal.textContent=fm+' Hz';
+  kpVal.textContent=kp.toFixed(2)+' rad/V';
+  maxPhiVal.textContent=maxPhi+' rad';
+  
+  animateValue(acVal);
+  animateValue(fcVal);
+  animateValue(amVal);
+  animateValue(fmVal);
+  animateValue(kpVal);
+  animateValue(maxPhiVal);
+  
   const d=genPM(Ac,fc,Am,fm,kp,pmOffset);
+  
+  // Animate canvas updates
+  animateCanvasUpdate(document.getElementById('pmMsgCanvas'));
+  animateCanvasUpdate(document.getElementById('pmCarCanvas'));
+  animateCanvasUpdate(document.getElementById('pmOutCanvas'));
+  
   drawWaveform(document.getElementById('pmMsgCanvas'),d.msg,'#059669',{yMax:Am*1.2,title:'Message Signal m(t) = Am·sin(2πfm·t)'});
   drawWaveform(document.getElementById('pmCarCanvas'),d.car,'#0284C7',{yMax:Ac*1.2,title:`Carrier c(t)  [fc=${fc}Hz]`});
   drawWaveform(document.getElementById('pmOutCanvas'),d.pmS,'#7C3AED',{yMax:Ac*1.2,title:`PM(t) = Ac·sin[2πfc·t + kp·m(t)]  kp=${kp.toFixed(2)}`});

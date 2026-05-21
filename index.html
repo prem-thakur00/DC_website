@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Communication | BIT22PC01</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #e9ecef 100%);
+            color: #2c3e50;
+            line-height: 1.6;
+        }
+
+        /* Header Section */
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 2.5rem 2rem 2rem;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.2);
+        }
+
+        .header h1 {
+            max-width: 1200px;
+            margin: 0 auto;
+            font-size: 2.8rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header .subtitle {
+            max-width: 1200px;
+            margin: 0.5rem auto 0;
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .header .professor-info {
+            margin-top: 0.8rem;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+
+        .header-badges {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1.2rem;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .header-badges span {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            backdrop-filter: blur(4px);
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 2rem;
+            color: #2c3e50;
+            text-align: center;
+            font-weight: 700;
+        }
+
+        /* Unit Link Cards */
+        .unit-links {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .unit-link-card {
+            display: block;
+            background: white;
+            border-radius: 12px;
+            padding: 2rem;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+            border-top: 4px solid #667eea;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .unit-link-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.25);
+        }
+
+        .unit-link-card .unit-number {
+            display: inline-block;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            text-align: center;
+            line-height: 48px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .unit-link-card h3 {
+            color: #2c3e50;
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .unit-link-card p {
+            color: #7f8c8d;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .unit-link-card .open-link {
+            color: #667eea;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .unit-link-card .open-link i {
+            margin-left: 0.3rem;
+            transition: transform 0.3s ease;
+        }
+
+        .unit-link-card:hover .open-link i {
+            transform: translateX(4px);
+        }
+
+
+
+        /* Footer */
+        .footer {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 2.5rem;
+            margin-top: 3rem;
+            border-top: 4px solid #667eea;
+        }
+
+        .footer h3 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer p {
+            margin: 0.5rem 0;
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .students {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .student-name {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            margin: 0.5rem 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2rem;
+            }
+
+            .unit-links {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <div class="header">
+        <h1>Data Communication</h1>
+        <p class="subtitle">Comprehensive study of digital communication systems, network protocols, and data
+            transmission</p>
+        <div class="professor-info">👨‍🏫 Guided by: Prof. Shweta S. Devdas</div>
+        <div class="header-badges">
+            <span>📋 Course Code: BIT22PC01</span>
+            <span>🎓 Program: B.Tech (IT)</span>
+            <span>📚 Semester: II</span>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <div class="section-title">Course Units</div>
+
+        <!-- Unit Links -->
+        <div class="unit-links">
+            <a href="data_communication_unit1.html" class="unit-link-card">
+                <div class="unit-number">1</div>
+                <h3>Network Fundamentals</h3>
+                <p>Network architecture, OSI/TCP-IP models, transmission modes, and network topologies.</p>
+                <span class="open-link">Open Unit <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="unit2_signals.html" class="unit-link-card">
+                <div class="unit-number">2</div>
+                <h3>Signals &amp; Transmission</h3>
+                <p>Analog &amp; digital signals, Nyquist &amp; Shannon theorems, and transmission impairments.</p>
+                <span class="open-link">Open Unit <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="unit3_data_transmission-2.html" class="unit-link-card">
+                <div class="unit-number">3</div>
+                <h3>Data Transmission</h3>
+                <p>Modulation, encoding techniques, error detection &amp; correction for reliable transmission.</p>
+                <span class="open-link">Open Unit <i class="fas fa-arrow-right"></i></span>
+            </a>
+
+            <a href="Unit4_Transmission_Media-2.html" class="unit-link-card">
+                <div class="unit-number">4</div>
+                <h3>Transmission Media</h3>
+                <p>Guided &amp; unguided media, network protocols, and modern networking architecture.</p>
+                <span class="open-link">Open Unit <i class="fas fa-arrow-right"></i></span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+        <h3>Data Communication | BIT22PC01</h3>
+        <p><strong>Faculty Guide:</strong> Prof. Shweta S. Devdas</p>
+        <p>B.Tech (Information Technology) | Semester II</p>
+        <div class="students">
+            <p style="margin-bottom: 1rem;"><strong>Developed by:</strong></p>
+            <div class="student-name">👨‍💻 Prem Thakur</div>
+            <div class="student-name">👨‍💻 Mahesh Shirame</div>
+        </div>
+        <p style="margin-top: 1.5rem; opacity: 0.7; font-size: 0.85rem;">PCCOE Akurdi, Pune</p>
+    </div>
+
+    <script>
+        function navigateToUnit(url) {
+            window.location.href = url;
+        }
+    </script>
+</body>
+
+</html>
