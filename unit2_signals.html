@@ -1,0 +1,2091 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit 2 - Data and Signals Interactive Simulator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 0;
+            min-height: 100vh;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content h1 {
+            font-size: 2.5em;
+            margin-bottom: 5px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+
+        .header-content p {
+            font-size: 1.1em;
+            opacity: 0.95;
+        }
+
+        .professor-info {
+            font-size: 0.95em;
+            margin-top: 10px;
+            opacity: 0.85;
+            font-style: italic;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 15px;
+            padding: 35px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+            animation: slideInUp 0.6s ease-out;
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .section-title {
+            font-size: 2em;
+            color: #667eea;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 3px solid #667eea;
+            font-weight: 700;
+        }
+
+        .section-subtitle {
+            font-size: 1.3em;
+            color: #764ba2;
+            margin: 20px 0 15px 0;
+            font-weight: 600;
+        }
+
+        .definition {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            padding: 20px;
+            border-left: 5px solid #667eea;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1.05em;
+        }
+
+        .simulator-container {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 12px;
+            margin: 20px 0;
+            border: 2px solid #e9ecef;
+        }
+
+        canvas {
+            border: 2px solid #667eea;
+            border-radius: 8px;
+            display: block;
+            margin: 15px 0;
+            background: white;
+            width: 100%;
+            height: auto;
+        }
+
+        .controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+
+        .control-group {
+            background: white;
+            padding: 18px;
+            border-radius: 10px;
+            border: 2px solid #e9ecef;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: linear-gradient(to right, #667eea, #764ba2);
+            outline: none;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.4);
+            transition: all 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+            background: #764ba2;
+        }
+
+        input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #667eea;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 2px 5px rgba(102, 126, 234, 0.4);
+            transition: all 0.2s;
+        }
+
+        .value-display {
+            display: inline-block;
+            background: #667eea;
+            color: white;
+            padding: 6px 12px;
+            border-radius: 6px;
+            margin-left: 10px;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        .parameter-info {
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 8px;
+            font-style: italic;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            padding: 18px;
+            border-left: 5px solid #ffc107;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-size: 1em;
+            color: #333;
+        }
+
+        .formula {
+            background: #f5f5f5;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1.05em;
+            border-left: 5px solid #764ba2;
+            overflow-x: auto;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            padding: 15px;
+            border-bottom: 1px solid #e9ecef;
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .comparison-table tr:nth-child(even) {
+            background: #f8f9fa;
+        }
+
+        .comparison-table tr:nth-child(odd) {
+            background: white;
+        }
+
+        .key-point {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            padding: 15px;
+            border-left: 5px solid #4caf50;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+            padding: 15px;
+            border-left: 5px solid #f44336;
+            border-radius: 8px;
+            margin: 15px 0;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+            margin: 10px 5px 10px 0;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(102, 126, 234, 0.4);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .parameter-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 15px 0;
+        }
+
+        .chart-container {
+            position: relative;
+            width: 100%;
+            margin: 20px 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            margin-top: 40px;
+            font-size: 0.95em;
+        }
+
+        @media (max-width: 768px) {
+            .section {
+                padding: 20px;
+            }
+
+            .section-title {
+                font-size: 1.5em;
+            }
+
+            .header-content h1 {
+                font-size: 1.8em;
+            }
+
+            .controls {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .pulse-animation {
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.7;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <h1>📡 Unit 2: Data and Signals</h1>
+            <p>Interactive Learning Simulator for Data Communication</p>
+            <div class="professor-info">👨‍🏫 Prepared by Prof. Shweta S. Devdas</div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Section 1: Analog vs Digital Signals -->
+        <div class="section">
+            <h2 class="section-title">1. Analog vs Digital Signals</h2>
+
+            <div class="definition">
+                <strong>📌 What is a Signal?</strong><br>
+                A signal is an electrical or electromagnetic wave that carries information. It translates data into a physical form that can be transmitted through a medium like cables or airwaves.
+            </div>
+
+            <div class="section-subtitle">🔵 Analog Signal</div>
+            <div class="definition">
+                <strong>Definition:</strong> Analog signals are continuous signals that can take any value within a range. They vary smoothly over time with infinite possible values, like the volume of sound or the brightness of light.
+                <br><br>
+                <strong>Example:</strong> An analog clock with continuously moving hands, or your voice when speaking.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Analog Signal Simulator</h3>
+                <canvas id="analogCanvas" width="900" height="300"></canvas>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="analogAmplitude">Amplitude (Volts)</label>
+                        <input type="range" id="analogAmplitude" min="0.5" max="5" step="0.1" value="3">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="ampDisplay">3V</span>
+                        </div>
+                        <div class="parameter-info">Controls signal strength (height)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="analogFrequency">Frequency (Hz)</label>
+                        <input type="range" id="analogFrequency" min="1" max="10" step="0.5" value="3">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="freqDisplay">3 Hz</span>
+                        </div>
+                        <div class="parameter-info">How many cycles per second</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="analogPhase">Phase (degrees)</label>
+                        <input type="range" id="analogPhase" min="0" max="360" step="15" value="0">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="phaseDisplay">0°</span>
+                        </div>
+                        <div class="parameter-info">Time shift/offset of signal</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 What you're observing:</strong> The waveform shows a sine wave with adjustable parameters. Change amplitude to see signal strength variation, frequency to see how fast it oscillates, and phase to see how the wave shifts in time.
+                </div>
+            </div>
+
+            <div class="section-subtitle">🟢 Digital Signal</div>
+            <div class="definition">
+                <strong>Definition:</strong> Digital signals have discrete values (usually two levels: 0 and 1 in binary). They change abruptly between fixed levels, like a light switch that is either ON or OFF.
+                <br><br>
+                <strong>Example:</strong> A digital clock showing exact time, or binary data (0s and 1s) in computer memory.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Digital Signal Simulator</h3>
+                <canvas id="digitalCanvas" width="900" height="300"></canvas>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="digitalLevels">Number of Levels</label>
+                        <input type="range" id="digitalLevels" min="2" max="8" step="1" value="2">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="levelsDisplay">2 levels</span>
+                        </div>
+                        <div class="parameter-info">Binary (2) to 8 different states</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="digitalBitRate">Bit Rate (bits/sec)</label>
+                        <input type="range" id="digitalBitRate" min="1" max="10" step="1" value="4">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="bitRateDisplay">4 bps</span>
+                        </div>
+                        <div class="parameter-info">Speed of data transmission</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="digitalNoise">Add Noise Level</label>
+                        <input type="range" id="digitalNoise" min="0" max="1" step="0.1" value="0">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="noiseDisplay">None</span>
+                        </div>
+                        <div class="parameter-info">Simulate interference</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 What you're observing:</strong> Digital signals jump between discrete levels. Try increasing levels to see how more bits per level (log₂L) allow faster data transmission. Noise simulates real-world interference.
+                </div>
+            </div>
+
+            <table class="comparison-table">
+                <tr>
+                    <th>Characteristic</th>
+                    <th>Analog Signal</th>
+                    <th>Digital Signal</th>
+                </tr>
+                <tr>
+                    <td><strong>Values</strong></td>
+                    <td>Infinite continuous values</td>
+                    <td>Discrete/Limited values (0, 1)</td>
+                </tr>
+                <tr>
+                    <td><strong>Data Type</strong></td>
+                    <td>Continuous data</td>
+                    <td>Discrete data</td>
+                </tr>
+                <tr>
+                    <td><strong>Representation</strong></td>
+                    <td>Smooth waveform (sine wave)</td>
+                    <td>Square waves/Step changes</td>
+                </tr>
+                <tr>
+                    <td><strong>Bandwidth</strong></td>
+                    <td>Requires wide bandwidth</td>
+                    <td>Can use narrow bandwidth</td>
+                </tr>
+                <tr>
+                    <td><strong>Immunity to Noise</strong></td>
+                    <td>Low (sensitive to interference)</td>
+                    <td>High (can tolerate some noise)</td>
+                </tr>
+                <tr>
+                    <td><strong>Example</strong></td>
+                    <td>Voice, radio, temperature</td>
+                    <td>Computer data, binary code</td>
+                </tr>
+            </table>
+
+            <div class="key-point">
+                <strong>💡 Key Insight:</strong> Analog signals are smoother and continuous but fragile. Digital signals are robust and can tolerate interference, making them ideal for long-distance communication.
+            </div>
+        </div>
+
+        <!-- Section 2: Periodic and Non-Periodic Signals -->
+        <div class="section">
+            <h2 class="section-title">2. Periodic and Non-Periodic Signals</h2>
+
+            <div class="definition">
+                <strong>Periodic Signal:</strong> A signal that repeats its pattern after a fixed time interval called the period. One complete repetition is called a cycle.
+                <br><br>
+                <strong>Non-Periodic Signal:</strong> A signal that doesn't exhibit a repeating pattern over time. It changes without returning to the same state.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Periodic vs Non-Periodic Simulator</h3>
+                <canvas id="periodicCanvas" width="900" height="350"></canvas>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="periodValue">Period (seconds)</label>
+                        <input type="range" id="periodValue" min="0.5" max="3" step="0.1" value="1.5">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="periodDisplay">1.5 sec</span>
+                        </div>
+                        <div class="parameter-info">Time to complete one cycle</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="signalType">Signal Type</label>
+                        <select id="signalType" style="width: 100%; padding: 8px; border-radius: 6px; border: 2px solid #667eea; font-size: 1em; cursor: pointer;">
+                            <option value="sine">Sine Wave (Periodic)</option>
+                            <option value="square">Square Wave (Periodic)</option>
+                            <option value="random">Random (Non-Periodic)</option>
+                            <option value="sawtooth">Sawtooth (Periodic)</option>
+                        </select>
+                        <div class="parameter-info">Choose signal type</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 Observation Tips:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Periodic signals: Notice the repetition - same pattern repeats</li>
+                        <li>Non-periodic signals: Random changes without repeating pattern</li>
+                        <li>Frequency = 1 / Period</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="formula">
+                <strong>Key Formulas:</strong><br>
+                Period (T) = Time for one complete cycle (seconds)<br>
+                Frequency (F) = 1 / T  (in Hertz - cycles per second)<br>
+                T = 1 / F
+            </div>
+
+            <div class="key-point">
+                <strong>💡 Real-World Example:</strong> Power supply in India is 50 Hz, meaning it completes 50 cycles per second. The period is T = 1/50 = 0.02 seconds (20 milliseconds).
+            </div>
+        </div>
+
+        <!-- Section 3: Wavelength -->
+        <div class="section">
+            <h2 class="section-title">3. Wavelength Concept</h2>
+
+            <div class="definition">
+                <strong>Wavelength (λ):</strong> The physical length of one complete cycle of a wave as it travels through a medium. It's the distance a wave travels during one period.
+            </div>
+
+            <div class="formula">
+                <strong>Wavelength Formula:</strong><br>
+                λ = c / f<br><br>
+                where:<br>
+                λ = Wavelength (in meters)<br>
+                c = Speed of light in vacuum ≈ 3 × 10⁸ m/s<br>
+                f = Frequency (in Hz)
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Wavelength Simulator</h3>
+                <canvas id="wavelengthCanvas" width="900" height="350"></canvas>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="freqWave">Frequency (GHz)</label>
+                        <input type="range" id="freqWave" min="0.5" max="10" step="0.5" value="3">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="freqWaveDisplay">3 GHz</span>
+                        </div>
+                        <div class="parameter-info">Try 3 GHz (Wi-Fi frequency)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="mediumSpeed">Medium Speed (% of light)</label>
+                        <input type="range" id="mediumSpeed" min="10" max="100" step="10" value="100">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="mediumSpeedDisplay">100%</span>
+                        </div>
+                        <div class="parameter-info">In vacuum=100%, in cable≈67%</div>
+                    </div>
+                </div>
+
+                <div class="info-box" style="margin-top: 20px;">
+                    <strong>📊 Calculated Values:</strong><br>
+                    <div id="wavelengthValues" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                        Wavelength: - m<br>
+                        Speed in Medium: - m/s
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 Key Observation:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Higher frequency → Shorter wavelength</li>
+                        <li>Wi-Fi (3 GHz) has λ ≈ 0.1 m (10 cm)</li>
+                        <li>Radio (100 MHz) has λ ≈ 3 m</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Time and Frequency Domain -->
+        <div class="section">
+            <h2 class="section-title">4. Time Domain vs Frequency Domain</h2>
+
+            <div class="definition">
+                <strong>Time Domain:</strong> Signal representation showing how signal amplitude changes over time. This is what you see on an oscilloscope - the natural way we observe signals.
+                <br><br>
+                <strong>Frequency Domain:</strong> Signal representation showing what frequencies are present in the signal and their amplitudes. This is what you see on a spectrum analyzer.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Time vs Frequency Domain Simulator</h3>
+                <canvas id="timeDomainCanvas" width="900" height="300"></canvas>
+                <p style="text-align: center; color: #666; margin-top: 10px; font-weight: 600;">Time Domain (Oscilloscope View)</p>
+
+                <canvas id="freqDomainCanvas" width="900" height="300"></canvas>
+                <p style="text-align: center; color: #666; margin-top: 10px; font-weight: 600;">Frequency Domain (Spectrum View)</p>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="numFrequencies">Number of Frequency Components</label>
+                        <input type="range" id="numFrequencies" min="1" max="5" step="1" value="1">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="numFreqDisplay">1 component</span>
+                        </div>
+                        <div class="parameter-info">Creates composite signals</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="timeScale">Time Window (seconds)</label>
+                        <input type="range" id="timeScale" min="1" max="5" step="0.5" value="2">
+                        <div style="margin-top: 8px;">
+                            <span>Value: </span>
+                            <span class="value-display" id="timeScaleDisplay">2 sec</span>
+                        </div>
+                        <div class="parameter-info">View duration in time domain</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 What's Happening:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Top graph: Shows signal behavior over time</li>
+                        <li>Bottom graph: Shows frequency components as vertical lines/bars</li>
+                        <li>One frequency component = Simple sine wave</li>
+                        <li>Multiple components = Composite signal</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <strong>💡 Why Both Views?</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Time domain: Easy to understand signal behavior</li>
+                    <li>Frequency domain: Identify bandwidth requirements and filtering needs</li>
+                    <li>Both represent the SAME signal, just different perspectives</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 5: Composite Signals -->
+        <div class="section">
+            <h2 class="section-title">5. Composite Signals</h2>
+
+            <div class="definition">
+                <strong>Composite Signal:</strong> A signal made by combining multiple sine waves with different frequencies, amplitudes, and phases. This is essential for transmitting complex data like voice, video, and music.
+            </div>
+
+            <div class="info-box">
+                <strong>📌 Fourier Principle:</strong> Any complex periodic signal can be represented as a sum of simple sine waves at different frequencies. This is called Fourier decomposition.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Composite Signal Builder</h3>
+                <canvas id="compositeCanvas" width="900" height="350"></canvas>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="comp1Freq">1st Component: Frequency (Hz)</label>
+                        <input type="range" id="comp1Freq" min="1" max="10" step="1" value="2">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp1FreqDisplay">2 Hz</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="comp1Amp">1st Component: Amplitude</label>
+                        <input type="range" id="comp1Amp" min="0.5" max="3" step="0.5" value="2">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp1AmpDisplay">2</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="comp2Freq">2nd Component: Frequency (Hz)</label>
+                        <input type="range" id="comp2Freq" min="1" max="10" step="1" value="4">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp2FreqDisplay">4 Hz</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="comp2Amp">2nd Component: Amplitude</label>
+                        <input type="range" id="comp2Amp" min="0.5" max="3" step="0.5" value="1">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp2AmpDisplay">1</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="comp3Freq">3rd Component: Frequency (Hz)</label>
+                        <input type="range" id="comp3Freq" min="1" max="10" step="1" value="6">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp3FreqDisplay">6 Hz</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="comp3Amp">3rd Component: Amplitude</label>
+                        <input type="range" id="comp3Amp" min="0.5" max="3" step="0.5" value="0.5">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="comp3AmpDisplay">0.5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Signal Analysis:</strong><br>
+                    <div id="compositeAnalysis" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                        Bandwidth: - Hz<br>
+                        Highest Frequency: - Hz<br>
+                        Lowest Frequency: - Hz
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 Try This:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Increase amplitude of one component to see its dominance</li>
+                        <li>Notice how more components create more complex waveforms</li>
+                        <li>Bandwidth = Highest Freq - Lowest Freq</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="formula">
+                <strong>Bandwidth Calculation:</strong><br>
+                BW = f<sub>highest</sub> - f<sub>lowest</sub>
+            </div>
+
+            <div class="key-point">
+                <strong>💡 Real-World Example:</strong> A human voice signal is composite, containing frequencies roughly between 85 Hz (male voice fundamental) and 255 Hz (female voice fundamental), giving a bandwidth of ~170 Hz.
+            </div>
+        </div>
+
+        <!-- Section 6: Transmission Impairments -->
+        <div class="section">
+            <h2 class="section-title">6. Transmission Impairments: Attenuation, Distortion & Noise</h2>
+
+            <div class="definition">
+                <strong>Transmission Impairment:</strong> The degradation of a signal as it travels through a transmission medium. Three main types are attenuation, distortion, and noise.
+            </div>
+
+            <div class="section-subtitle">🔻 Attenuation (Loss of Signal Strength)</div>
+            <div class="definition">
+                <strong>Definition:</strong> Attenuation is the loss of signal energy as it travels through the transmission medium. The signal becomes weaker over distance.
+                <br><br>
+                <strong>Solution:</strong> Use amplifiers or repeaters to boost the signal strength.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Attenuation Simulator</h3>
+                <canvas id="attenuationCanvas" width="900" height="300"></canvas>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="attenuationFactor">Attenuation Factor (%)</label>
+                        <input type="range" id="attenuationFactor" min="0" max="100" step="5" value="30">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="attenuationDisplay">30%</span>
+                        </div>
+                        <div class="parameter-info">How much signal power is lost</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="attenuationDistance">Distance (km)</label>
+                        <input type="range" id="attenuationDistance" min="1" max="100" step="5" value="20">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="distanceDisplay">20 km</span>
+                        </div>
+                        <div class="parameter-info">Transmission distance</div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Attenuation Calculation:</strong><br>
+                    <div id="attenuationValues" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                        Power Loss: - %<br>
+                        Remaining Power: - %<br>
+                        Decibels (dB): - dB
+                    </div>
+                </div>
+
+                <div class="formula">
+                    <strong>Decibel Formula (Power-based):</strong><br>
+                    dB = 10 log₁₀(P₂/P₁)<br>
+                    P₂ = Power at receiver, P₁ = Power at sender
+                </div>
+            </div>
+
+            <div class="section-subtitle">〰️ Distortion (Change in Signal Shape)</div>
+            <div class="definition">
+                <strong>Definition:</strong> Distortion is a change in the signal's shape. In composite signals, different frequency components travel at different speeds, arriving at different times, changing the signal's original shape.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Distortion Simulator</h3>
+                <canvas id="distortionCanvas" width="900" height="350"></canvas>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="distortionAmount">Distortion Level (phase shift)</label>
+                        <input type="range" id="distortionAmount" min="0" max="180" step="15" value="0">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="distortionDisplay">0°</span>
+                        </div>
+                        <div class="parameter-info">Phase difference between components</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="distortionType">Effect Type</label>
+                        <select id="distortionType" style="width: 100%; padding: 8px; border-radius: 6px; border: 2px solid #667eea; font-size: 1em; cursor: pointer;">
+                            <option value="phase">Phase Distortion</option>
+                            <option value="amplitude">Amplitude Distortion</option>
+                            <option value="both">Combined Distortion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 What's Happening:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>Top waveform: Original composite signal</li>
+                        <li>Bottom waveform: After distortion</li>
+                        <li>Notice how the shape changes even though frequencies remain</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-subtitle">🔊 Noise (Unwanted Interference)</div>
+            <div class="definition">
+                <strong>Definition:</strong> Noise is unwanted energy that interferes with the signal. It can come from thermal sources (heat), electromagnetic interference, or other signals.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Noise Simulator</h3>
+                <canvas id="noiseSimCanvas" width="900" height="300"></canvas>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="noiseIntensity">Noise Intensity (SNR)</label>
+                        <input type="range" id="noiseIntensity" min="0.1" max="1" step="0.1" value="0.3">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="noiseIntensityDisplay">0.3</span>
+                        </div>
+                        <div class="parameter-info">Signal-to-Noise Ratio (lower = more noise)</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="noiseType">Noise Type</label>
+                        <select id="noiseType" style="width: 100%; padding: 8px; border-radius: 6px; border: 2px solid #667eea; font-size: 1em; cursor: pointer;">
+                            <option value="white">White Noise (Random)</option>
+                            <option value="gaussian">Gaussian Noise</option>
+                            <option value="impulse">Impulse Noise (Spikes)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Signal Quality:</strong><br>
+                    <div id="noiseMetrics" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                        SNR: - dB<br>
+                        Signal Clarity: - %
+                    </div>
+                </div>
+
+                <div class="formula">
+                    <strong>Signal-to-Noise Ratio (SNR):</strong><br>
+                    SNR (dB) = 10 log₁₀(P<sub>signal</sub>/P<sub>noise</sub>)
+                </div>
+            </div>
+
+            <div class="warning-box">
+                <strong>⚠️ Impact on Communication:</strong>
+                <ul style="margin-top: 10px; margin-left: 20px;">
+                    <li>Attenuation → Signals fade over distance, need amplification</li>
+                    <li>Distortion → Signal shape changes, harder to recognize</li>
+                    <li>Noise → Random interference confuses the signal</li>
+                    <li>Together → Make error detection and correction critical!</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Section 7: Performance Metrics -->
+        <div class="section">
+            <h2 class="section-title">7. Performance Metrics of Data Communication</h2>
+
+            <div class="definition">
+                <strong>Performance Metrics:</strong> Quantitative measures to evaluate how well a communication system transmits data. These help compare different networks and systems.
+            </div>
+
+            <div class="info-box">
+                <strong>📌 Five Key Metrics to Understand:</strong>
+                <ol style="margin-top: 10px; margin-left: 20px;">
+                    <li><strong>Bandwidth</strong> - Frequency range the channel can pass</li>
+                    <li><strong>Throughput</strong> - Actual data rate achieved</li>
+                    <li><strong>Latency/Delay</strong> - Time for data to reach destination</li>
+                    <li><strong>Bandwidth-Delay Product</strong> - Total data "in flight"</li>
+                    <li><strong>Jitter</strong> - Variation in packet delays</li>
+                </ol>
+            </div>
+
+            <div class="section-subtitle">📊 1. Bandwidth</div>
+            <div class="definition">
+                <strong>In Hz:</strong> The range of frequencies a channel can transmit (f_high - f_low)
+                <br>
+                <strong>In bps:</strong> The maximum data rate the channel supports (e.g., 100 Mbps for Ethernet)
+            </div>
+
+            <div class="section-subtitle">⚡ 2. Throughput</div>
+            <div class="definition">
+                <strong>Definition:</strong> The actual rate at which data is successfully transmitted through the network, measured in bits per second (bps). Always ≤ Bandwidth.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Throughput Calculator</h3>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="framesPerMin">Frames per Minute</label>
+                        <input type="range" id="framesPerMin" min="100" max="10000" step="100" value="2000">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="framesPerMinDisplay">2000</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="bitsPerFrame">Bits per Frame</label>
+                        <input type="range" id="bitsPerFrame" min="100" max="10000" step="100" value="5000">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="bitsPerFrameDisplay">5000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Results:</strong><br>
+                    <div id="throughputResults" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px; font-size: 1.05em;">
+                        Throughput: - Mbps
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-subtitle">⏱️ 3. Latency (Delay)</div>
+            <div class="definition">
+                <strong>Definition:</strong> Time for the first bit sent from source to reach the destination. It's the sum of four components:
+            </div>
+
+            <div class="formula">
+                <strong>Latency Components:</strong><br>
+                Latency = Propagation Time + Transmission Time + Queuing Time + Processing Delay<br><br>
+                Propagation Time = Distance / Propagation Speed
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Latency Calculator</h3>
+                
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="distance">Distance (km)</label>
+                        <input type="range" id="distance" min="100" max="50000" step="500" value="5000">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="distanceVal">5000 km</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="propSpeed">Propagation Speed (% of light)</label>
+                        <input type="range" id="propSpeed" min="50" max="100" step="5" value="67">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="propSpeedVal">67%</span>
+                        </div>
+                        <div class="parameter-info">67% for cable, 100% for vacuum</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="transmissionTime">Transmission Time (ms)</label>
+                        <input type="range" id="transmissionTime" min="0.1" max="100" step="0.5" value="10">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="transmissionTimeVal">10 ms</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="processingTime">Processing Delay (ms)</label>
+                        <input type="range" id="processingTime" min="0" max="50" step="1" value="5">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="processingTimeVal">5 ms</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="queuingTime">Queuing Time (ms)</label>
+                        <input type="range" id="queuingTime" min="0" max="100" step="5" value="10">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="queuingTimeVal">10 ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>📊 Latency Breakdown:</strong><br>
+                    <div id="latencyBreakdown" style="margin-top: 10px; font-family: monospace; background: #f5f5f5; padding: 15px; border-radius: 6px;">
+                        Propagation Time: - ms<br>
+                        Transmission Time: - ms<br>
+                        Processing Delay: - ms<br>
+                        Queuing Time: - ms<br>
+                        <strong style="color: #667eea;">Total Latency: - ms</strong>
+                    </div>
+                </div>
+            </div>
+
+            <div class="section-subtitle">📦 4. Bandwidth-Delay Product</div>
+            <div class="definition">
+                <strong>Definition:</strong> The amount of data that is "in flight" on the network at any given time. It represents the channel capacity × the round-trip delay.
+            </div>
+
+            <div class="formula">
+                <strong>Formula:</strong><br>
+                BW-Delay Product = Bandwidth (bps) × Latency (seconds)<br>
+                This tells you how many bits can be on the wire simultaneously
+            </div>
+
+            <div class="section-subtitle">📉 5. Jitter</div>
+            <div class="definition">
+                <strong>Definition:</strong> The variation in delay between consecutive packets. If packet 1 takes 20ms and packet 2 takes 45ms, there's jitter. Critical for real-time applications like video calls.
+            </div>
+
+            <div class="simulator-container">
+                <h3 style="color: #667eea; margin-bottom: 15px;">⚙️ Jitter Visualization</h3>
+                <canvas id="jitterCanvas" width="900" height="300"></canvas>
+
+                <div class="controls">
+                    <div class="control-group">
+                        <label for="jitterAmount">Jitter Variance (ms)</label>
+                        <input type="range" id="jitterAmount" min="0" max="50" step="5" value="15">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="jitterAmountDisplay">15 ms</span>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="baseLatency">Base Latency (ms)</label>
+                        <input type="range" id="baseLatency" min="10" max="100" step="5" value="50">
+                        <div style="margin-top: 8px;">
+                            <span class="value-display" id="baseLatencyDisplay">50 ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <strong>🎯 Key Points:</strong>
+                    <ul style="margin-top: 10px; margin-left: 20px;">
+                        <li>High jitter = Poor voice/video quality (breaks and delays)</li>
+                        <li>Acceptable jitter for VoIP: &lt; 30 ms</li>
+                        <li>Affects synchronization in real-time applications</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="key-point">
+                <strong>💡 Summary Comparison:</strong>
+                <table class="comparison-table" style="margin-top: 15px;">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Measures</th>
+                        <th>Unit</th>
+                        <th>Ideal Value</th>
+                    </tr>
+                    <tr>
+                        <td><strong>Bandwidth</strong></td>
+                        <td>Channel capacity</td>
+                        <td>Hz or bps</td>
+                        <td>High/Large</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Throughput</strong></td>
+                        <td>Actual data rate</td>
+                        <td>bps</td>
+                        <td>High/Close to BW</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Latency</strong></td>
+                        <td>Delivery time</td>
+                        <td>ms or seconds</td>
+                        <td>Low/Short</td>
+                    </tr>
+                    <tr>
+                        <td><strong>BW-Delay</strong></td>
+                        <td>Data in flight</td>
+                        <td>bits</td>
+                        <td>Depends on use</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Jitter</strong></td>
+                        <td>Delay variation</td>
+                        <td>ms</td>
+                        <td>Low/Minimal</td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <!-- Quick Reference -->
+        <div class="section" style="background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%); border: 2px solid #667eea;">
+            <h2 class="section-title">📚 Quick Reference & Key Formulas</h2>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>1. Period and Frequency:</strong><br>
+                Period (T) = 1 / Frequency (F)<br>
+                F = 1 / T
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>2. Wavelength:</strong><br>
+                λ = c / f<br>
+                where c ≈ 3 × 10⁸ m/s (speed of light)
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>3. Bandwidth of Composite Signal:</strong><br>
+                BW = f<sub>highest</sub> - f<sub>lowest</sub>
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>4. Attenuation (Decibels):</strong><br>
+                dB = 10 log₁₀(P₂/P₁)  [Power-based]<br>
+                dB = 20 log₁₀(V₂/V₁)  [Voltage-based]
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>5. SNR (Signal-to-Noise Ratio):</strong><br>
+                SNR (dB) = 10 log₁₀(P<sub>signal</sub>/P<sub>noise</sub>)
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>6. Propagation Time:</strong><br>
+                Propagation Time = Distance / Speed
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>7. Throughput:</strong><br>
+                Throughput = (Frames/min × Bits/frame) / 60
+            </div>
+
+            <div class="formula" style="margin: 15px 0;">
+                <strong>8. Total Latency:</strong><br>
+                Latency = Propagation + Transmission + Queuing + Processing
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>📡 Unit 2: Data and Signals - Interactive Learning Simulator</p>
+        <p>Prof. Shweta S. Devdas | Designed for Data Communication Course</p>
+        <p>All simulations are interactive - adjust parameters to see real-time changes!</p>
+    </footer>
+
+    <script>
+        // ============== ANALOG SIGNAL SIMULATOR ==============
+        const analogCanvas = document.getElementById('analogCanvas');
+        const analogCtx = analogCanvas.getContext('2d');
+        const analogAmplitude = document.getElementById('analogAmplitude');
+        const analogFrequency = document.getElementById('analogFrequency');
+        const analogPhase = document.getElementById('analogPhase');
+
+        function drawAnalogSignal() {
+            const amp = parseFloat(analogAmplitude.value);
+            const freq = parseFloat(analogFrequency.value);
+            const phase = parseFloat(analogPhase.value) * Math.PI / 180;
+
+            // Update displays
+            document.getElementById('ampDisplay').textContent = amp.toFixed(1) + 'V';
+            document.getElementById('freqDisplay').textContent = freq.toFixed(1) + ' Hz';
+            document.getElementById('phaseDisplay').textContent = (phase * 180 / Math.PI).toFixed(0) + '°';
+
+            // Clear canvas
+            analogCtx.fillStyle = 'white';
+            analogCtx.fillRect(0, 0, analogCanvas.width, analogCanvas.height);
+
+            // Draw grid
+            analogCtx.strokeStyle = '#e9ecef';
+            analogCtx.lineWidth = 1;
+            for (let i = 0; i < analogCanvas.width; i += 50) {
+                analogCtx.beginPath();
+                analogCtx.moveTo(i, 0);
+                analogCtx.lineTo(i, analogCanvas.height);
+                analogCtx.stroke();
+            }
+            for (let i = 0; i < analogCanvas.height; i += 30) {
+                analogCtx.beginPath();
+                analogCtx.moveTo(0, i);
+                analogCtx.lineTo(analogCanvas.width, i);
+                analogCtx.stroke();
+            }
+
+            // Draw center line
+            analogCtx.strokeStyle = '#999';
+            analogCtx.lineWidth = 2;
+            analogCtx.beginPath();
+            analogCtx.moveTo(0, analogCanvas.height / 2);
+            analogCtx.lineTo(analogCanvas.width, analogCanvas.height / 2);
+            analogCtx.stroke();
+
+            // Draw sine wave
+            analogCtx.strokeStyle = '#667eea';
+            analogCtx.lineWidth = 3;
+            analogCtx.beginPath();
+            const centerY = analogCanvas.height / 2;
+            const scaleX = analogCanvas.width / (2 * freq);
+
+            for (let x = 0; x < analogCanvas.width; x++) {
+                const t = x / scaleX;
+                const y = centerY - amp * 30 * Math.sin(2 * Math.PI * t + phase);
+                if (x === 0) analogCtx.moveTo(x, y);
+                else analogCtx.lineTo(x, y);
+            }
+            analogCtx.stroke();
+
+            // Draw labels
+            analogCtx.fillStyle = '#333';
+            analogCtx.font = 'bold 12px Arial';
+            analogCtx.fillText('Amplitude: ' + amp.toFixed(1) + 'V', 10, 20);
+            analogCtx.fillText('Frequency: ' + freq.toFixed(1) + ' Hz', 10, 35);
+            analogCtx.fillText('Period: ' + (1/freq).toFixed(3) + 's', 10, 50);
+        }
+
+        analogAmplitude.addEventListener('input', drawAnalogSignal);
+        analogFrequency.addEventListener('input', drawAnalogSignal);
+        analogPhase.addEventListener('input', drawAnalogSignal);
+        drawAnalogSignal();
+
+        // ============== DIGITAL SIGNAL SIMULATOR ==============
+        const digitalCanvas = document.getElementById('digitalCanvas');
+        const digitalCtx = digitalCanvas.getContext('2d');
+        const digitalLevels = document.getElementById('digitalLevels');
+        const digitalBitRate = document.getElementById('digitalBitRate');
+        const digitalNoise = document.getElementById('digitalNoise');
+
+        function drawDigitalSignal() {
+            const levels = parseInt(digitalLevels.value);
+            const bitRate = parseInt(digitalBitRate.value);
+            const noise = parseFloat(digitalNoise.value);
+
+            document.getElementById('levelsDisplay').textContent = levels + ' levels';
+            document.getElementById('bitRateDisplay').textContent = bitRate + ' bps';
+            document.getElementById('noiseDisplay').textContent = (noise * 100).toFixed(0) + '%';
+
+            digitalCtx.fillStyle = 'white';
+            digitalCtx.fillRect(0, 0, digitalCanvas.width, digitalCanvas.height);
+
+            // Draw grid
+            digitalCtx.strokeStyle = '#e9ecef';
+            digitalCtx.lineWidth = 1;
+            for (let i = 0; i < digitalCanvas.width; i += 50) {
+                digitalCtx.beginPath();
+                digitalCtx.moveTo(i, 0);
+                digitalCtx.lineTo(i, digitalCanvas.height);
+                digitalCtx.stroke();
+            }
+
+            // Draw level lines
+            const levelHeight = digitalCanvas.height / (levels + 1);
+            digitalCtx.strokeStyle = '#ddd';
+            digitalCtx.lineWidth = 1;
+            for (let i = 1; i <= levels; i++) {
+                digitalCtx.beginPath();
+                digitalCtx.moveTo(0, i * levelHeight);
+                digitalCtx.lineTo(digitalCanvas.width, i * levelHeight);
+                digitalCtx.stroke();
+            }
+
+            // Draw digital signal
+            digitalCtx.strokeStyle = '#764ba2';
+            digitalCtx.lineWidth = 3;
+            const bitWidth = digitalCanvas.width / (bitRate + 1);
+            const centerY = digitalCanvas.height / 2;
+
+            for (let bit = 0; bit < bitRate; bit++) {
+                const randomLevel = Math.floor(Math.random() * levels);
+                const y = (levels - randomLevel) * levelHeight - levelHeight / 2;
+                
+                // Add noise
+                const noisyY = y + (Math.random() - 0.5) * noise * levelHeight;
+
+                digitalCtx.beginPath();
+                digitalCtx.moveTo(bit * bitWidth + 10, noisyY);
+                digitalCtx.lineTo((bit + 1) * bitWidth + 10, noisyY);
+                digitalCtx.stroke();
+
+                // Vertical transition
+                if (bit < bitRate - 1) {
+                    const nextLevel = Math.floor(Math.random() * levels);
+                    const nextY = (levels - nextLevel) * levelHeight - levelHeight / 2;
+                    digitalCtx.beginPath();
+                    digitalCtx.moveTo((bit + 1) * bitWidth + 10, noisyY);
+                    digitalCtx.lineTo((bit + 1) * bitWidth + 10, nextY);
+                    digitalCtx.stroke();
+                }
+            }
+
+            // Labels
+            digitalCtx.fillStyle = '#333';
+            digitalCtx.font = 'bold 12px Arial';
+            digitalCtx.fillText('Levels: ' + levels, 10, 20);
+            digitalCtx.fillText('Bits/Level: ' + Math.ceil(Math.log2(levels)), 10, 35);
+            digitalCtx.fillText('Bit Rate: ' + bitRate + ' bps', 10, 50);
+        }
+
+        digitalLevels.addEventListener('input', drawDigitalSignal);
+        digitalBitRate.addEventListener('input', drawDigitalSignal);
+        digitalNoise.addEventListener('input', drawDigitalSignal);
+        drawDigitalSignal();
+
+        // ============== PERIODIC SIGNAL SIMULATOR ==============
+        const periodicCanvas = document.getElementById('periodicCanvas');
+        const periodicCtx = periodicCanvas.getContext('2d');
+        const periodValue = document.getElementById('periodValue');
+        const signalType = document.getElementById('signalType');
+
+        function drawPeriodicSignal() {
+            const period = parseFloat(periodValue.value);
+            const type = signalType.value;
+
+            document.getElementById('periodDisplay').textContent = period.toFixed(2) + ' sec';
+
+            periodicCtx.fillStyle = 'white';
+            periodicCtx.fillRect(0, 0, periodicCanvas.width, periodicCanvas.height);
+
+            // Draw grid
+            periodicCtx.strokeStyle = '#e9ecef';
+            periodicCtx.lineWidth = 1;
+            for (let i = 0; i < periodicCanvas.width; i += 50) {
+                periodicCtx.beginPath();
+                periodicCtx.moveTo(i, 0);
+                periodicCtx.lineTo(i, periodicCanvas.height);
+                periodicCtx.stroke();
+            }
+
+            // Center line
+            periodicCtx.strokeStyle = '#999';
+            periodicCtx.lineWidth = 2;
+            periodicCtx.beginPath();
+            periodicCtx.moveTo(0, periodicCanvas.height / 2);
+            periodicCtx.lineTo(periodicCanvas.width, periodicCanvas.height / 2);
+            periodicCtx.stroke();
+
+            // Draw signal based on type
+            periodicCtx.strokeStyle = '#667eea';
+            periodicCtx.lineWidth = 3;
+            periodicCtx.beginPath();
+
+            const centerY = periodicCanvas.height / 2;
+            const amplitude = 60;
+            const scaleX = periodicCanvas.width / (5 * period);
+
+            for (let x = 0; x < periodicCanvas.width; x++) {
+                const t = x / scaleX;
+                let y;
+
+                if (type === 'sine') {
+                    y = centerY - amplitude * Math.sin(2 * Math.PI * t / period);
+                } else if (type === 'square') {
+                    const phase = (t % period) / period;
+                    y = phase < 0.5 ? centerY - amplitude : centerY + amplitude;
+                } else if (type === 'random') {
+                    y = centerY + (Math.random() - 0.5) * 200;
+                } else if (type === 'sawtooth') {
+                    const phase = (t % period) / period;
+                    y = centerY - amplitude + 2 * amplitude * phase;
+                }
+
+                if (x === 0) periodicCtx.moveTo(x, y);
+                else periodicCtx.lineTo(x, y);
+            }
+            periodicCtx.stroke();
+
+            // Mark periods
+            periodicCtx.strokeStyle = '#f44336';
+            periodicCtx.lineWidth = 1;
+            periodicCtx.setLineDash([5, 5]);
+            for (let p = 1; p <= 5; p++) {
+                const x = (p * period * scaleX);
+                if (x < periodicCanvas.width) {
+                    periodicCtx.beginPath();
+                    periodicCtx.moveTo(x, 0);
+                    periodicCtx.lineTo(x, periodicCanvas.height);
+                    periodicCtx.stroke();
+                }
+            }
+            periodicCtx.setLineDash([]);
+
+            // Labels
+            periodicCtx.fillStyle = '#333';
+            periodicCtx.font = 'bold 12px Arial';
+            periodicCtx.fillText('Type: ' + type.toUpperCase(), 10, 20);
+            periodicCtx.fillText('Period: ' + period.toFixed(2) + 's', 10, 35);
+            periodicCtx.fillText('Frequency: ' + (1/period).toFixed(2) + ' Hz', 10, 50);
+        }
+
+        periodValue.addEventListener('input', drawPeriodicSignal);
+        signalType.addEventListener('change', drawPeriodicSignal);
+        drawPeriodicSignal();
+
+        // ============== WAVELENGTH SIMULATOR ==============
+        const wavelengthCanvas = document.getElementById('wavelengthCanvas');
+        const wavelengthCtx = wavelengthCanvas.getContext('2d');
+        const freqWave = document.getElementById('freqWave');
+        const mediumSpeed = document.getElementById('mediumSpeed');
+
+        function drawWavelength() {
+            const freq = parseFloat(freqWave.value) * 1e9; // Convert to Hz
+            const speedPercent = parseFloat(mediumSpeed.value) / 100;
+            const c = 3e8; // Speed of light
+            const speed = c * speedPercent;
+            const wavelength = speed / freq;
+
+            document.getElementById('freqWaveDisplay').textContent = freqWave.value + ' GHz';
+            document.getElementById('mediumSpeedDisplay').textContent = mediumSpeed.value + '%';
+
+            wavelengthCtx.fillStyle = 'white';
+            wavelengthCtx.fillRect(0, 0, wavelengthCanvas.width, wavelengthCanvas.height);
+
+            // Draw grid
+            wavelengthCtx.strokeStyle = '#e9ecef';
+            wavelengthCtx.lineWidth = 1;
+            for (let i = 0; i < wavelengthCanvas.width; i += 50) {
+                wavelengthCtx.beginPath();
+                wavelengthCtx.moveTo(i, 0);
+                wavelengthCtx.lineTo(i, wavelengthCanvas.height);
+                wavelengthCtx.stroke();
+            }
+
+            // Center line
+            wavelengthCtx.strokeStyle = '#999';
+            wavelengthCtx.lineWidth = 2;
+            wavelengthCtx.beginPath();
+            wavelengthCtx.moveTo(0, wavelengthCanvas.height / 2);
+            wavelengthCtx.lineTo(wavelengthCanvas.width, wavelengthCanvas.height / 2);
+            wavelengthCtx.stroke();
+
+            // Draw wave
+            wavelengthCtx.strokeStyle = '#764ba2';
+            wavelengthCtx.lineWidth = 3;
+            wavelengthCtx.beginPath();
+
+            const centerY = wavelengthCanvas.height / 2;
+            const amplitude = 60;
+            const visualWavelength = Math.max(50, Math.min(200, wavelength * 1e9)); // Normalize for display
+
+            for (let x = 0; x < wavelengthCanvas.width; x++) {
+                const phase = (x / visualWavelength) * 2 * Math.PI;
+                const y = centerY - amplitude * Math.sin(phase);
+                if (x === 0) wavelengthCtx.moveTo(x, y);
+                else wavelengthCtx.lineTo(x, y);
+            }
+            wavelengthCtx.stroke();
+
+            // Mark wavelength
+            wavelengthCtx.strokeStyle = '#f44336';
+            wavelengthCtx.lineWidth = 2;
+            wavelengthCtx.setLineDash([5, 5]);
+            wavelengthCtx.beginPath();
+            wavelengthCtx.moveTo(10, wavelengthCanvas.height - 50);
+            wavelengthCtx.lineTo(10 + visualWavelength, wavelengthCanvas.height - 50);
+            wavelengthCtx.stroke();
+            wavelengthCtx.setLineDash([]);
+
+            wavelengthCtx.fillStyle = '#f44336';
+            wavelengthCtx.font = 'bold 14px Arial';
+            wavelengthCtx.fillText('λ = ' + wavelength.toFixed(4) + ' m', 50, wavelengthCanvas.height - 35);
+
+            // Update values display
+            document.getElementById('wavelengthValues').innerHTML = `
+                Wavelength: ${wavelength.toFixed(4)} m<br>
+                Speed in Medium: ${(speed / 1e6).toFixed(0)} × 10⁶ m/s<br>
+                Period: ${(1 / freq * 1e9).toFixed(4)} ns
+            `;
+        }
+
+        freqWave.addEventListener('input', drawWavelength);
+        mediumSpeed.addEventListener('input', drawWavelength);
+        drawWavelength();
+
+        // ============== TIME AND FREQUENCY DOMAIN ==============
+        const timeDomainCanvas = document.getElementById('timeDomainCanvas');
+        const timeDomainCtx = timeDomainCanvas.getContext('2d');
+        const freqDomainCanvas = document.getElementById('freqDomainCanvas');
+        const freqDomainCtx = freqDomainCanvas.getContext('2d');
+        const numFrequencies = document.getElementById('numFrequencies');
+        const timeScale = document.getElementById('timeScale');
+
+        function drawTimeDomainAnalysis() {
+            const numComp = parseInt(numFrequencies.value);
+            const tScale = parseFloat(timeScale.value);
+
+            document.getElementById('numFreqDisplay').textContent = numComp + ' component' + (numComp > 1 ? 's' : '');
+            document.getElementById('timeScaleDisplay').textContent = tScale.toFixed(1) + ' sec';
+
+            // Clear canvases
+            timeDomainCtx.fillStyle = 'white';
+            timeDomainCtx.fillRect(0, 0, timeDomainCanvas.width, timeDomainCanvas.height);
+            freqDomainCtx.fillStyle = 'white';
+            freqDomainCtx.fillRect(0, 0, freqDomainCanvas.width, freqDomainCanvas.height);
+
+            // Draw grids
+            [timeDomainCtx, freqDomainCtx].forEach(ctx => {
+                ctx.strokeStyle = '#e9ecef';
+                ctx.lineWidth = 1;
+                for (let i = 0; i < 900; i += 50) {
+                    ctx.beginPath();
+                    ctx.moveTo(i, 0);
+                    ctx.lineTo(i, 300);
+                    ctx.stroke();
+                }
+                for (let i = 0; i < 300; i += 30) {
+                    ctx.beginPath();
+                    ctx.moveTo(0, i);
+                    ctx.lineTo(900, i);
+                    ctx.stroke();
+                }
+            });
+
+            // Center lines
+            [timeDomainCtx, freqDomainCtx].forEach(ctx => {
+                ctx.strokeStyle = '#999';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(0, 150);
+                ctx.lineTo(900, 150);
+                ctx.stroke();
+            });
+
+            // Generate time domain signal
+            timeDomainCtx.strokeStyle = '#667eea';
+            timeDomainCtx.lineWidth = 3;
+            timeDomainCtx.beginPath();
+
+            const frequencies = [2, 4, 6, 8, 10].slice(0, numComp);
+            const amplitudes = [2, 1, 0.8, 0.6, 0.4].slice(0, numComp);
+
+            for (let x = 0; x < timeDomainCanvas.width; x++) {
+                const t = (x / timeDomainCanvas.width) * tScale;
+                let y = 150;
+
+                for (let i = 0; i < numComp; i++) {
+                    y -= amplitudes[i] * 30 * Math.sin(2 * Math.PI * frequencies[i] * t);
+                }
+
+                if (x === 0) timeDomainCtx.moveTo(x, y);
+                else timeDomainCtx.lineTo(x, y);
+            }
+            timeDomainCtx.stroke();
+
+            // Frequency domain
+            freqDomainCtx.fillStyle = '#764ba2';
+            const barWidth = (freqDomainCanvas.width - 100) / 10;
+
+            frequencies.forEach((freq, index) => {
+                const barHeight = amplitudes[index] * 50;
+                const x = 50 + freq * barWidth - barWidth / 2;
+                freqDomainCtx.fillRect(x, 150 - barHeight, barWidth - 5, barHeight);
+            });
+
+            // Labels
+            timeDomainCtx.fillStyle = '#333';
+            timeDomainCtx.font = 'bold 12px Arial';
+            timeDomainCtx.fillText('Time: 0 to ' + tScale.toFixed(1) + 's', 10, 20);
+
+            freqDomainCtx.fillStyle = '#333';
+            freqDomainCtx.font = 'bold 12px Arial';
+            freqDomainCtx.fillText('Frequency Components: ' + numComp, 10, 20);
+        }
+
+        numFrequencies.addEventListener('input', drawTimeDomainAnalysis);
+        timeScale.addEventListener('input', drawTimeDomainAnalysis);
+        drawTimeDomainAnalysis();
+
+        // ============== COMPOSITE SIGNAL ==============
+        const compositeCanvas = document.getElementById('compositeCanvas');
+        const compositeCtx = compositeCanvas.getContext('2d');
+
+        const comp1Freq = document.getElementById('comp1Freq');
+        const comp1Amp = document.getElementById('comp1Amp');
+        const comp2Freq = document.getElementById('comp2Freq');
+        const comp2Amp = document.getElementById('comp2Amp');
+        const comp3Freq = document.getElementById('comp3Freq');
+        const comp3Amp = document.getElementById('comp3Amp');
+
+        function drawCompositeSignal() {
+            const f1 = parseFloat(comp1Freq.value);
+            const a1 = parseFloat(comp1Amp.value);
+            const f2 = parseFloat(comp2Freq.value);
+            const a2 = parseFloat(comp2Amp.value);
+            const f3 = parseFloat(comp3Freq.value);
+            const a3 = parseFloat(comp3Amp.value);
+
+            document.getElementById('comp1FreqDisplay').textContent = f1 + ' Hz';
+            document.getElementById('comp1AmpDisplay').textContent = a1.toFixed(1);
+            document.getElementById('comp2FreqDisplay').textContent = f2 + ' Hz';
+            document.getElementById('comp2AmpDisplay').textContent = a2.toFixed(1);
+            document.getElementById('comp3FreqDisplay').textContent = f3 + ' Hz';
+            document.getElementById('comp3AmpDisplay').textContent = a3.toFixed(1);
+
+            // Calculate bandwidth
+            const maxF = Math.max(f1, f2, f3);
+            const minF = Math.min(f1, f2, f3);
+            const bandwidth = maxF - minF;
+
+            document.getElementById('compositeAnalysis').innerHTML = `
+                Bandwidth: ${bandwidth} Hz<br>
+                Highest Frequency: ${maxF} Hz<br>
+                Lowest Frequency: ${minF} Hz
+            `;
+
+            compositeCtx.fillStyle = 'white';
+            compositeCtx.fillRect(0, 0, compositeCanvas.width, compositeCanvas.height);
+
+            // Grid
+            compositeCtx.strokeStyle = '#e9ecef';
+            compositeCtx.lineWidth = 1;
+            for (let i = 0; i < compositeCanvas.width; i += 50) {
+                compositeCtx.beginPath();
+                compositeCtx.moveTo(i, 0);
+                compositeCtx.lineTo(i, compositeCanvas.height);
+                compositeCtx.stroke();
+            }
+
+            // Center
+            compositeCtx.strokeStyle = '#999';
+            compositeCtx.lineWidth = 2;
+            compositeCtx.beginPath();
+            compositeCtx.moveTo(0, compositeCanvas.height / 2);
+            compositeCtx.lineTo(compositeCanvas.width, compositeCanvas.height / 2);
+            compositeCtx.stroke();
+
+            // Draw composite signal
+            compositeCtx.strokeStyle = '#667eea';
+            compositeCtx.lineWidth = 3;
+            compositeCtx.beginPath();
+
+            const centerY = compositeCanvas.height / 2;
+            const scaleX = compositeCanvas.width / 3;
+
+            for (let x = 0; x < compositeCanvas.width; x++) {
+                const t = x / scaleX;
+                const y = centerY - 30 * (
+                    a1 * Math.sin(2 * Math.PI * f1 * t) +
+                    a2 * Math.sin(2 * Math.PI * f2 * t) +
+                    a3 * Math.sin(2 * Math.PI * f3 * t)
+                );
+                if (x === 0) compositeCtx.moveTo(x, y);
+                else compositeCtx.lineTo(x, y);
+            }
+            compositeCtx.stroke();
+
+            // Labels
+            compositeCtx.fillStyle = '#333';
+            compositeCtx.font = 'bold 12px Arial';
+            compositeCtx.fillText(`Components: ${f1}Hz, ${f2}Hz, ${f3}Hz | BW: ${bandwidth}Hz`, 10, 20);
+        }
+
+        [comp1Freq, comp1Amp, comp2Freq, comp2Amp, comp3Freq, comp3Amp].forEach(elem => {
+            elem.addEventListener('input', drawCompositeSignal);
+        });
+        drawCompositeSignal();
+
+        // ============== ATTENUATION ==============
+        const attenuationCanvas = document.getElementById('attenuationCanvas');
+        const attenuationCtx = attenuationCanvas.getContext('2d');
+        const attenuationFactor = document.getElementById('attenuationFactor');
+        const attenuationDistance = document.getElementById('attenuationDistance');
+
+        function drawAttenuation() {
+            const factor = parseFloat(attenuationFactor.value) / 100;
+            const dist = parseFloat(attenuationDistance.value);
+
+            document.getElementById('attenuationDisplay').textContent = (factor * 100).toFixed(0) + '%';
+            document.getElementById('distanceDisplay').textContent = dist.toFixed(0) + ' km';
+
+            const remaining = (1 - factor) * 100;
+            const dB = 10 * Math.log10(1 - factor) || -Infinity;
+
+            document.getElementById('attenuationValues').innerHTML = `
+                Power Loss: ${(factor * 100).toFixed(1)}%<br>
+                Remaining Power: ${remaining.toFixed(1)}%<br>
+                Decibels (dB): ${dB.toFixed(2)} dB
+            `;
+
+            attenuationCtx.fillStyle = 'white';
+            attenuationCtx.fillRect(0, 0, attenuationCanvas.width, attenuationCanvas.height);
+
+            // Grid
+            attenuationCtx.strokeStyle = '#e9ecef';
+            attenuationCtx.lineWidth = 1;
+            for (let i = 0; i < attenuationCanvas.width; i += 50) {
+                attenuationCtx.beginPath();
+                attenuationCtx.moveTo(i, 0);
+                attenuationCtx.lineTo(i, attenuationCanvas.height);
+                attenuationCtx.stroke();
+            }
+
+            // Draw original signal
+            attenuationCtx.strokeStyle = '#4caf50';
+            attenuationCtx.lineWidth = 3;
+            attenuationCtx.beginPath();
+            const centerY = attenuationCanvas.height / 2;
+            const amp = 50;
+
+            for (let x = 0; x < 300; x++) {
+                const t = x / 100;
+                const y = centerY - amp * Math.sin(2 * Math.PI * 2 * t);
+                if (x === 0) attenuationCtx.moveTo(x, y);
+                else attenuationCtx.lineTo(x, y);
+            }
+            attenuationCtx.stroke();
+
+            // Draw attenuated signal
+            attenuationCtx.strokeStyle = '#f44336';
+            attenuationCtx.lineWidth = 3;
+            attenuationCtx.beginPath();
+
+            for (let x = 0; x < 300; x++) {
+                const t = x / 100;
+                const y = centerY - amp * (1 - factor) * Math.sin(2 * Math.PI * 2 * t);
+                if (x === 0) attenuationCtx.moveTo(x + 450, y);
+                else attenuationCtx.lineTo(x + 450, y);
+            }
+            attenuationCtx.stroke();
+
+            // Labels
+            attenuationCtx.fillStyle = '#333';
+            attenuationCtx.font = 'bold 12px Arial';
+            attenuationCtx.fillText('Original Signal', 100, 20);
+            attenuationCtx.fillText('Attenuated Signal (' + (factor * 100).toFixed(0) + '%)', 500, 20);
+        }
+
+        attenuationFactor.addEventListener('input', drawAttenuation);
+        attenuationDistance.addEventListener('input', drawAttenuation);
+        drawAttenuation();
+
+        // ============== DISTORTION ==============
+        const distortionCanvas = document.getElementById('distortionCanvas');
+        const distortionCtx = distortionCanvas.getContext('2d');
+        const distortionAmount = document.getElementById('distortionAmount');
+        const distortionType = document.getElementById('distortionType');
+
+        function drawDistortion() {
+            const phase = parseFloat(distortionAmount.value) * Math.PI / 180;
+            const type = distortionType.value;
+
+            document.getElementById('distortionDisplay').textContent = distortionAmount.value + '°';
+
+            distortionCtx.fillStyle = 'white';
+            distortionCtx.fillRect(0, 0, distortionCanvas.width, distortionCanvas.height);
+
+            // Grid
+            distortionCtx.strokeStyle = '#e9ecef';
+            distortionCtx.lineWidth = 1;
+            for (let i = 0; i < distortionCanvas.width; i += 50) {
+                distortionCtx.beginPath();
+                distortionCtx.moveTo(i, 0);
+                distortionCtx.lineTo(i, distortionCanvas.height);
+                distortionCtx.stroke();
+            }
+
+            // Center lines
+            distortionCtx.strokeStyle = '#999';
+            distortionCtx.lineWidth = 1;
+            distortionCtx.beginPath();
+            distortionCtx.moveTo(0, 150);
+            distortionCtx.lineTo(900, 150);
+            distortionCtx.stroke();
+            distortionCtx.beginPath();
+            distortionCtx.moveTo(0, 300);
+            distortionCtx.lineTo(900, 300);
+            distortionCtx.stroke();
+
+            // Original signal
+            distortionCtx.strokeStyle = '#4caf50';
+            distortionCtx.lineWidth = 3;
+            distortionCtx.beginPath();
+
+            for (let x = 0; x < 900; x++) {
+                const t = x / 300;
+                let y = 150 - 50 * (Math.sin(2 * Math.PI * 2 * t) + 0.5 * Math.sin(2 * Math.PI * 4 * t));
+                if (x === 0) distortionCtx.moveTo(x, y);
+                else distortionCtx.lineTo(x, y);
+            }
+            distortionCtx.stroke();
+
+            // Distorted signal
+            distortionCtx.strokeStyle = '#f44336';
+            distortionCtx.lineWidth = 3;
+            distortionCtx.beginPath();
+
+            for (let x = 0; x < 900; x++) {
+                const t = x / 300;
+                let y = 300 - 50 * (Math.sin(2 * Math.PI * 2 * t) + 0.5 * Math.sin(2 * Math.PI * 4 * t + phase));
+                if (x === 0) distortionCtx.moveTo(x, y);
+                else distortionCtx.lineTo(x, y);
+            }
+            distortionCtx.stroke();
+
+            // Labels
+            distortionCtx.fillStyle = '#333';
+            distortionCtx.font = 'bold 12px Arial';
+            distortionCtx.fillText('Original Signal', 10, 130);
+            distortionCtx.fillText('Distorted Signal (phase shift: ' + distortionAmount.value + '°)', 10, 280);
+        }
+
+        distortionAmount.addEventListener('input', drawDistortion);
+        distortionType.addEventListener('change', drawDistortion);
+        drawDistortion();
+
+        // ============== NOISE ==============
+        const noiseSimCanvas = document.getElementById('noiseSimCanvas');
+        const noiseSimCtx = noiseSimCanvas.getContext('2d');
+        const noiseIntensity = document.getElementById('noiseIntensity');
+        const noiseType = document.getElementById('noiseType');
+
+        function drawNoise() {
+            const intensity = parseFloat(noiseIntensity.value);
+            const type = noiseType.value;
+
+            document.getElementById('noiseIntensityDisplay').textContent = intensity.toFixed(1);
+
+            const snr = 20 * Math.log10(1 / intensity);
+            const clarity = Math.max(0, (1 - intensity) * 100);
+
+            document.getElementById('noiseMetrics').innerHTML = `
+                SNR: ${snr.toFixed(2)} dB<br>
+                Signal Clarity: ${clarity.toFixed(1)}%
+            `;
+
+            noiseSimCtx.fillStyle = 'white';
+            noiseSimCtx.fillRect(0, 0, noiseSimCanvas.width, noiseSimCanvas.height);
+
+            // Grid
+            noiseSimCtx.strokeStyle = '#e9ecef';
+            noiseSimCtx.lineWidth = 1;
+            for (let i = 0; i < noiseSimCanvas.width; i += 50) {
+                noiseSimCtx.beginPath();
+                noiseSimCtx.moveTo(i, 0);
+                noiseSimCtx.lineTo(i, noiseSimCanvas.height);
+                noiseSimCtx.stroke();
+            }
+
+            // Center
+            noiseSimCtx.strokeStyle = '#999';
+            noiseSimCtx.lineWidth = 2;
+            noiseSimCtx.beginPath();
+            noiseSimCtx.moveTo(0, 150);
+            noiseSimCtx.lineTo(noiseSimCanvas.width, 150);
+            noiseSimCtx.stroke();
+
+            // Clean signal
+            noiseSimCtx.strokeStyle = '#667eea';
+            noiseSimCtx.lineWidth = 2;
+            noiseSimCtx.beginPath();
+
+            for (let x = 0; x < noiseSimCanvas.width; x++) {
+                const t = x / 300;
+                const y = 150 - 50 * Math.sin(2 * Math.PI * 2 * t);
+                if (x === 0) noiseSimCtx.moveTo(x, y);
+                else noiseSimCtx.lineTo(x, y);
+            }
+            noiseSimCtx.stroke();
+
+            // Noisy signal
+            noiseSimCtx.strokeStyle = '#f44336';
+            noiseSimCtx.lineWidth = 1;
+            noiseSimCtx.globalAlpha = 0.7;
+
+            for (let x = 0; x < noiseSimCanvas.width; x++) {
+                const t = x / 300;
+                const signal = 50 * Math.sin(2 * Math.PI * 2 * t);
+                
+                let noise = 0;
+                if (type === 'white') {
+                    noise = (Math.random() - 0.5) * 2 * intensity * 100;
+                } else if (type === 'gaussian') {
+                    const u1 = Math.random();
+                    const u2 = Math.random();
+                    const z = Math.sqrt(-2 * Math.log(u1)) * Math.cos(2 * Math.PI * u2);
+                    noise = z * intensity * 50;
+                } else if (type === 'impulse') {
+                    noise = Math.random() < 0.05 ? (Math.random() > 0.5 ? 1 : -1) * intensity * 100 : 0;
+                }
+
+                const y = 150 - signal - noise;
+                noiseSimCtx.fillRect(x, y, 1, 1);
+            }
+            noiseSimCtx.globalAlpha = 1;
+
+            // Labels
+            noiseSimCtx.fillStyle = '#333';
+            noiseSimCtx.font = 'bold 12px Arial';
+            noiseSimCtx.fillText('Noise Type: ' + type.toUpperCase() + ' | Intensity: ' + intensity.toFixed(2), 10, 20);
+        }
+
+        noiseIntensity.addEventListener('input', drawNoise);
+        noiseType.addEventListener('change', drawNoise);
+        drawNoise();
+
+        // ============== JITTER ==============
+        const jitterCanvas = document.getElementById('jitterCanvas');
+        const jitterCtx = jitterCanvas.getContext('2d');
+        const jitterAmount = document.getElementById('jitterAmount');
+        const baseLatency = document.getElementById('baseLatency');
+
+        function drawJitter() {
+            const jitter = parseFloat(jitterAmount.value);
+            const base = parseFloat(baseLatency.value);
+
+            document.getElementById('jitterAmountDisplay').textContent = jitter.toFixed(0) + ' ms';
+            document.getElementById('baseLatencyDisplay').textContent = base.toFixed(0) + ' ms';
+
+            jitterCtx.fillStyle = 'white';
+            jitterCtx.fillRect(0, 0, jitterCanvas.width, jitterCanvas.height);
+
+            // Grid
+            jitterCtx.strokeStyle = '#e9ecef';
+            jitterCtx.lineWidth = 1;
+            for (let i = 0; i < jitterCanvas.width; i += 50) {
+                jitterCtx.beginPath();
+                jitterCtx.moveTo(i, 0);
+                jitterCtx.lineTo(i, jitterCanvas.height);
+                jitterCtx.stroke();
+            }
+
+            for (let i = 0; i < jitterCanvas.height; i += 30) {
+                jitterCtx.beginPath();
+                jitterCtx.moveTo(0, i);
+                jitterCtx.lineTo(jitterCanvas.width, i);
+                jitterCtx.stroke();
+            }
+
+            // Draw packets with jitter
+            const packetSpacing = 100;
+            const packets = 9;
+
+            jitterCtx.fillStyle = '#667eea';
+            jitterCtx.font = 'bold 12px Arial';
+
+            for (let p = 0; p < packets; p++) {
+                const delay = base + (Math.random() - 0.5) * jitter;
+                const x = 50 + p * packetSpacing;
+                const y = 150 - delay / 100 * 100;
+
+                // Draw packet
+                jitterCtx.fillRect(x - 20, y - 20, 40, 40);
+                jitterCtx.fillStyle = 'white';
+                jitterCtx.fillText('P' + (p + 1), x - 10, y + 7);
+                jitterCtx.fillStyle = '#667eea';
+
+                // Draw delay line
+                jitterCtx.strokeStyle = '#999';
+                jitterCtx.lineWidth = 1;
+                jitterCtx.setLineDash([5, 5]);
+                jitterCtx.beginPath();
+                jitterCtx.moveTo(x, 150);
+                jitterCtx.lineTo(x, y);
+                jitterCtx.stroke();
+                jitterCtx.setLineDash([]);
+
+                jitterCtx.font = 'bold 10px Arial';
+                jitterCtx.fillText((delay).toFixed(0) + 'ms', x - 25, y + 40);
+            }
+
+            // Labels
+            jitterCtx.fillStyle = '#333';
+            jitterCtx.font = 'bold 12px Arial';
+            jitterCtx.fillText('Base Latency: ' + base.toFixed(0) + 'ms | Jitter: ±' + jitter.toFixed(0) + 'ms', 10, 20);
+        }
+
+        jitterAmount.addEventListener('input', drawJitter);
+        baseLatency.addEventListener('input', drawJitter);
+        drawJitter();
+
+        // ============== PERFORMANCE METRICS ==============
+        document.getElementById('framesPerMin').addEventListener('input', function() {
+            const frames = parseInt(this.value);
+            const bits = parseInt(document.getElementById('bitsPerFrame').value);
+            const throughput = (frames * bits) / 60 / 1e6; // Convert to Mbps
+
+            document.getElementById('framesPerMinDisplay').textContent = frames;
+            document.getElementById('bitsPerFrameDisplay').textContent = bits;
+            document.getElementById('throughputResults').innerHTML = `Throughput: ${throughput.toFixed(2)} Mbps`;
+        });
+
+        document.getElementById('bitsPerFrame').addEventListener('input', function() {
+            const frames = parseInt(document.getElementById('framesPerMin').value);
+            const bits = parseInt(this.value);
+            const throughput = (frames * bits) / 60 / 1e6;
+
+            document.getElementById('framesPerMinDisplay').textContent = frames;
+            document.getElementById('bitsPerFrameDisplay').textContent = bits;
+            document.getElementById('throughputResults').innerHTML = `Throughput: ${throughput.toFixed(2)} Mbps`;
+        });
+
+        // Latency Calculator
+        const latencyInputs = [
+            'distance', 'propSpeed', 'transmissionTime',
+            'processingTime', 'queuingTime'
+        ];
+
+        function updateLatency() {
+            const distance = parseInt(document.getElementById('distance').value);
+            const propSpeed = parseInt(document.getElementById('propSpeed').value) / 100;
+            const c = 3e5; // km/s
+            const propTime = (distance / (c * propSpeed));
+
+            const transTime = parseFloat(document.getElementById('transmissionTime').value);
+            const procTime = parseFloat(document.getElementById('processingTime').value);
+            const queueTime = parseFloat(document.getElementById('queuingTime').value);
+
+            const totalLatency = propTime * 1000 + transTime + procTime + queueTime;
+
+            document.getElementById('distanceVal').textContent = distance + ' km';
+            document.getElementById('propSpeedVal').textContent = propSpeed * 100 + '%';
+            document.getElementById('transmissionTimeVal').textContent = transTime.toFixed(1) + ' ms';
+            document.getElementById('processingTimeVal').textContent = procTime.toFixed(1) + ' ms';
+            document.getElementById('queuingTimeVal').textContent = queueTime.toFixed(1) + ' ms';
+
+            document.getElementById('latencyBreakdown').innerHTML = `
+                Propagation Time: ${(propTime * 1000).toFixed(2)} ms<br>
+                Transmission Time: ${transTime.toFixed(2)} ms<br>
+                Processing Delay: ${procTime.toFixed(2)} ms<br>
+                Queuing Time: ${queueTime.toFixed(2)} ms<br>
+                <strong style="color: #667eea;">Total Latency: ${totalLatency.toFixed(2)} ms</strong>
+            `;
+        }
+
+        latencyInputs.forEach(id => {
+            document.getElementById(id).addEventListener('input', updateLatency);
+        });
+        updateLatency();
+
+        // Initialize all displays
+        document.getElementById('throughputResults').innerHTML = 'Throughput: 16.67 Mbps';
+    </script>
+</body>
+</html>

@@ -1,0 +1,1738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Unit 4 – Transmission Media | Prof. Shweta S. Devdas</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet"/>
+<style>
+:root{
+  --bg:#f8f9fc;
+  --surface:#ffffff;
+  --surface2:#f0f4ff;
+  --border:#e0e6f0;
+  --text:#1a1d2e;
+  --text2:#5a6380;
+  --accent:#3b5bdb;
+  --accent2:#7048e8;
+  --green:#2f9e44;
+  --orange:#e67700;
+  --red:#c92a2a;
+  --teal:#0c8599;
+  --pink:#c2255c;
+  --shadow:0 4px 24px rgba(59,91,219,.10);
+  --radius:16px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+
+/* ── HEADER ─────────────────────────────────────────── */
+header{
+  background:linear-gradient(135deg,#1e3a8a 0%,#3b5bdb 50%,#7048e8 100%);
+  color:#fff;padding:32px 40px 28px;text-align:center;
+  position:relative;overflow:hidden;
+}
+header::before{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+}
+header h1{font-family:'Playfair Display',serif;font-size:clamp(1.8rem,4vw,3rem);letter-spacing:-0.5px;position:relative;}
+header .sub{font-size:1rem;opacity:.85;margin-top:6px;position:relative;}
+header .badge{
+  display:inline-block;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.35);
+  border-radius:50px;padding:4px 16px;font-size:.82rem;margin-top:10px;backdrop-filter:blur(4px);
+  position:relative;
+}
+
+/* ── NAV ─────────────────────────────────────────────── */
+nav{
+  display:flex;flex-wrap:wrap;gap:6px;padding:16px 32px;
+  background:var(--surface);border-bottom:1px solid var(--border);
+  position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(0,0,0,.06);
+}
+.nav-btn{
+  padding:7px 16px;border-radius:50px;border:1.5px solid var(--border);
+  background:transparent;font-family:'DM Sans',sans-serif;font-size:.82rem;
+  font-weight:500;color:var(--text2);cursor:pointer;transition:all .25s;
+}
+.nav-btn:hover,.nav-btn.active{
+  background:var(--accent);color:#fff;border-color:var(--accent);
+  transform:translateY(-1px);box-shadow:0 4px 12px rgba(59,91,219,.3);
+}
+
+/* ── MAIN ────────────────────────────────────────────── */
+main{max-width:1200px;margin:0 auto;padding:32px 24px;}
+.section{display:none;animation:fadeIn .4s ease;}
+.section.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── SECTION HEADER ──────────────────────────────────── */
+.sec-header{margin-bottom:28px;}
+.sec-header h2{font-family:'Playfair Display',serif;font-size:2rem;color:var(--text);}
+.sec-header p{color:var(--text2);margin-top:8px;line-height:1.65;font-size:.97rem;max-width:700px;}
+.tag{
+  display:inline-block;padding:3px 12px;border-radius:50px;font-size:.75rem;
+  font-weight:600;letter-spacing:.5px;margin-bottom:12px;
+}
+.tag.guided{background:#dbe4ff;color:#3b5bdb;}
+.tag.unguided{background:#e3fafc;color:#0c8599;}
+.tag.switching{background:#f3f0ff;color:#7048e8;}
+.tag.devices{background:#fff0f6;color:#c2255c;}
+
+/* ── CARD ────────────────────────────────────────────── */
+.card{
+  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
+  padding:24px;margin-bottom:24px;box-shadow:var(--shadow);
+}
+.card h3{font-size:1.1rem;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:8px;}
+.card p{color:var(--text2);line-height:1.65;font-size:.93rem;}
+
+/* ── SIMULATOR CARD ──────────────────────────────────── */
+.sim-card{
+  background:var(--surface);border:2px solid var(--accent);border-radius:var(--radius);
+  padding:0;overflow:hidden;box-shadow:var(--shadow);margin-bottom:32px;
+}
+.sim-card-header{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#fff;padding:16px 24px;font-weight:600;font-size:1rem;
+  display:flex;align-items:center;gap:10px;
+}
+.sim-card-header .icon{font-size:1.4rem;}
+.sim-body{display:grid;grid-template-columns:280px 1fr;gap:0;}
+@media(max-width:700px){.sim-body{grid-template-columns:1fr;}}
+
+.controls{
+  border-right:1px solid var(--border);padding:20px;
+  background:var(--surface2);display:flex;flex-direction:column;gap:16px;
+}
+.ctrl-group{display:flex;flex-direction:column;gap:6px;}
+.ctrl-group label{font-size:.82rem;font-weight:600;color:var(--text);}
+.ctrl-group .hint{font-size:.75rem;color:var(--text2);}
+input[type=range]{
+  -webkit-appearance:none;width:100%;height:6px;border-radius:3px;
+  background:var(--border);outline:none;cursor:pointer;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--accent);cursor:pointer;border:2px solid #fff;
+  box-shadow:0 2px 8px rgba(59,91,219,.4);
+}
+.val-badge{
+  display:inline-block;background:var(--accent);color:#fff;
+  border-radius:50px;padding:2px 10px;font-size:.78rem;font-family:'JetBrains Mono',monospace;
+  font-weight:600;margin-left:6px;
+}
+select{
+  width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:8px;
+  font-family:'DM Sans',sans-serif;font-size:.85rem;background:#fff;color:var(--text);
+  cursor:pointer;outline:none;
+}
+select:focus{border-color:var(--accent);}
+
+.canvas-wrap{padding:20px;display:flex;flex-direction:column;gap:12px;background:#fff;}
+canvas{border-radius:10px;background:#f8faff;border:1px solid var(--border);width:100%;display:block;}
+.canvas-info{font-size:.8rem;color:var(--text2);font-family:'JetBrains Mono',monospace;
+  background:var(--surface2);border-radius:8px;padding:10px 14px;border:1px solid var(--border);}
+
+/* ── COMPARISON TABLE ────────────────────────────────── */
+.comp-table{width:100%;border-collapse:collapse;font-size:.88rem;margin-top:12px;}
+.comp-table th{background:var(--accent);color:#fff;padding:10px 14px;text-align:left;font-weight:600;}
+.comp-table td{padding:10px 14px;border-bottom:1px solid var(--border);}
+.comp-table tr:nth-child(even) td{background:var(--surface2);}
+.comp-table tr:hover td{background:#e8eeff;}
+
+/* ── GRID CARDS ──────────────────────────────────────── */
+.grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px;margin-bottom:24px;}
+.info-card{
+  background:var(--surface);border:1px solid var(--border);border-radius:12px;
+  padding:18px;transition:transform .25s,box-shadow .25s;
+}
+.info-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(59,91,219,.12);}
+.info-card .ic{font-size:2rem;margin-bottom:10px;}
+.info-card h4{font-size:.95rem;font-weight:600;margin-bottom:6px;}
+.info-card p{font-size:.82rem;color:var(--text2);line-height:1.55;}
+
+/* ── DEFINITION BOX ──────────────────────────────────── */
+.def-box{
+  background:linear-gradient(135deg,#eef2ff,#f3f0ff);
+  border-left:4px solid var(--accent);border-radius:0 12px 12px 0;
+  padding:16px 20px;margin-bottom:20px;
+}
+.def-box .def-title{font-size:.75rem;font-weight:700;letter-spacing:1px;color:var(--accent);margin-bottom:6px;}
+.def-box p{font-size:.93rem;line-height:1.65;color:var(--text);}
+
+/* BTN */
+.btn{
+  padding:8px 20px;border-radius:50px;border:none;cursor:pointer;
+  font-family:'DM Sans',sans-serif;font-weight:600;font-size:.85rem;
+  transition:all .2s;
+}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn-primary:hover{background:#2f4cc4;transform:translateY(-1px);}
+.btn-green{background:var(--green);color:#fff;}
+.btn-green:hover{background:#237a33;}
+.btn-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px;}
+
+/* Pulse animation for active elements */
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes slideRight{from{transform:translateX(-20px);opacity:0}to{transform:translateX(0);opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(59,91,219,.3)}50%{box-shadow:0 0 20px rgba(59,91,219,.6)}}
+
+.status-indicator{
+  display:inline-flex;align-items:center;gap:6px;font-size:.82rem;font-weight:600;
+}
+.dot{width:8px;height:8px;border-radius:50%;animation:pulse 1.5s infinite;}
+.dot.green{background:var(--green);}
+.dot.blue{background:var(--accent);}
+.dot.orange{background:var(--orange);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="badge">📡 Computer Networks & Data Communication</div>
+  <h1>Unit 4 — Transmission Media</h1>
+  <div class="sub">Prepared by <strong>Prof. Shweta S. Devdas</strong> &nbsp;|&nbsp; Interactive Learning Simulator</div>
+</header>
+
+<nav>
+  <button class="nav-btn active" onclick="showSection('intro')">🏠 Overview</button>
+  <button class="nav-btn" onclick="showSection('twisted')">🔁 Twisted Pair</button>
+  <button class="nav-btn" onclick="showSection('coaxial')">📡 Coaxial Cable</button>
+  <button class="nav-btn" onclick="showSection('fiber')">💡 Fiber Optic</button>
+  <button class="nav-btn" onclick="showSection('unguided')">📶 Unguided Media</button>
+  <button class="nav-btn" onclick="showSection('circuit')">🔌 Circuit Switching</button>
+  <button class="nav-btn" onclick="showSection('packet')">📦 Packet Switching</button>
+  <button class="nav-btn" onclick="showSection('message')">✉️ Message Switching</button>
+  <button class="nav-btn" onclick="showSection('devices')">⚙️ Switching Devices</button>
+</nav>
+
+<main>
+
+<!-- ══════════════════ INTRO ══════════════════ -->
+<div id="intro" class="section active">
+  <div class="sec-header">
+    <span class="tag guided">Unit 4</span>
+    <h2>Transmission Media — Overview</h2>
+    <p>A transmission medium is the physical path through which data travels from sender to receiver. It is broadly classified into <strong>Guided (Wired)</strong> and <strong>Unguided (Wireless)</strong> media.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p>A <strong>Transmission Medium</strong> is a physical or logical channel that enables data signals to travel from a transmitter to a receiver. The nature of the medium determines the speed, bandwidth, and reliability of communication.</p>
+  </div>
+
+  <div class="grid-3">
+    <div class="info-card">
+      <div class="ic">🔌</div>
+      <h4>Guided Media (Wired)</h4>
+      <p>Signal travels through a physical conductor — twisted pair, coaxial, or fiber optic cables. Best for short to medium distances.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">📡</div>
+      <h4>Unguided Media (Wireless)</h4>
+      <p>Signal propagates through the air as electromagnetic waves — radio, microwave, or infrared. Suitable for long-distance and mobile communication.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🔀</div>
+      <h4>Switching</h4>
+      <p>Process of transferring data packets from one device/network to another using switches — circuit, packet, or message switching.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">⚙️</div>
+      <h4>Switching Devices</h4>
+      <p>Electronic components (routers, bridges, switches, hubs) that direct data flow across networks and between network segments.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">📶</div>
+      <h4>OSI Layer</h4>
+      <p>Switching primarily occurs at the <strong>Data Link Layer (Layer 2)</strong> of the OSI model, immediately after signal generation at the Physical Layer.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">⚡</div>
+      <h4>Signal Types</h4>
+      <p>Guided media carries signals as voltage, current, or photons. Unguided media carries signals as electromagnetic waves.</p>
+    </div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">🗺️</span> Guided vs Unguided Media — Comparison Simulator</div>
+    <div style="padding:20px;">
+      <table class="comp-table">
+        <thead><tr><th>Basis</th><th>🔌 Guided Media</th><th>📡 Unguided Media</th></tr></thead>
+        <tbody>
+          <tr><td>Also Called</td><td>Wired / Bounded Transmission</td><td>Wireless / Unbounded Transmission</td></tr>
+          <tr><td>Signal Propagation</td><td>Through physical wires/conductors</td><td>Through air/atmosphere</td></tr>
+          <tr><td>Communication Type</td><td>Point-to-point communication</td><td>Radio broadcasting (all directions)</td></tr>
+          <tr><td>Cost</td><td>Affordable (lower cost)</td><td>Costly (higher infrastructure)</td></tr>
+          <tr><td>Network Topology</td><td>Discrete topologies</td><td>Continuous topologies</td></tr>
+          <tr><td>Signal Form</td><td>Voltage, current, or photons</td><td>Electromagnetic waves</td></tr>
+          <tr><td>Direction</td><td>Directed (indicates path)</td><td>Non-directed (no path indication)</td></tr>
+          <tr><td>Best For</td><td>Shorter distances</td><td>Longer distances</td></tr>
+        </tbody>
+      </table>
+      <canvas id="introCanvas" height="120" style="margin-top:16px;"></canvas>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ TWISTED PAIR ══════════════════ -->
+<div id="twisted" class="section">
+  <div class="sec-header">
+    <span class="tag guided">Guided Media</span>
+    <h2>Twisted Pair Cable</h2>
+    <p>Two copper conductors twisted together to minimize electromagnetic interference (EMI) and crosstalk. One wire carries signal; the other serves as ground reference.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p>A <strong>Twisted Pair Cable</strong> consists of two insulated copper conductors twisted around each other. The twisting cancels out electromagnetic interference by ensuring that noise picked up on one wire is equal and opposite on the other, thus nullifying the effect — a principle known as <em>differential signaling</em>.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card">
+      <div class="ic">🛡️</div>
+      <h4>UTP — Unshielded Twisted Pair</h4>
+      <p>No additional shielding. Used in telephone lines, Ethernet LANs (Cat5, Cat6). Affordable and flexible.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">⚔️</div>
+      <h4>STP — Shielded Twisted Pair</h4>
+      <p>Has a metal foil/braid shield around pairs. Better noise protection. Used in industrial environments.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">📞</div>
+      <h4>Applications</h4>
+      <p>Telephone lines (PSTN), DSL internet connections, LAN (Ethernet), local loop in telephone offices.</p>
+    </div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">🔁</span> Twisted Pair Interactive Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Cable Type</label>
+          <select id="tp-type" onchange="drawTwistedPair()">
+            <option value="utp">UTP (Unshielded)</option>
+            <option value="stp">STP (Shielded)</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>Twist Rate (turns/meter) <span class="val-badge" id="tp-twist-val">6</span></label>
+          <input type="range" id="tp-twist" min="2" max="12" value="6" oninput="updateVal('tp-twist','tp-twist-val');drawTwistedPair()">
+          <span class="hint">↑ More twists = Better EMI rejection</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Signal Frequency (MHz) <span class="val-badge" id="tp-freq-val">100</span></label>
+          <input type="range" id="tp-freq" min="10" max="600" value="100" oninput="updateVal('tp-freq','tp-freq-val');drawTwistedPair()">
+          <span class="hint">Higher freq = More attenuation</span>
+        </div>
+        <div class="ctrl-group">
+          <label>EMI Level <span class="val-badge" id="tp-emi-val">3</span></label>
+          <input type="range" id="tp-emi" min="1" max="10" value="3" oninput="updateVal('tp-emi','tp-emi-val');drawTwistedPair()">
+          <span class="hint">↑ EMI = More noise in signal</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Signal Speed <span class="val-badge" id="tp-speed-val">5</span></label>
+          <input type="range" id="tp-speed" min="1" max="10" value="5" oninput="updateVal('tp-speed','tp-speed-val');drawTwistedPair()">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startTwistedAnim()">▶ Animate</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('twisted')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="twistedCanvas" height="200"></canvas>
+        <canvas id="twistedSignal" height="120"></canvas>
+        <div class="canvas-info" id="tp-info">Signal Quality: Calculating...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ COAXIAL ══════════════════ -->
+<div id="coaxial" class="section">
+  <div class="sec-header">
+    <span class="tag guided">Guided Media</span>
+    <h2>Coaxial Cable</h2>
+    <p>A coaxial cable uses a central conductor surrounded by insulation, a metallic shield, and an outer plastic jacket. It provides excellent shielding and can carry high-frequency signals.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p>A <strong>Coaxial Cable</strong> (coax) consists of a central copper conductor, surrounded by a dielectric insulator, enclosed by a tubular conducting shield, and wrapped in an outer plastic jacket. The coaxial geometry allows it to carry high-frequency signals with low loss and excellent EMI resistance. Originally used for 10,000 voice signals in analog telephony; later carried up to 600 Mbps in digital networks.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card"><div class="ic">📺</div><h4>Cable TV (CATV)</h4><p>Delivers television signals over 75Ω RG-6 coaxial cable to homes.</p></div>
+    <div class="info-card"><div class="ic">🌐</div><h4>Internet / Broadband</h4><p>Used in cable internet (DOCSIS standard) for high-speed broadband connections.</p></div>
+    <div class="info-card"><div class="ic">📻</div><h4>Radio / Antenna</h4><p>Connects radio transmitters and receivers to antennas in RF systems.</p></div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">📡</span> Coaxial Cable Interactive Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Cable Standard</label>
+          <select id="cx-type" onchange="drawCoaxial()">
+            <option value="rg6">RG-6 (75Ω) — TV/Cable</option>
+            <option value="rg58">RG-58 (50Ω) — Thin Ethernet</option>
+            <option value="rg11">RG-11 (75Ω) — Long Distance</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>Signal Frequency (MHz) <span class="val-badge" id="cx-freq-val">200</span></label>
+          <input type="range" id="cx-freq" min="1" max="1000" value="200" oninput="updateVal('cx-freq','cx-freq-val');drawCoaxial()">
+          <span class="hint">Higher = Shorter wavelength</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Cable Length (m) <span class="val-badge" id="cx-len-val">50</span></label>
+          <input type="range" id="cx-len" min="5" max="200" value="50" oninput="updateVal('cx-len','cx-len-val');drawCoaxial()">
+          <span class="hint">Longer = More signal loss</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Signal Amplitude <span class="val-badge" id="cx-amp-val">8</span></label>
+          <input type="range" id="cx-amp" min="1" max="10" value="8" oninput="updateVal('cx-amp','cx-amp-val');drawCoaxial()">
+        </div>
+        <div class="ctrl-group">
+          <label>Animation Speed <span class="val-badge" id="cx-speed-val">5</span></label>
+          <input type="range" id="cx-speed" min="1" max="10" value="5" oninput="updateVal('cx-speed','cx-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startCoaxialAnim()">▶ Animate</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('coaxial')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="coaxialCanvas" height="180"></canvas>
+        <canvas id="coaxialSignal" height="120"></canvas>
+        <div class="canvas-info" id="cx-info">Bandwidth: Calculating...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ FIBER ══════════════════ -->
+<div id="fiber" class="section">
+  <div class="sec-header">
+    <span class="tag guided">Guided Media</span>
+    <h2>Fiber Optic Cable</h2>
+    <p>Uses light pulses to transmit data through thin glass or plastic fibers using total internal reflection. Fastest guided medium with virtually no electromagnetic interference.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p>A <strong>Fiber Optic Cable</strong> transmits data as pulses of light through a glass or plastic core, surrounded by a cladding with a lower refractive index. The light undergoes <em>total internal reflection</em>, bouncing along the length of the fiber. It supports extremely high bandwidths (Tbps), immune to EMI, and is used for long-distance, high-speed data transmission.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card"><div class="ic">💡</div><h4>Single-Mode Fiber</h4><p>Very narrow core (~9μm). Light travels in a straight line. Used for long distances (telecom backbone). Laser light source.</p></div>
+    <div class="info-card"><div class="ic">🌈</div><h4>Multi-Mode Fiber</h4><p>Wider core (~50-62.5μm). Multiple light paths. Used for shorter distances (campus networks). LED light source.</p></div>
+    <div class="info-card"><div class="ic">🏥</div><h4>Applications</h4><p>Telecom backbone, medical (endoscopy), CCTV, internet backbone, defense systems, automobile sensors.</p></div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">💡</span> Fiber Optic Total Internal Reflection Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Fiber Mode</label>
+          <select id="fb-mode" onchange="drawFiber()">
+            <option value="single">Single-Mode</option>
+            <option value="multi">Multi-Mode</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>Light Entry Angle (°) <span class="val-badge" id="fb-angle-val">15</span></label>
+          <input type="range" id="fb-angle" min="2" max="35" value="15" oninput="updateVal('fb-angle','fb-angle-val');drawFiber()">
+          <span class="hint">Changes reflection pattern</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Core Refractive Index <span class="val-badge" id="fb-n1-val">1.5</span></label>
+          <input type="range" id="fb-n1" min="1.3" max="1.8" step="0.05" value="1.5" oninput="updateVal('fb-n1','fb-n1-val');drawFiber()">
+        </div>
+        <div class="ctrl-group">
+          <label>Cladding RI <span class="val-badge" id="fb-n2-val">1.3</span></label>
+          <input type="range" id="fb-n2" min="1.1" max="1.45" step="0.05" value="1.3" oninput="updateVal('fb-n2','fb-n2-val');drawFiber()">
+          <span class="hint">Must be less than Core RI</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Light Speed <span class="val-badge" id="fb-speed-val">5</span></label>
+          <input type="range" id="fb-speed" min="1" max="10" value="5" oninput="updateVal('fb-speed','fb-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startFiberAnim()">▶ Animate Light</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('fiber')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="fiberCanvas" height="200"></canvas>
+        <div class="canvas-info" id="fb-info">Critical angle: Calculating...</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ UNGUIDED ══════════════════ -->
+<div id="unguided" class="section">
+  <div class="sec-header">
+    <span class="tag unguided">Unguided Media</span>
+    <h2>Unguided (Wireless) Media</h2>
+    <p>Signals propagate through the atmosphere as electromagnetic waves — no physical conductor required. Three main types: Radio waves, Microwaves, and Infrared waves.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p><strong>Unguided Media</strong> (wireless / unbounded transmission media) transmits data as electromagnetic waves through the air or vacuum without any physical conductor. The signals travel omni-directionally or uni-directionally depending on the wave type. It forms continuous network topologies and is essential for mobile, satellite, and broadcast communication.</p>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">📶</span> Wireless Wave Propagation Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Wave Type</label>
+          <select id="wv-type" onchange="drawUnguided()">
+            <option value="radio">📻 Radio Wave (3KHz–1GHz)</option>
+            <option value="micro">📡 Microwave (1GHz–300GHz)</option>
+            <option value="infra">🔴 Infrared (300GHz–400THz)</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>Frequency (GHz) <span class="val-badge" id="wv-freq-val">0.1</span></label>
+          <input type="range" id="wv-freq" min="0.003" max="10" step="0.003" value="0.1" oninput="updateVal('wv-freq','wv-freq-val');drawUnguided()">
+          <span class="hint">Higher = Shorter wavelength</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Transmit Power <span class="val-badge" id="wv-power-val">7</span></label>
+          <input type="range" id="wv-power" min="1" max="10" value="7" oninput="updateVal('wv-power','wv-power-val');drawUnguided()">
+          <span class="hint">Higher = More range</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Attenuation Level <span class="val-badge" id="wv-atten-val">3</span></label>
+          <input type="range" id="wv-atten" min="1" max="10" value="3" oninput="updateVal('wv-atten','wv-atten-val');drawUnguided()">
+          <span class="hint">Higher = Weaker signal at distance</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Obstacles <span class="val-badge" id="wv-obs-val">2</span></label>
+          <input type="range" id="wv-obs" min="0" max="5" value="2" oninput="updateVal('wv-obs','wv-obs-val');drawUnguided()">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startWaveAnim()">▶ Animate</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('wave')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="unguidedCanvas" height="300"></canvas>
+        <div class="canvas-info" id="wv-info">Wave properties: Calculating...</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 Comparison: Radio vs Microwave vs Infrared</h3>
+    <table class="comp-table">
+      <thead><tr><th>Basis</th><th>📻 Radiowave</th><th>📡 Microwave</th><th>🔴 Infrared</th></tr></thead>
+      <tbody>
+        <tr><td>Direction</td><td>Omni-directional</td><td>Uni-directional</td><td>Uni-directional</td></tr>
+        <tr><td>Frequency</td><td>3KHz – 1GHz</td><td>1GHz – 300GHz</td><td>300GHz – 400THz</td></tr>
+        <tr><td>Security</td><td>Poor</td><td>Medium</td><td>High</td></tr>
+        <tr><td>Attenuation</td><td>High</td><td>Variable</td><td>Low</td></tr>
+        <tr><td>Cost</td><td>Moderate</td><td>High</td><td>Very Low</td></tr>
+        <tr><td>Distance</td><td>Long distance</td><td>Long distance</td><td>Short distance only</td></tr>
+        <tr><td>Use Case</td><td>AM/FM radio, TV broadcast</td><td>Satellite, 5G, WiFi</td><td>TV remotes, short-range LAN</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════ CIRCUIT SWITCHING ══════════════════ -->
+<div id="circuit" class="section">
+  <div class="sec-header">
+    <span class="tag switching">Switching</span>
+    <h2>Circuit Switching</h2>
+    <p>A dedicated communication path is established between two nodes before data transmission begins. The path remains reserved for the entire duration of the connection, then released when done.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p><strong>Circuit Switching</strong> establishes a dedicated, end-to-end physical circuit between the communicating parties before any data is transferred. This circuit (set of links) is exclusively reserved for the duration of the session. It involves three phases: <em>Circuit Establishment → Data Transfer → Circuit Teardown</em>. Traditional telephone networks (PSTN) use circuit switching.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card"><div class="ic">🔗</div><h4>Phase 1: Setup</h4><p>A dedicated path is reserved through the network before transmission. Resources allocated from source to destination.</p></div>
+    <div class="info-card"><div class="ic">📤</div><h4>Phase 2: Transfer</h4><p>Data flows continuously over the dedicated circuit at full reserved bandwidth. No congestion, guaranteed QoS.</p></div>
+    <div class="info-card"><div class="ic">🔓</div><h4>Phase 3: Teardown</h4><p>After transmission ends, the circuit is released and resources freed for other connections.</p></div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">🔌</span> Circuit Switching Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Number of Nodes <span class="val-badge" id="cs-nodes-val">5</span></label>
+          <input type="range" id="cs-nodes" min="3" max="8" value="5" oninput="updateVal('cs-nodes','cs-nodes-val');initCircuitSim()">
+          <span class="hint">Intermediate switches in path</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Data Rate (Mbps) <span class="val-badge" id="cs-rate-val">10</span></label>
+          <input type="range" id="cs-rate" min="1" max="100" value="10" oninput="updateVal('cs-rate','cs-rate-val')">
+          <span class="hint">Speed of data flow</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Setup Time (ms) <span class="val-badge" id="cs-setup-val">50</span></label>
+          <input type="range" id="cs-setup" min="10" max="200" value="50" oninput="updateVal('cs-setup','cs-setup-val')">
+          <span class="hint">↑ More nodes = Longer setup</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Animation Speed <span class="val-badge" id="cs-speed-val">5</span></label>
+          <input type="range" id="cs-speed" min="1" max="10" value="5" oninput="updateVal('cs-speed','cs-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startCircuitAnim()">▶ Start Call</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('circuit')">⏹ End Call</button>
+        </div>
+        <div class="canvas-info" id="cs-phase" style="margin-top:8px;">Phase: Idle</div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="circuitCanvas" height="300"></canvas>
+        <div class="canvas-info" id="cs-info">Click ▶ Start Call to begin simulation</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ PACKET SWITCHING ══════════════════ -->
+<div id="packet" class="section">
+  <div class="sec-header">
+    <span class="tag switching">Switching</span>
+    <h2>Packet Switching</h2>
+    <p>Data is divided into small packets, each routed independently through the network. Packets may take different paths and are reassembled at the destination. No dedicated circuit required.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p><strong>Packet Switching</strong> breaks data into fixed or variable-size packets. Each packet contains a header (source, destination, sequence number) and is routed independently. Routers make per-packet forwarding decisions. The internet uses packet switching. Two approaches: <em>Datagram (connectionless)</em> and <em>Virtual Circuit (connection-oriented)</em>.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card"><div class="ic">✂️</div><h4>Datagram Approach</h4><p>Each packet is treated independently. No fixed path. Packets may arrive out of order. Used in the internet (IP).</p></div>
+    <div class="info-card"><div class="ic">🛣️</div><h4>Virtual Circuit</h4><p>A logical path is set up but not exclusively reserved. Packets follow the same path but share bandwidth with others.</p></div>
+    <div class="info-card"><div class="ic">📦</div><h4>Packet Structure</h4><p>Header (source IP, dest IP, seq no., TTL) + Payload (actual data) + Trailer (error check).</p></div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">📦</span> Packet Switching Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Packet Size (bytes) <span class="val-badge" id="ps-size-val">512</span></label>
+          <input type="range" id="ps-size" min="64" max="1500" value="512" oninput="updateVal('ps-size','ps-size-val');drawPacketNet()">
+          <span class="hint">Larger = Fewer but bigger packets</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Number of Packets <span class="val-badge" id="ps-count-val">6</span></label>
+          <input type="range" id="ps-count" min="2" max="12" value="6" oninput="updateVal('ps-count','ps-count-val')">
+        </div>
+        <div class="ctrl-group">
+          <label>Router Count <span class="val-badge" id="ps-routers-val">4</span></label>
+          <input type="range" id="ps-routers" min="2" max="6" value="4" oninput="updateVal('ps-routers','ps-routers-val');drawPacketNet()">
+        </div>
+        <div class="ctrl-group">
+          <label>Network Congestion <span class="val-badge" id="ps-cong-val">2</span></label>
+          <input type="range" id="ps-cong" min="0" max="10" value="2" oninput="updateVal('ps-cong','ps-cong-val')">
+          <span class="hint">↑ Higher = More delay/drops</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Packet Speed <span class="val-badge" id="ps-speed-val">5</span></label>
+          <input type="range" id="ps-speed" min="1" max="10" value="5" oninput="updateVal('ps-speed','ps-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startPacketAnim()">▶ Send Packets</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('packet')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="packetCanvas" height="320"></canvas>
+        <div class="canvas-info" id="ps-info">Ready. Click Send Packets to simulate.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════ MESSAGE SWITCHING ══════════════════ -->
+<div id="message" class="section">
+  <div class="sec-header">
+    <span class="tag switching">Switching</span>
+    <h2>Message Switching</h2>
+    <p>Entire messages are stored at each intermediate node and then forwarded to the next node — a "store-and-forward" mechanism. No dedicated path, but entire message stored at each hop.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p><strong>Message Switching</strong> uses the <em>store-and-forward</em> principle where an entire message is received, stored in a buffer, and then forwarded to the next node when the outgoing link is free. Unlike packet switching, messages are not divided into packets. Email communication is the classic example of message switching at the application layer.</p>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:20px;">
+    <div class="info-card"><div class="ic">💾</div><h4>Store & Forward</h4><p>Each intermediate node stores the complete message before forwarding it. Requires large storage buffers.</p></div>
+    <div class="info-card"><div class="ic">✉️</div><h4>Example: Email</h4><p>SMTP servers store and forward email messages. Messages may be queued if the next server is busy.</p></div>
+    <div class="info-card"><div class="ic">⏱️</div><h4>Delay</h4><p>Higher latency than circuit or packet switching due to store-and-forward at each node. Not suitable for real-time.</p></div>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">✉️</span> Message Switching Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Message Size (KB) <span class="val-badge" id="ms-size-val">64</span></label>
+          <input type="range" id="ms-size" min="1" max="256" value="64" oninput="updateVal('ms-size','ms-size-val')">
+          <span class="hint">Larger = Longer store time per node</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Number of Nodes <span class="val-badge" id="ms-nodes-val">4</span></label>
+          <input type="range" id="ms-nodes" min="2" max="7" value="4" oninput="updateVal('ms-nodes','ms-nodes-val');drawMessageNet()">
+        </div>
+        <div class="ctrl-group">
+          <label>Node Buffer Capacity (KB) <span class="val-badge" id="ms-buf-val">128</span></label>
+          <input type="range" id="ms-buf" min="16" max="512" value="128" oninput="updateVal('ms-buf','ms-buf-val')">
+          <span class="hint">If msg > buffer → dropped!</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Link Speed <span class="val-badge" id="ms-speed-val">5</span></label>
+          <input type="range" id="ms-speed" min="1" max="10" value="5" oninput="updateVal('ms-speed','ms-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startMessageAnim()">▶ Send Message</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('message')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="messageCanvas" height="300"></canvas>
+        <div class="canvas-info" id="ms-info">Ready. Click Send Message to simulate.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>📊 Circuit vs Packet vs Message Switching</h3>
+    <table class="comp-table">
+      <thead><tr><th>Feature</th><th>🔌 Circuit</th><th>📦 Packet</th><th>✉️ Message</th></tr></thead>
+      <tbody>
+        <tr><td>Dedicated Path</td><td>Yes ✅</td><td>No ❌</td><td>No ❌</td></tr>
+        <tr><td>Store &amp; Forward</td><td>No</td><td>Partial (per packet)</td><td>Yes (full message)</td></tr>
+        <tr><td>Resource Waste</td><td>High (idle path)</td><td>Low</td><td>Medium</td></tr>
+        <tr><td>Delay</td><td>Low (after setup)</td><td>Low</td><td>High</td></tr>
+        <tr><td>Real-time Use</td><td>Excellent (phone)</td><td>Good (internet)</td><td>Poor</td></tr>
+        <tr><td>Example</td><td>PSTN (phone calls)</td><td>Internet (TCP/IP)</td><td>Email (SMTP)</td></tr>
+        <tr><td>OSI Layer</td><td>Physical Layer</td><td>Network Layer</td><td>Application Layer</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════ DEVICES ══════════════════ -->
+<div id="devices" class="section">
+  <div class="sec-header">
+    <span class="tag devices">Switching Devices</span>
+    <h2>Switching Devices</h2>
+    <p>Electronic components used to open/close circuits and redirect data across network segments. A small control signal manages much larger currents or voltages automatically.</p>
+  </div>
+
+  <div class="def-box">
+    <div class="def-title">DEFINITION</div>
+    <p><strong>Switching Devices</strong> are electronic or networking components that direct data traffic between network nodes, segments, or networks. They "switch" data flows on/off or redirect them without direct human intervention, using control signals. They operate at various OSI layers and include hubs, bridges, switches, and routers.</p>
+  </div>
+
+  <div class="sim-card">
+    <div class="sim-card-header"><span class="icon">⚙️</span> Switching Devices Interactive Simulator</div>
+    <div class="sim-body">
+      <div class="controls">
+        <div class="ctrl-group">
+          <label>Device Type</label>
+          <select id="dev-type" onchange="drawDeviceSim()">
+            <option value="hub">🔵 Hub (Layer 1)</option>
+            <option value="bridge">🟢 Bridge (Layer 2)</option>
+            <option value="switch">🟡 Switch (Layer 2)</option>
+            <option value="router">🔴 Router (Layer 3)</option>
+          </select>
+        </div>
+        <div class="ctrl-group">
+          <label>Connected Devices <span class="val-badge" id="dev-count-val">4</span></label>
+          <input type="range" id="dev-count" min="2" max="8" value="4" oninput="updateVal('dev-count','dev-count-val');drawDeviceSim()">
+        </div>
+        <div class="ctrl-group">
+          <label>Traffic Load <span class="val-badge" id="dev-traffic-val">5</span></label>
+          <input type="range" id="dev-traffic" min="1" max="10" value="5" oninput="updateVal('dev-traffic','dev-traffic-val')">
+          <span class="hint">↑ Higher = More collisions (Hub)</span>
+        </div>
+        <div class="ctrl-group">
+          <label>Data Packet Size <span class="val-badge" id="dev-pkt-val">5</span></label>
+          <input type="range" id="dev-pkt" min="1" max="10" value="5" oninput="updateVal('dev-pkt','dev-pkt-val')">
+        </div>
+        <div class="ctrl-group">
+          <label>Animation Speed <span class="val-badge" id="dev-speed-val">5</span></label>
+          <input type="range" id="dev-speed" min="1" max="10" value="5" oninput="updateVal('dev-speed','dev-speed-val')">
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" onclick="startDeviceAnim()">▶ Send Data</button>
+          <button class="btn" style="background:#eee" onclick="stopAnim('device')">⏹ Stop</button>
+        </div>
+      </div>
+      <div class="canvas-wrap">
+        <canvas id="deviceCanvas" height="320"></canvas>
+        <div class="canvas-info" id="dev-info">Select a device type and click Send Data.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid-3">
+    <div class="info-card">
+      <div class="ic">🔵</div>
+      <h4>Hub (Layer 1)</h4>
+      <p>Broadcasts all incoming data to every port. No filtering. Causes collisions. Operates at Physical Layer. Now obsolete.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🟢</div>
+      <h4>Bridge (Layer 2)</h4>
+      <p>Connects two network segments. Filters frames using MAC addresses. Reduces collision domains. Operates at Data Link Layer.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🟡</div>
+      <h4>Switch (Layer 2)</h4>
+      <p>Multi-port bridge with MAC address table. Sends frames only to the destination port. Eliminates collisions. Standard LAN device.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🔴</div>
+      <h4>Router (Layer 3)</h4>
+      <p>Routes packets between different networks using IP addresses. Connects LANs to WANs. Intelligent path selection.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🔗</div>
+      <h4>Repeater</h4>
+      <p>Amplifies/regenerates signal to extend network distance. Layer 1 device. No filtering capability.</p>
+    </div>
+    <div class="info-card">
+      <div class="ic">🌐</div>
+      <h4>Gateway</h4>
+      <p>Connects networks with different protocols. Operates at all layers. Translates between different network architectures.</p>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<script>
+// ═══════════════════════════════════════════════
+//  UTILITY FUNCTIONS
+// ═══════════════════════════════════════════════
+function showSection(id){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  const btns=[...document.querySelectorAll('.nav-btn')];
+  const labels={intro:'Overview',twisted:'Twisted',coaxial:'Coaxial',fiber:'Fiber',unguided:'Unguided',circuit:'Circuit',packet:'Packet',message:'Message',devices:'Devices'};
+  btns.forEach(b=>{if(b.textContent.includes(labels[id]||id))b.classList.add('active');});
+  stopAllAnims();
+  setTimeout(()=>{initSection(id);},100);
+}
+function updateVal(sliderId,badgeId){
+  document.getElementById(badgeId).textContent=document.getElementById(sliderId).value;
+}
+const animFrames={};
+function stopAnim(key){if(animFrames[key]){cancelAnimationFrame(animFrames[key]);animFrames[key]=null;}}
+function stopAllAnims(){Object.keys(animFrames).forEach(k=>stopAnim(k));}
+
+function getCtx(id,w){
+  const c=document.getElementById(id);
+  if(!c)return null;
+  c.width=c.parentElement.clientWidth-40||600;
+  if(w)c.width=w;
+  return c.getContext('2d');
+}
+
+function initSection(id){
+  if(id==='intro')drawIntroCanvas();
+  if(id==='twisted'){drawTwistedPair();startTwistedAnim();}
+  if(id==='coaxial'){drawCoaxial();startCoaxialAnim();}
+  if(id==='fiber'){drawFiber();startFiberAnim();}
+  if(id==='unguided'){drawUnguided();startWaveAnim();}
+  if(id==='circuit'){initCircuitSim();startCircuitAnim();}
+  if(id==='packet'){drawPacketNet();startPacketAnim();}
+  if(id==='message'){drawMessageNet();startMessageAnim();}
+  if(id==='devices'){drawDeviceSim();startDeviceAnim();}
+}
+
+// ═══════════════════════════════════════════════
+//  INTRO CANVAS
+// ═══════════════════════════════════════════════
+function drawIntroCanvas(){
+  const ctx=getCtx('introCanvas');if(!ctx)return;
+  const c=ctx.canvas,W=c.width,H=c.height;
+  ctx.clearRect(0,0,W,H);
+  // Guided side
+  ctx.fillStyle='#3b5bdb18';ctx.fillRect(0,0,W/2,H);
+  ctx.fillStyle='#3b5bdb';ctx.font='bold 13px DM Sans,sans-serif';
+  ctx.fillText('GUIDED MEDIA',20,25);
+  // Draw wire
+  for(let i=0;i<3;i++){
+    ctx.beginPath();ctx.moveTo(20,50+i*20);ctx.lineTo(W/2-20,50+i*20);
+    ctx.strokeStyle=i===0?'#e63946':i===1?'#3b5bdb':'#2f9e44';
+    ctx.lineWidth=3;ctx.stroke();
+  }
+  ctx.fillStyle='#3b5bdb';ctx.font='11px DM Sans';ctx.fillText('Twisted Pair',20,120);
+  ctx.fillText('Coaxial Cable',20,135);ctx.fillText('Fiber Optic',20,150);
+  // Unguided side
+  ctx.fillStyle='#0c859918';ctx.fillRect(W/2,0,W/2,H);
+  ctx.fillStyle='#0c8599';ctx.font='bold 13px DM Sans,sans-serif';
+  ctx.fillText('UNGUIDED MEDIA',W/2+20,25);
+  // Draw waves
+  for(let r=1;r<=5;r++){
+    ctx.beginPath();ctx.arc(W/2+30,H/2,r*18,Math.PI*1.5,Math.PI*0.5);
+    ctx.strokeStyle=`rgba(12,133,153,${0.8-r*0.12})`;ctx.lineWidth=2;ctx.stroke();
+  }
+  ctx.fillStyle='#0c8599';ctx.font='11px DM Sans';
+  ctx.fillText('Radio / Microwave / IR',W/2+20,120);
+}
+drawIntroCanvas();
+
+// ═══════════════════════════════════════════════
+//  TWISTED PAIR SIMULATOR
+// ═══════════════════════════════════════════════
+let tpOffset=0;
+function drawTwistedPair(){
+  const ctx=getCtx('twistedCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const twists=parseInt(document.getElementById('tp-twist').value);
+  const emi=parseInt(document.getElementById('tp-emi').value);
+  const ctype=document.getElementById('tp-type').value;
+  ctx.clearRect(0,0,W,H);
+
+  const cy=H/2,len=W-40,sx=20;
+  // Shield for STP
+  if(ctype==='stp'){
+    ctx.fillStyle='#c0c0c030';
+    ctx.fillRect(sx-5,cy-30,len+10,60);
+    ctx.strokeStyle='#aaa';ctx.lineWidth=2;
+    ctx.strokeRect(sx-5,cy-30,len+10,60);
+    ctx.fillStyle='#888';ctx.font='10px JetBrains Mono';
+    ctx.fillText('Metal Shield',sx,cy-22);
+  }
+
+  // Draw twisted wires
+  const period=(len/twists);
+  for(let x=0;x<len;x++){
+    const t=(x/period)*Math.PI*2+tpOffset;
+    const y1=cy+Math.sin(t)*20;
+    const y2=cy+Math.sin(t+Math.PI)*20;
+    ctx.fillStyle='#e63946';
+    ctx.fillRect(sx+x,y1-2,2,4);
+    ctx.fillStyle='#3b5bdb';
+    ctx.fillRect(sx+x,y2-2,2,4);
+  }
+
+  // EMI noise bolts
+  for(let i=0;i<emi;i++){
+    const nx=Math.random()*len+sx;
+    const ny=Math.random()*H;
+    ctx.beginPath();ctx.moveTo(nx,0);ctx.lineTo(nx+5,ny/2);ctx.lineTo(nx-5,ny);
+    ctx.strokeStyle=`rgba(255,165,0,${0.6-i*0.05})`;ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // Labels
+  ctx.fillStyle='#e63946';ctx.font='bold 11px DM Sans';ctx.fillText('Wire A (Signal)',sx,cy-28);
+  ctx.fillStyle='#3b5bdb';ctx.fillText('Wire B (Ground)',sx+len/2,cy-28);
+  if(emi>5){
+    ctx.fillStyle='#e67700';ctx.font='bold 12px DM Sans';
+    ctx.fillText('⚠ High EMI — Twisting helps cancel interference!',sx,H-8);
+  }
+
+  // Signal quality
+  const quality=Math.max(5,100-emi*8+(twists*4));
+  document.getElementById('tp-info').textContent=
+    `Cable Type: ${ctype.toUpperCase()} | Twists: ${twists}/m | EMI Level: ${emi}/10 | Signal Quality: ${quality}% | Freq: ${document.getElementById('tp-freq').value} MHz`;
+}
+
+function startTwistedAnim(){
+  stopAnim('twisted');
+  function frame(){
+    const speed=parseInt(document.getElementById('tp-speed').value);
+    tpOffset+=0.05*speed;
+    drawTwistedPair();
+    drawSignalWave('twistedSignal',parseInt(document.getElementById('tp-emi').value));
+    animFrames['twisted']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+let signalOffset=0;
+function drawSignalWave(canvasId,noise){
+  const ctx=getCtx(canvasId);if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  ctx.clearRect(0,0,W,H);
+  signalOffset+=0.06;
+  ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+
+  // Clean signal
+  ctx.beginPath();ctx.moveTo(0,H/2);
+  for(let x=0;x<W;x++){
+    const y=H/2+Math.sin(x*0.05+signalOffset)*30;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='#3b5bdb';ctx.lineWidth=2.5;ctx.stroke();
+
+  // Noise overlay
+  if(noise>3){
+    ctx.beginPath();ctx.moveTo(0,H/2);
+    for(let x=0;x<W;x++){
+      const y=H/2+Math.sin(x*0.05+signalOffset)*30+(Math.random()-0.5)*noise*4;
+      x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.strokeStyle='rgba(230,119,0,0.4)';ctx.lineWidth=1.5;ctx.stroke();
+  }
+
+  ctx.fillStyle='#3b5bdb';ctx.font='10px JetBrains Mono';
+  ctx.fillText('Signal Waveform (Blue=Clean | Orange=With Noise)',8,14);
+}
+
+// ═══════════════════════════════════════════════
+//  COAXIAL SIMULATOR
+// ═══════════════════════════════════════════════
+let cxOffset=0;
+function drawCoaxial(){
+  const ctx=getCtx('coaxialCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const freq=parseInt(document.getElementById('cx-freq').value);
+  const len=parseInt(document.getElementById('cx-len').value);
+  const ctype=document.getElementById('cx-type').value;
+  const amp=parseInt(document.getElementById('cx-amp').value);
+  const attenuation=Math.min(0.95,len/200);
+
+  ctx.clearRect(0,0,W,H);
+  const cx=H/2,sx=30,ex=W-30,cabH=60;
+
+  // Outer jacket (gray)
+  ctx.fillStyle='#4a4a4a';ctx.fillRect(sx,cx-cabH/2,ex-sx,cabH);
+  // Shield (silver)
+  ctx.fillStyle='#aaa';ctx.fillRect(sx,cx-cabH/2+6,ex-sx,cabH-12);
+  // Dielectric (white/yellow)
+  ctx.fillStyle='#fffde7';ctx.fillRect(sx,cx-cabH/2+16,ex-sx,cabH-32);
+  // Center conductor (copper)
+  ctx.fillStyle='#b8860b';ctx.fillRect(sx,cx-5,ex-sx,10);
+
+  // Labels
+  ctx.fillStyle='#333';ctx.font='bold 11px DM Sans';
+  ctx.fillText('Outer Jacket',sx+5,cx-cabH/2+18);
+  ctx.fillStyle='#555';ctx.fillText('Shield',sx+5,cx-cabH/2+32);
+  ctx.fillStyle='#9e6a00';ctx.fillText('Center Conductor',sx+5,cx+16);
+
+  // Signal wave in conductor
+  ctx.save();ctx.clipRect?ctx.clipRect(sx,cx-3,ex-sx,6):null;
+  ctx.beginPath();
+  for(let x=sx;x<ex;x++){
+    const progress=(x-sx)/(ex-sx);
+    const curAmp=amp*3*(1-attenuation*progress);
+    const y=cx+Math.sin((x*0.08*freq/100)+cxOffset)*curAmp*0.8;
+    x===sx?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='rgba(255,165,0,0.9)';ctx.lineWidth=2;ctx.stroke();
+  ctx.restore();
+
+  // Info panel
+  const types={rg6:{imp:'75Ω',bw:'862MHz'},rg58:{imp:'50Ω',bw:'500MHz'},rg11:{imp:'75Ω',bw:'1GHz'}};
+  const t=types[ctype];
+  ctx.fillStyle='#333';ctx.font='11px JetBrains Mono';
+  ctx.fillText(`Standard: ${ctype.toUpperCase()} | Impedance: ${t.imp} | BW: ${t.bw} | Length: ${len}m | Signal Loss: ${Math.round(attenuation*100)}%`,sx,H-8);
+
+  document.getElementById('cx-info').textContent=
+    `Cable: ${ctype.toUpperCase()} | Freq: ${freq}MHz | Length: ${len}m | Impedance: ${t.imp} | Attenuation: ${Math.round(attenuation*100)}%`;
+}
+
+function startCoaxialAnim(){
+  stopAnim('coaxial');
+  function frame(){
+    const speed=parseInt(document.getElementById('cx-speed').value);
+    cxOffset+=0.05*speed;
+    drawCoaxial();
+    const len=parseInt(document.getElementById('cx-len').value);
+    const amp=parseInt(document.getElementById('cx-amp').value);
+    drawSignalLoss('coaxialSignal',amp,len/200);
+    animFrames['coaxial']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+let slOffset=0;
+function drawSignalLoss(canvasId,amp,loss){
+  const ctx=getCtx(canvasId);if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  slOffset+=0.05;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+
+  // Input signal
+  ctx.beginPath();
+  for(let x=0;x<W/2;x++){
+    const y=H/2+Math.sin(x*0.08+slOffset)*amp*3;
+    x===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='#3b5bdb';ctx.lineWidth=2;ctx.stroke();
+
+  // Attenuated output
+  ctx.beginPath();
+  for(let x=W/2;x<W;x++){
+    const y=H/2+Math.sin(x*0.08+slOffset)*amp*3*(1-loss);
+    x===W/2?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  }
+  ctx.strokeStyle='#e63946';ctx.lineWidth=2;ctx.stroke();
+
+  // Divider
+  ctx.setLineDash([4,4]);
+  ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);
+  ctx.strokeStyle='#aaa';ctx.lineWidth=1;ctx.stroke();ctx.setLineDash([]);
+
+  ctx.fillStyle='#3b5bdb';ctx.font='10px JetBrains Mono';ctx.fillText('Input',8,14);
+  ctx.fillStyle='#e63946';ctx.fillText('Output (Attenuated)',W/2+8,14);
+}
+
+// ═══════════════════════════════════════════════
+//  FIBER OPTIC SIMULATOR
+// ═══════════════════════════════════════════════
+let fbOffset=0;
+function drawFiber(){
+  const ctx=getCtx('fiberCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const angle=parseInt(document.getElementById('fb-angle').value);
+  const n1=parseFloat(document.getElementById('fb-n1').value);
+  const n2=parseFloat(document.getElementById('fb-n2').value);
+  const mode=document.getElementById('fb-mode').value;
+  const coreH=mode==='single'?20:50;
+  const cy=H/2;
+
+  ctx.clearRect(0,0,W,H);
+
+  // Cladding
+  ctx.fillStyle='#e3fafc';ctx.fillRect(20,cy-coreH/2-25,W-40,coreH+50);
+  // Core
+  ctx.fillStyle='#cce3ff';ctx.fillRect(20,cy-coreH/2,W-40,coreH);
+  // Labels
+  ctx.fillStyle='#0c8599';ctx.font='bold 11px DM Sans';
+  ctx.fillText(`Cladding (n₂=${n2})`,25,cy-coreH/2-10);
+  ctx.fillStyle='#1971c2';
+  ctx.fillText(`Core (n₁=${n1}) — ${mode==='single'?'Single':'Multi'}-Mode`,25,cy+coreH/2+18);
+
+  // Critical angle calculation
+  const criticalAngle=Math.asin(n2/n1)*(180/Math.PI);
+  const tir=angle<criticalAngle;
+
+  // Draw light ray
+  const sx=20,ex=W-20;
+  let x=sx,y=cy,dy=Math.tan(angle*Math.PI/180)*2;
+  ctx.beginPath();ctx.moveTo(x,y);
+  const color=tir?'#ffcc00':'rgba(255,200,0,0.3)';
+  ctx.strokeStyle=color;ctx.lineWidth=3;
+  ctx.shadowBlur=tir?8:2;ctx.shadowColor=color;
+
+  while(x<ex){
+    const nx=x+15;let ny=y+dy;
+    if(ny>cy+coreH/2){ny=cy+coreH/2;dy=-dy;}
+    if(ny<cy-coreH/2){ny=cy-coreH/2;dy=-dy;}
+    ctx.lineTo(nx,ny+Math.sin(fbOffset)*2);
+    x=nx;y=ny;
+  }
+  ctx.stroke();ctx.shadowBlur=0;
+
+  // TIR indicator
+  ctx.fillStyle=tir?'#2f9e44':'#c92a2a';
+  ctx.font='bold 13px DM Sans';
+  ctx.fillText(tir?'✅ Total Internal Reflection (TIR) Active!':'❌ Light Escapes — Increase n₁ or decrease angle',25,20);
+
+  document.getElementById('fb-info').textContent=
+    `Critical Angle: ${criticalAngle.toFixed(1)}° | Entry Angle: ${angle}° | TIR: ${tir?'YES':'NO'} | n₁=${n1} | n₂=${n2} | Mode: ${mode}`;
+}
+
+function startFiberAnim(){
+  stopAnim('fiber');
+  function frame(){
+    const speed=parseInt(document.getElementById('fb-speed').value);
+    fbOffset+=0.08*speed;
+    drawFiber();
+    animFrames['fiber']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  UNGUIDED WAVE SIMULATOR
+// ═══════════════════════════════════════════════
+let wvOffset=0;
+function drawUnguided(){
+  const ctx=getCtx('unguidedCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const wtype=document.getElementById('wv-type').value;
+  const freq=parseFloat(document.getElementById('wv-freq').value);
+  const power=parseInt(document.getElementById('wv-power').value);
+  const atten=parseInt(document.getElementById('wv-atten').value);
+  const obs=parseInt(document.getElementById('wv-obs').value);
+
+  ctx.clearRect(0,0,W,H);
+
+  // Sky background
+  const grad=ctx.createLinearGradient(0,0,0,H);
+  grad.addColorStop(0,'#e8f4f8');grad.addColorStop(1,'#f0f8e8');
+  ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
+
+  // Ground
+  ctx.fillStyle='#8fbc8f';ctx.fillRect(0,H-40,W,40);
+
+  // Transmitter tower
+  const tx=60,ty=H-40;
+  ctx.fillStyle='#555';
+  ctx.fillRect(tx-4,ty-80,8,80);
+  ctx.beginPath();ctx.moveTo(tx,ty-90);ctx.lineTo(tx-15,ty-70);ctx.lineTo(tx+15,ty-70);
+  ctx.fillStyle='#e63946';ctx.fill();
+
+  // Receiver
+  const rx=W-60;
+  ctx.fillStyle='#555';ctx.fillRect(rx-4,ty-60,8,60);
+  ctx.beginPath();ctx.arc(rx,ty-65,10,0,Math.PI*2);
+  ctx.fillStyle='#3b5bdb';ctx.fill();
+
+  // Wave colors
+  const colors={radio:'#e63946',micro:'#3b5bdb',infra:'#e67700'};
+  const wcolor=colors[wtype];
+
+  // Draw waves
+  const numWaves=power;
+  const maxR=Math.min(W-80,power*40);
+
+  if(wtype==='radio'){
+    // Omni-directional
+    for(let r=1;r<=numWaves;r++){
+      const radius=(r/numWaves)*maxR+wvOffset*5%maxR;
+      if(radius>0&&radius<W){
+        ctx.beginPath();ctx.arc(tx,ty-80,radius,Math.PI*1.2,Math.PI*1.8,true);
+        ctx.beginPath();ctx.arc(tx,ty-80,radius,0,Math.PI*2);
+        const opacity=1-r/numWaves-(atten*0.08);
+        if(opacity>0){ctx.strokeStyle=`rgba(230,57,70,${opacity})`;ctx.lineWidth=2;ctx.stroke();}
+      }
+    }
+  } else if(wtype==='micro'){
+    // Directional beam
+    for(let r=1;r<=numWaves;r++){
+      const xpos=tx+((r/numWaves)*maxR+wvOffset*5%maxR);
+      if(xpos<W){
+        const spread=20+r*5;
+        const opacity=1-r/numWaves-(atten*0.08);
+        if(opacity>0){
+          ctx.beginPath();ctx.ellipse(xpos,ty-80,12,spread,0,0,Math.PI*2);
+          ctx.strokeStyle=`rgba(59,91,219,${opacity})`;ctx.lineWidth=2;ctx.stroke();
+        }
+      }
+    }
+  } else {
+    // Infrared — very short range
+    for(let r=1;r<=Math.min(3,numWaves);r++){
+      const xpos=tx+((r/3)*(maxR*0.3)+wvOffset*3%((maxR*0.3)));
+      const opacity=1-r/3-(atten*0.1);
+      if(opacity>0&&xpos<W){
+        ctx.beginPath();ctx.ellipse(xpos,ty-80,8,10,0,0,Math.PI*2);
+        ctx.fillStyle=`rgba(230,119,0,${opacity*0.3})`;ctx.fill();
+        ctx.strokeStyle=`rgba(230,119,0,${opacity})`;ctx.lineWidth=1.5;ctx.stroke();
+      }
+    }
+  }
+
+  // Obstacles
+  for(let i=0;i<obs;i++){
+    const ox=tx+(rx-tx)*(i+1)/(obs+1);
+    ctx.fillStyle='#7a6040';ctx.fillRect(ox-8,ty-70,16,70);
+    ctx.fillStyle='#5a4020';ctx.fillText('🏢',ox-10,ty-72);
+  }
+
+  // Labels
+  ctx.fillStyle='#333';ctx.font='bold 14px DM Sans';
+  ctx.fillText(`${wtype==='radio'?'📻 Radio (Omni)':wtype==='micro'?'📡 Microwave (Directional)':'🔴 Infrared (Short-Range)'}`,W/2-80,20);
+
+  const waveInfo={
+    radio:`Freq: ${freq.toFixed(3)}GHz | Omni-directional | Long range | Poor Security`,
+    micro:`Freq: ${freq.toFixed(3)}GHz | Directional | Long range | Medium Security`,
+    infra:`Freq: ${freq.toFixed(3)}GHz | Uni-directional | Short range | High Security`
+  };
+  document.getElementById('wv-info').textContent=waveInfo[wtype]+` | Power: ${power}/10 | Obstacles: ${obs} | Attenuation: ${atten}/10`;
+}
+
+function startWaveAnim(){
+  stopAnim('wave');
+  function frame(){
+    wvOffset+=parseInt(document.getElementById('wv-power').value)*0.3;
+    drawUnguided();
+    animFrames['wave']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  CIRCUIT SWITCHING SIMULATOR
+// ═══════════════════════════════════════════════
+let csNodes=[],csPath=[],csPhase=0,csDataPos=0;
+function initCircuitSim(){
+  const n=parseInt(document.getElementById('cs-nodes').value);
+  const ctx=getCtx('circuitCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  csNodes=[];
+  for(let i=0;i<n;i++){
+    const x=50+((W-100)/(n-1))*i;
+    const y=H/2+(i%2===0?0:30)*(i%3===0?-1:1);
+    csNodes.push({x,y,label:i===0?'Source':i===n-1?'Destination':`Node ${i}`,active:false});
+  }
+  csPath=csNodes.map((_,i)=>i);
+  drawCircuitSim(false);
+}
+
+function drawCircuitSim(pathActive){
+  const ctx=getCtx('circuitCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  ctx.clearRect(0,0,W,H);
+
+  // Background connections (grey)
+  for(let i=0;i<csNodes.length-1;i++){
+    const a=csNodes[i],b=csNodes[i+1];
+    ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+    ctx.strokeStyle='#ddd';ctx.lineWidth=3;ctx.stroke();
+  }
+
+  // Active path
+  if(pathActive){
+    for(let i=0;i<csNodes.length-1;i++){
+      const a=csNodes[i],b=csNodes[i+1];
+      ctx.beginPath();ctx.moveTo(a.x,a.y);ctx.lineTo(b.x,b.y);
+      ctx.strokeStyle='#2f9e44';ctx.lineWidth=5;
+      ctx.shadowBlur=8;ctx.shadowColor='#2f9e44';ctx.stroke();ctx.shadowBlur=0;
+    }
+  }
+
+  // Nodes
+  csNodes.forEach((n,i)=>{
+    ctx.beginPath();ctx.arc(n.x,n.y,20,0,Math.PI*2);
+    const fill=i===0?'#3b5bdb':i===csNodes.length-1?'#e63946':n.active?'#2f9e44':'#aaa';
+    ctx.fillStyle=fill;ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 10px DM Sans';
+    ctx.textAlign='center';ctx.fillText(n.label,n.x,n.y+4);
+    ctx.textAlign='left';
+  });
+}
+
+function startCircuitAnim(){
+  stopAnim('circuit');
+  initCircuitSim();
+  let phase=0,phaseTimer=0;
+  const phases=['🔵 Phase 1: Establishing Circuit...','🟢 Phase 2: Data Transfer (Dedicated Path)','🔴 Phase 3: Tearing Down Circuit...'];
+  let dataPos=0;
+  const speed=()=>parseInt(document.getElementById('cs-speed').value);
+
+  function frame(){
+    phaseTimer+=speed();
+    const ctx=getCtx('circuitCanvas');if(!ctx)return;
+
+    if(phaseTimer>120){phaseTimer=0;phase=(phase+1)%3;dataPos=0;}
+    document.getElementById('cs-phase').textContent=phases[phase];
+
+    if(phase===0){
+      // Highlight nodes one by one during setup
+      const activeCount=Math.floor((phaseTimer/120)*csNodes.length);
+      csNodes.forEach((n,i)=>n.active=i<activeCount);
+      drawCircuitSim(false);
+      // Setup pulse
+      csNodes.forEach((n,i)=>{
+        if(i<activeCount){
+          const ctx2=getCtx('circuitCanvas');
+          ctx2.beginPath();ctx2.arc(n.x,n.y,25+Math.sin(phaseTimer*0.2)*5,0,Math.PI*2);
+          ctx2.strokeStyle='rgba(59,91,219,0.4)';ctx2.lineWidth=2;ctx2.stroke();
+        }
+      });
+    } else if(phase===1){
+      drawCircuitSim(true);
+      // Data packet moving along path
+      dataPos=(dataPos+speed()*0.5)%100;
+      const t=dataPos/100;
+      const idx=Math.floor(t*(csNodes.length-1));
+      const local=t*(csNodes.length-1)-idx;
+      if(idx<csNodes.length-1){
+        const a=csNodes[idx],b=csNodes[idx+1];
+        const px=a.x+(b.x-a.x)*local;
+        const py=a.y+(b.y-a.y)*local;
+        const c=getCtx('circuitCanvas');
+        c.beginPath();c.arc(px,py,10,0,Math.PI*2);
+        c.fillStyle='#ffd700';c.fill();
+        c.strokeStyle='#fff';c.lineWidth=2;c.stroke();
+      }
+    } else {
+      // Teardown
+      const deactiveCount=Math.floor((phaseTimer/120)*csNodes.length);
+      csNodes.forEach((n,i)=>n.active=i>deactiveCount);
+      drawCircuitSim(false);
+    }
+
+    const rate=document.getElementById('cs-rate').value;
+    document.getElementById('cs-info').textContent=`Phase: ${phase+1}/3 | Data Rate: ${rate}Mbps | Nodes: ${csNodes.length} | Setup Time: ${document.getElementById('cs-setup').value}ms`;
+    animFrames['circuit']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  PACKET SWITCHING SIMULATOR
+// ═══════════════════════════════════════════════
+let psRouters=[],psPackets=[];
+function drawPacketNet(){
+  const ctx=getCtx('packetCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const rc=parseInt(document.getElementById('ps-routers').value);
+  psRouters=[];
+  psRouters.push({x:60,y:H/2,label:'SRC',type:'host'});
+  for(let i=0;i<rc;i++){
+    const x=120+((W-220)/(rc+1))*(i+1);
+    const y=H/4+(i%2)*(H/2);
+    psRouters.push({x,y,label:`R${i+1}`,type:'router'});
+  }
+  psRouters.push({x:W-60,y:H/2,label:'DST',type:'host'});
+  drawPacketFrame();
+}
+
+function drawPacketFrame(packets){
+  const ctx=getCtx('packetCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+
+  // Draw links (mesh)
+  for(let i=0;i<psRouters.length;i++){
+    for(let j=i+1;j<psRouters.length;j++){
+      if(Math.abs(i-j)<=2){
+        ctx.beginPath();ctx.moveTo(psRouters[i].x,psRouters[i].y);
+        ctx.lineTo(psRouters[j].x,psRouters[j].y);
+        ctx.strokeStyle='#ddd';ctx.lineWidth=2;ctx.stroke();
+      }
+    }
+  }
+
+  // Draw routers
+  psRouters.forEach(r=>{
+    ctx.beginPath();ctx.arc(r.x,r.y,r.type==='host'?22:18,0,Math.PI*2);
+    ctx.fillStyle=r.type==='host'?'#3b5bdb':'#7048e8';ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`bold ${r.type==='host'?11:10}px DM Sans`;
+    ctx.textAlign='center';ctx.fillText(r.label,r.x,r.y+4);ctx.textAlign='left';
+  });
+
+  // Draw packets
+  if(packets){
+    packets.forEach(p=>{
+      if(!p.active)return;
+      const pktSize=parseInt(document.getElementById('ps-size').value);
+      const sz=6+pktSize/200;
+      ctx.fillStyle=p.color;
+      ctx.fillRect(p.x-sz,p.y-sz/2,sz*2,sz);
+      ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.strokeRect(p.x-sz,p.y-sz/2,sz*2,sz);
+      ctx.fillStyle='#fff';ctx.font='8px JetBrains Mono';
+      ctx.textAlign='center';ctx.fillText(`P${p.id}`,p.x,p.y+3);ctx.textAlign='left';
+    });
+  }
+}
+
+function startPacketAnim(){
+  stopAnim('packet');
+  drawPacketNet();
+  const count=parseInt(document.getElementById('ps-count').value);
+  const colors=['#e63946','#3b5bdb','#2f9e44','#e67700','#7048e8','#c2255c','#0c8599','#f59f00','#099268','#1971c2','#862e9c','#c92a2a'];
+  let packets=[];
+  let received=0,total=count;
+
+  for(let i=0;i<count;i++){
+    const path=[];
+    // Random path through routers
+    path.push(psRouters[0]);
+    let available=[...psRouters.slice(1,psRouters.length-1)].sort(()=>Math.random()-0.5).slice(0,Math.floor(Math.random()*3)+1);
+    available.forEach(r=>path.push(r));
+    path.push(psRouters[psRouters.length-1]);
+    packets.push({id:i+1,path,pathIdx:0,x:path[0].x,y:path[0].y,color:colors[i%colors.length],active:false,delay:i*30,done:false});
+  }
+
+  let tick=0;
+  function frame(){
+    tick++;
+    const speed=parseInt(document.getElementById('ps-speed').value)*0.8;
+    const cong=parseInt(document.getElementById('ps-cong').value);
+
+    packets.forEach(p=>{
+      if(tick<p.delay)return;
+      p.active=true;
+      if(p.done)return;
+      const target=p.path[p.pathIdx];
+      const dx=target.x-p.x,dy=target.y-p.y;
+      const dist=Math.sqrt(dx*dx+dy*dy);
+      if(dist<4){
+        p.pathIdx++;
+        if(p.pathIdx>=p.path.length){p.done=true;received++;return;}
+      } else {
+        const noiseX=(Math.random()-0.5)*cong*0.5;
+        p.x+=((dx/dist)*speed)+noiseX;
+        p.y+=((dy/dist)*speed)+noiseX;
+      }
+    });
+
+    drawPacketFrame(packets);
+
+    const done=packets.filter(p=>p.done).length;
+    document.getElementById('ps-info').textContent=
+      `Packets: ${done}/${total} delivered | Size: ${document.getElementById('ps-size').value}B | Congestion: ${cong}/10 | Routers: ${psRouters.length-2}`;
+
+    if(done<total)animFrames['packet']=requestAnimationFrame(frame);
+    else {
+      document.getElementById('ps-info').textContent=`✅ All ${total} packets delivered! Reassembling at destination...`;
+    }
+  }
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  MESSAGE SWITCHING SIMULATOR
+// ═══════════════════════════════════════════════
+let msgNodes=[];
+function drawMessageNet(){
+  const ctx=getCtx('messageCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const n=parseInt(document.getElementById('ms-nodes').value);
+  msgNodes=[];
+  for(let i=0;i<=n+1;i++){
+    msgNodes.push({x:50+((W-100)/(n+1))*i,y:H/2,label:i===0?'Sender':i===n+1?'Receiver':`Node ${i}`,stored:false});
+  }
+  drawMessageFrame(null,-1);
+}
+
+function drawMessageFrame(msgX,storeIdx){
+  const ctx=getCtx('messageCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+
+  // Links
+  for(let i=0;i<msgNodes.length-1;i++){
+    ctx.beginPath();ctx.moveTo(msgNodes[i].x,msgNodes[i].y);ctx.lineTo(msgNodes[i+1].x,msgNodes[i+1].y);
+    ctx.strokeStyle='#ddd';ctx.lineWidth=3;ctx.stroke();
+  }
+
+  // Nodes
+  msgNodes.forEach((n,i)=>{
+    ctx.beginPath();ctx.arc(n.x,n.y,22,0,Math.PI*2);
+    const fill=i===0?'#3b5bdb':i===msgNodes.length-1?'#e63946':n.stored?'#e67700':'#7048e8';
+    ctx.fillStyle=fill;ctx.fill();ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font='bold 10px DM Sans';ctx.textAlign='center';
+    ctx.fillText(n.label,n.x,n.y+4);
+
+    // Buffer indicator
+    if(n.stored&&i!==0&&i!==msgNodes.length-1){
+      ctx.fillStyle='#e67700';ctx.font='10px DM Sans';
+      ctx.fillText('📦 Storing',n.x,n.y-30);
+    }
+    ctx.textAlign='left';
+  });
+
+  // Message envelope
+  if(msgX!==null){
+    ctx.fillStyle='#ffd700';
+    ctx.fillRect(msgX-18,H/2-12,36,24);
+    ctx.strokeStyle='#333';ctx.lineWidth=1.5;ctx.strokeRect(msgX-18,H/2-12,36,24);
+    ctx.fillStyle='#333';ctx.font='16px sans-serif';ctx.textAlign='center';
+    ctx.fillText('✉',msgX,H/2+8);ctx.textAlign='left';
+  }
+}
+
+function startMessageAnim(){
+  stopAnim('message');
+  drawMessageNet();
+  let pos=0,nodeIdx=0,storing=false,storeTimer=0;
+  const storeTime=60;
+  msgNodes.forEach(n=>n.stored=false);
+
+  function frame(){
+    const speed=parseInt(document.getElementById('ms-speed').value)*1.5;
+    const msgSize=parseInt(document.getElementById('ms-size').value);
+    const buf=parseInt(document.getElementById('ms-buf').value);
+    const dropped=msgSize>buf;
+
+    if(dropped){
+      document.getElementById('ms-info').textContent=`❌ Message DROPPED! Size (${msgSize}KB) > Buffer (${buf}KB). Increase buffer!`;
+      drawMessageFrame(null,-1);animFrames['message']=requestAnimationFrame(frame);return;
+    }
+
+    if(storing){
+      storeTimer++;
+      msgNodes[nodeIdx].stored=true;
+      drawMessageFrame(msgNodes[nodeIdx].x,nodeIdx);
+      if(storeTimer>storeTime*(msgSize/64)){storing=false;storeTimer=0;msgNodes[nodeIdx].stored=false;}
+    } else {
+      const target=msgNodes[nodeIdx].x;
+      if(Math.abs(pos-target)<speed){
+        pos=target;
+        if(nodeIdx<msgNodes.length-1){
+          if(nodeIdx>0&&nodeIdx<msgNodes.length-1){storing=true;}
+          else {nodeIdx++;}
+        }
+      } else {
+        pos+=pos<target?speed:-speed;
+      }
+    }
+
+    drawMessageFrame(pos,nodeIdx);
+    if(nodeIdx>=msgNodes.length){
+      document.getElementById('ms-info').textContent=`✅ Message delivered! Total hops: ${msgNodes.length} | Size: ${msgSize}KB`;
+      stopAnim('message');return;
+    }
+    document.getElementById('ms-info').textContent=
+      `Store-and-Forward | Node ${nodeIdx}/${msgNodes.length-1} | ${storing?'📦 Storing...':'→ Forwarding'} | Msg: ${msgSize}KB | Buffer: ${buf}KB`;
+    animFrames['message']=requestAnimationFrame(frame);
+  }
+  pos=msgNodes[0].x;
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  DEVICE SIMULATOR
+// ═══════════════════════════════════════════════
+let devNodes=[];
+function drawDeviceSim(){
+  const ctx=getCtx('deviceCanvas');if(!ctx)return;
+  const W=ctx.canvas.width,H=ctx.canvas.height;
+  const n=parseInt(document.getElementById('dev-count').value);
+  const dtype=document.getElementById('dev-type').value;
+  ctx.clearRect(0,0,W,H);ctx.fillStyle='#f8faff';ctx.fillRect(0,0,W,H);
+
+  devNodes=[];
+  // Central device
+  const cx=W/2,cy=H/2;
+  devNodes.push({x:cx,y:cy,label:dtype.toUpperCase(),isCenter:true});
+
+  // End devices in circle
+  for(let i=0;i<n;i++){
+    const angle=(i/n)*Math.PI*2-Math.PI/2;
+    const r=Math.min(W,H)*0.33;
+    devNodes.push({x:cx+Math.cos(angle)*r,y:cy+Math.sin(angle)*r,label:`PC${i+1}`,isCenter:false});
+  }
+
+  // Draw connections
+  const colors={hub:'#e63946',bridge:'#2f9e44',switch:'#f59f00',router:'#3b5bdb'};
+  devNodes.slice(1).forEach(d=>{
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(d.x,d.y);
+    ctx.strokeStyle='#ddd';ctx.lineWidth=2;ctx.stroke();
+  });
+
+  // Draw device nodes
+  devNodes.forEach(d=>{
+    const r=d.isCenter?28:18;
+    ctx.beginPath();ctx.arc(d.x,d.y,r,0,Math.PI*2);
+    ctx.fillStyle=d.isCenter?colors[dtype]:'#7048e8';ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#fff';ctx.font=`bold ${d.isCenter?12:10}px DM Sans`;
+    ctx.textAlign='center';ctx.fillText(d.label,d.x,d.y+4);ctx.textAlign='left';
+  });
+
+  // Layer label
+  const layers={hub:'Layer 1 (Physical)',bridge:'Layer 2 (Data Link)',switch:'Layer 2 (Data Link)',router:'Layer 3 (Network)'};
+  ctx.fillStyle=colors[dtype];ctx.font='bold 14px DM Sans';
+  ctx.textAlign='center';ctx.fillText(`${dtype.toUpperCase()} — ${layers[dtype]}`,W/2,28);ctx.textAlign='left';
+}
+
+function startDeviceAnim(){
+  stopAnim('device');
+  drawDeviceSim();
+  let packets2=[];
+  let tick2=0;
+
+  function createPacket(){
+    const dtype=document.getElementById('dev-type').value;
+    const srcIdx=1+Math.floor(Math.random()*(devNodes.length-1));
+    let dstIdx;
+    if(dtype==='hub'){
+      // Broadcast to all
+      dstIdx=1;// will handle specially
+    } else {
+      do{dstIdx=1+Math.floor(Math.random()*(devNodes.length-1));}while(dstIdx===srcIdx);
+    }
+    return {src:srcIdx,dst:dstIdx,x:devNodes[srcIdx].x,y:devNodes[srcIdx].y,phase:'toCenter',done:false,color:`hsl(${Math.random()*360},70%,50%)`};
+  }
+
+  const trafficMax=parseInt(document.getElementById('dev-traffic').value);
+
+  function frame(){
+    tick2++;
+    const speed=parseInt(document.getElementById('dev-speed').value)*1.5;
+    const dtype=document.getElementById('dev-type').value;
+
+    if(tick2%Math.max(5,30-trafficMax*2)===0&&packets2.length<20){
+      packets2.push(createPacket());
+    }
+
+    drawDeviceSim();
+    const ctx=getCtx('deviceCanvas');if(!ctx)return;
+
+    packets2=packets2.filter(p=>!p.done);
+    packets2.forEach(p=>{
+      const center=devNodes[0];
+      if(p.phase==='toCenter'){
+        const dx=center.x-p.x,dy=center.y-p.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<6){
+          p.phase='toDst';
+          if(dtype==='hub'){
+            // Create broadcast copies
+            devNodes.slice(1).forEach((d,i)=>{
+              if(i+1!==p.src){
+                packets2.push({...p,x:center.x,y:center.y,dst:i+1,phase:'toDst',done:false});
+              }
+            });
+            p.done=true;return;
+          }
+        } else {p.x+=dx/dist*speed;p.y+=dy/dist*speed;}
+      } else if(p.phase==='toDst'){
+        const dst=devNodes[p.dst];
+        if(!dst){p.done=true;return;}
+        const dx=dst.x-p.x,dy=dst.y-p.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<6){p.done=true;}
+        else{p.x+=dx/dist*speed;p.y+=dy/dist*speed;}
+      }
+      // Draw packet
+      ctx.beginPath();ctx.arc(p.x,p.y,5,0,Math.PI*2);
+      ctx.fillStyle=p.color;ctx.fill();
+      ctx.strokeStyle='#fff';ctx.lineWidth=1;ctx.stroke();
+    });
+
+    const descriptions={
+      hub:'Hub broadcasts to ALL ports — causing collisions!',
+      bridge:'Bridge filters using MAC table — forwards to correct segment only',
+      switch:'Switch creates dedicated path to destination port',
+      router:'Router uses IP routing table — selects best path across networks'
+    };
+    document.getElementById('dev-info').textContent=descriptions[dtype]+` | Devices: ${devNodes.length-1} | Traffic: ${trafficMax}/10`;
+    animFrames['device']=requestAnimationFrame(frame);
+  }
+  frame();
+}
+
+// ═══════════════════════════════════════════════
+//  INIT
+// ═══════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  drawIntroCanvas();
+  // Nav active init
+  document.querySelector('.nav-btn').classList.add('active');
+});
+window.addEventListener('resize',()=>{
+  const active=document.querySelector('.section.active');
+  if(active)initSection(active.id);
+});
+</script>
+</body>
+</html>
